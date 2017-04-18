@@ -1,0 +1,16 @@
+{
+   "Subject": {
+       "Data": "QuizUs.co DB backup done!",
+       "Charset": "UTF-8"
+   },
+   "Body": {
+       "Text": {
+           "Data": "Data has been synced with S3 bucket successfully.",
+           "Charset": "UTF-8"
+       },
+       "Html": {
+           "Data": "Data has been synced with S3 bucket successfully for : <a class=\"ulink\" href=\"http://www.quizus.co" target=\"_blank\">QuizUs.co</a>.",
+           "Charset": "UTF-8"
+       }
+   }
+}

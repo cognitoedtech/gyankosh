@@ -1,0 +1,57 @@
+<!doctype html>
+<?php 
+include_once("../../lib/session_manager.php");
+include('../../database/mcat_db.php');
+include_once(dirname(__FILE__)."/../../lib/include_js_css.php");
+include_once(dirname(__FILE__)."/../../lib/site_config.php");
+
+$objIncludeJsCSS = new IncludeJSCSS();
+
+?>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="Generator" content="">
+<meta name="Author" content="">
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<title><?php echo(CConfig::SNC_SITE_NAME);?> : Free Video Courses</title>
+<script type="text/javascript">
+var imageUpArrowIncludeBasePath = "<?php echo(CSiteConfig::ROOT_URL);?>";
+</script>
+<link rel="shortcut icon" href="<?php echo(CSiteConfig::ROOT_URL);?>/favicon.ico?v=1.1">
+<?php 
+$objIncludeJsCSS->CommonIncludeCSS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeMipcatCSS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->Include3DCornerRibbonsCSS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeFuelUXCSS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->CommonIncludeJS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeScrollUpJS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeAngularMinJS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeUnderscoreMinJS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeTaggedInfiniteScrollJS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeJqueryRatyJS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeJqueryFormJS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeJqueryValidateMinJS(CSiteConfig::ROOT_URL."/");
+$objIncludeJsCSS->IncludeMetroNotificationJS(CSiteConfig::ROOT_URL."/");
+?>
+<style type="text/css">
+	#overlay { position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 100; background-color:white;}
+	
+	.modal1 {
+			display:    none;
+			position:   fixed;
+			z-index:    1000;
+			top:        50%;
+			left:       50%;
+			height:     100%;
+			width:      100%;
+		}
+</style>
+</head>
+<body ng-app="Demo" ng-cloak>
+	<?php 
+	include_once(dirname(__FILE__)."/../../lib/header.php");
+	?>
+</body>
+</html>
