@@ -20,6 +20,9 @@ $aryCartItems = json_decode ( $jsonCartItems, TRUE );
 $parsAry = parse_url ( CUtils::curPageURL () );
 $qry = split ( "[=&]", $parsAry ["query"] );
 
+$email = "manish.mastishka@gmail.com";
+$bValidateCode = TRUE;
+
 /*
  * if($login) { CUtils::Redirect("core/dashboard.php"); } else
  * if(CSiteConfig::DEBUG_SITE == true && stristr($parsAry["host"],
@@ -45,7 +48,7 @@ $fTax = CConfig::$BA_TAX_APPLIED_ARY ["Service Tax"] / 100;
 $aryProductsInCart = array ();
 
 function PopulateCart() {
-	if (empty ( $GLOBALS ['aryCartItems'] ) || count($GLOBALS ['aryCartItems']) <= 1) {
+	if (empty ( $GLOBALS ['aryCartItems'] ) || count ( $GLOBALS ['aryCartItems'] ) <= 1) {
 		printf ( "<div class='row'>" );
 		printf ( "<div class='col-lg-12 col-md-12 col-sm-12'>Cart is empty... </div>" );
 		printf ( "</div>" );
@@ -64,22 +67,20 @@ function PopulateCart() {
 				printf ( "<div class='row'>" );
 				printf ( "<div class='col-lg-8 col-md-8 col-sm-8'>%s</div>", $aryProdDetails ['product_name'] );
 				/*
-				printf ( "<div class='col-lg-2 col-md-2 col-sm-2'>" );
-				printf ( "<div class='input-group input-group-sm spinner' id='spinner_%d'>",$aryProdDetails ['product_id']);
-				printf ( "<input type='text' class='form-control' value='1'>" );
-				printf ( "<div class='input-group-btn-vertical'>" );
-				printf ( "<button class='btn btn-default' type='button'>" );
-				printf ( "<i class='fa fa-caret-up'></i>" );
-				printf ( "</button>" );
-				printf ( "<button class='btn btn-default' type='button'>" );
-				printf ( "<i class='fa fa-caret-down'></i>" );
-				printf ( "</button>" );
-				printf ( "</div>" );
-				printf ( "</div>" );
-				printf ( "</div>" );
-				*/
+				 * printf ( "<div class='col-lg-2 col-md-2 col-sm-2'>" ); printf
+				 * ( "<div class='input-group input-group-sm spinner'
+				 * id='spinner_%d'>",$aryProdDetails ['product_id']); printf (
+				 * "<input type='text' class='form-control' value='1'>" );
+				 * printf ( "<div class='input-group-btn-vertical'>" ); printf (
+				 * "<button class='btn btn-default' type='button'>" ); printf (
+				 * "<i class='fa fa-caret-up'></i>" ); printf ( "</button>" );
+				 * printf ( "<button class='btn btn-default' type='button'>" );
+				 * printf ( "<i class='fa fa-caret-down'></i>" ); printf (
+				 * "</button>" ); printf ( "</div>" ); printf ( "</div>" );
+				 * printf ( "</div>" );
+				 */
 				printf ( "<div class='col-lg-2 col-md-2 col-sm-2'>&#x20B9;%.2f</div>", $aryProdInfo ['cost'] ['inr'] );
-				printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><button class='btn btn-danger btn-xs' prod_id='%d' prod_type='%d' onclick='OnRemove(this);'>Remove&nbsp;&nbsp;<i class='fa fa-times-circle'></i></button></div>", $aryProdDetails ['product_id'], $aryProdDetails ['product_type']);
+				printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><button class='btn btn-danger btn-xs' prod_id='%d' prod_type='%d' onclick='OnRemove(this);'>Remove&nbsp;&nbsp;<i class='fa fa-times-circle'></i></button></div>", $aryProdDetails ['product_id'], $aryProdDetails ['product_type'] );
 				printf ( "</div><br />" );
 			}
 		}
@@ -95,7 +96,7 @@ function PopulateSummary() {
 		foreach ( $GLOBALS ['aryProductsInCart'] as $product ) {
 			printf ( "<div class='row'>" );
 			printf ( "<div class='col-lg-7 col-md-7 col-sm-7'>%s</div>", $product ['name'] );
-			printf ( "<div class='col-lg-5 col-md-5 col-sm-5'>&#x20B9;%.2f <small>(x<span id='items_%d'>%d</span>)</small></div>", $product ['cost_inr'], $product['id'], 1 );
+			printf ( "<div class='col-lg-5 col-md-5 col-sm-5'>&#x20B9;%.2f <small>(x<span id='items_%d'>%d</span>)</small></div>", $product ['cost_inr'], $product ['id'], 1 );
 			printf ( "</div><br/>" );
 		}
 	}
@@ -115,8 +116,11 @@ $objIncludeJsCSS->CommonIncludeCSS ( "" );
 $objIncludeJsCSS->IncludeTVCSS ( "" );
 $objIncludeJsCSS->IncludeMipcatCSS ( "" );
 $objIncludeJsCSS->IncludeIconFontCSS ( "" );
+
 $objIncludeJsCSS->CommonIncludeJS ( "" );
 $objIncludeJsCSS->IncludeMetroDatepickerJS ( "" );
+$objIncludeJsCSS->IncludeJqueryFormJS ( "" );
+$objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 ?>
 		<!-- CSS -->
 
@@ -231,7 +235,8 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "" );
 									</button>
 									<button class="btn btn-info" data-toggle="collapse"
 										data-parent="#accordion" href="#collapsePersonalInfo"
-										aria-expanded="false" aria-controls="collapsePersonalInfo" <?php echo($disableCheckout); ?>>
+										aria-expanded="false" aria-controls="collapsePersonalInfo"
+										<?php echo($disableCheckout); ?>>
 										Checkout &nbsp;&nbsp; <i class="fa fa-forward"
 											aria-hidden="true"></i>
 									</button>
@@ -246,7 +251,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "" );
 						<h4 class="panel-title">
 							<span class="collapsed" role="button" data-parent="#accordion"
 								href="#collapsePersonalInfo" aria-expanded="false"
-								aria-controls="collapsePersonalInfo"> Your Personal Information
+								aria-controls="collapsePersonalInfo"> <?php echo($bValidateCode == TRUE ? "Verify Email-ID" : "Your Personal Information");?>
 							</span>
 						</h4>
 					</div>
@@ -255,183 +260,247 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "" );
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12">
+									<?php
+									if ($bValidateCode == TRUE) {
+										?>
+									<form id="validate_form"
+										action="core/index/ajax/ajax_validate_code.php" method="post">
+										<div class="row">
+											<p class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+												We have sent verification code to your email <b><?php echo($email);?></b>.
+												Please enter that below to proceed.<br />
+												<br />
+											</p>
+											<div
+												class="col-lg-8 col-md-8 col-sm-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+												<div class="input-group">
+													<span class="input-group-addon" id="basic-addon-1"><i
+														class="fa fa-list-ol" aria-hidden="true"></i></span> <input
+														type="text" name="verification_code" class="form-control"
+														placeholder="Verification Code"
+														aria-describedby="basic-addon-1">
+												</div>
+											</div>
+										</div>
+										<br/>
+										<div class="row">
+											<div class="col-lg-7 col-md-7 col-sm-7 col-sm-offset-5 col-md-offset-5 col-lg-offset-5">
+												<button class="btn btn-success"
+													type="submit">Submit <i class="fa fa-paper-plane" aria-hidden="true"></i>
+												</button>
+												<button class="btn btn-info btn-sm">Resend Code <i class="fa fa-repeat" aria-hidden="true"></i></button>
+											</div>
+										</div>
+									</form>
+									<?php
+									} else {
+										?>
 									<div class="col-lg-4 col-md-4 col-sm-4"
 										style="padding-right: 50px;">
-										<div class="row">If you are an existing user, login now</div>
-										<br />
-										<div class="row">
-											<div class="input-group">
-												<span class="input-group-addon" id="basic-addon1">@</span> <input
-													type="text" class="form-control" placeholder="Email-ID"
-													aria-describedby="basic-addon1" />
-											</div>
+										<form id="login_form" action="login/login.php" method="post">
+											<div class="row">If you are an existing user, login now</div>
 											<br />
-											<div class="input-group">
-												<span class="input-group-addon" id="basic-addon2"><i
-													class="fa fa-ellipsis-h" aria-hidden="true"></i></span> <input
-													type="password" class="form-control" placeholder="Password"
-													aria-describedby="basic-addon2" />
+											<div class="row">
+												<div class="input-group">
+													<span class="input-group-addon" id="basic-addon1">@</span>
+													<input type="text" name="email" class="form-control"
+														placeholder="Email-ID" aria-describedby="basic-addon1" />
+												</div>
+												<br />
+												<div class="input-group">
+													<span class="input-group-addon" id="basic-addon2"><i
+														class="fa fa-ellipsis-h" aria-hidden="true"></i></span> <input
+														type="password" name="password" class="form-control"
+														placeholder="Password" aria-describedby="basic-addon2" />
+													<input type="hidden" name="redirect_url"
+														value="<?php echo(CSiteConfig::ROOT_URL."checkout.php");?>">
+												</div>
+												<br />
+												<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
+													<input class="btn btn-success col-lg-6 col-md-6 col-sm-6"
+														type="submit" value="Submit" />
+												</div>
+												<br /> <br /> <br /> <a href="/login/forgot.php">Click here</a>
+												to <a href="/login/forgot.php">recover your password</a>.
+												<hr/>
+												<div id="error_callback">
+												</div>
 											</div>
-											<br />
-											<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
-												<input class="btn btn-success col-lg-6 col-md-6 col-sm-6"
-													type="submit" value="Submit" />
-											</div>
-											<br /> <br /> <br /> <a href="/login/forgot.php">Click here</a>
-											to <a href="/login/forgot.php">recover your password</a>.
-										</div>
+										</form>
 									</div>
 									<div class="col-lg-8 col-md-8 col-sm-8"
 										style="padding-left: 0px; border-left: 1px solid #ccc;">
-										<div class="row">
-											<div
-												class="col-lg-12 col-md-12 col-sm-12 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">If
-												you are new user, please provide registration details</div>
-										</div>
-										<br />
-										<div class="row">
-											<div class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<div class="col-lg-6 col-md-6 col-sm-6">
+										<form id="register_form" action="login/register-cand-exec.php"
+											method="post">
+											<div class="row">
+												<div
+													class="col-lg-12 col-md-12 col-sm-12 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">If
+													you are new user, please provide registration details</div>
+											</div>
+											<br />
+											<div class="row">
+												<div class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<div class="col-lg-6 col-md-6 col-sm-6">
+														<div class="input-group">
+															<span class="input-group-addon" id="basic-addon1"><i
+																class="fa fa-user" aria-hidden="true"></i> </span> <input
+																type="text" name="fname" class="form-control"
+																placeholder="First Name" aria-describedby="basic-addon1">
+														</div>
+													</div>
+													<div class="col-lg-6 col-md-6 col-sm-6">
+														<div class="input-group">
+															<span class="input-group-addon" id="basic-addon2"><i
+																class="fa fa-users" aria-hidden="true"></i></span> <input
+																type="text" name="lname" class="form-control"
+																placeholder="Last Name" aria-describedby="basic-addon2">
+														</div>
+													</div>
+												</div>
+											</div>
+											<br />
+											<div class="row">
+												<div
+													class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<div class="input-group">
+														<span class="input-group-addon" id="basic-addon3">@</span>
+														<input type="text" name="email" class="form-control"
+															placeholder="Email-ID" aria-describedby="basic-addon3">
+													</div>
+												</div>
+											</div>
+											<br />
+											<div class="row">
+												<div
+													class="col-lg-6 col-md-6 col-sm-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<div class="input-group">
+														<span class="input-group-addon" id="basic-addon4"><i
+															class="fa fa-phone" aria-hidden="true"></i></span> <input
+															type="text" name="contact" class="form-control"
+															placeholder="Phone" aria-describedby="basic-addon4">
+													</div>
+												</div>
+												<div class="col-lg-5 col-md-5 col-sm-5">
 													<div class="input-group">
 														<span class="input-group-addon" id="basic-addon5"><i
-															class="fa fa-user" aria-hidden="true"></i> </span> <input
-															type="text" class="form-control" placeholder="First Name"
-															aria-describedby="basic-addon5">
+															class="fa fa-venus-mars" aria-hidden="true"></i></span> <select
+															name="gender" class="form-control"
+															aria-describedby="basic-addon5"placeholder"sex">
+															<option value=-1 disabled>Select Gender</option>
+															<option value=0>Female</option>
+															<option value=1>Male</option>
+															<option value=2>Transgender</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<br />
+											<div class="row">
+												<div
+													class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<div class="input-group">
+														<span class="input-group-addon" id="basic-addon6"><i
+															class="fa fa-ellipsis-h" aria-hidden="true"></i> </span>
+														<input type="password" name="password"
+															class="form-control" placeholder="Password"
+															aria-describedby="basic-addon6">
+													</div>
+												</div>
+											</div>
+											<br />
+											<div class="row">
+												<div
+													class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<div class="input-group">
+														<span class="input-group-addon" id="basic-addon7"><i
+															class="fa fa-minus" aria-hidden="true"></i> </span> <input
+															type="password" name="confirm_password"
+															class="form-control" placeholder="Confirm Password"
+															aria-describedby="basic-addon7">
+													</div>
+												</div>
+											</div>
+											<br />
+											<div class="row">
+												<div
+													class="col-lg-1 col-md-1 col-sm-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<label style="padding-top: 5px;" for="datepicker_dob"
+														class="control-label">DOB</label>
+												</div>
+												<div class="col-lg-4 col-md-4 col-sm-4">
+													<div class="metro">
+														<div class="input-control text" id="datepicker_dob">
+															<input id="dob" name="dob" class="form-control"
+																name="dob" type="text">
+															<button class="btn-date" onclick="return false;"></button>
+														</div>
 													</div>
 												</div>
 												<div class="col-lg-6 col-md-6 col-sm-6">
 													<div class="input-group">
-														<span class="input-group-addon" id="basic-addon5"><i
-															class="fa fa-users" aria-hidden="true"></i></span> <input
-															type="text" class="form-control" placeholder="Last Name"
-															aria-describedby="basic-addon5">
+														<span class="input-group-addon" id="basic-addon8"><i
+															class="fa fa-location-arrow" aria-hidden="true"></i> </span>
+														<input type="text" name="city" class="form-control"
+															placeholder="City" aria-describedby="basic-addon8">
 													</div>
 												</div>
 											</div>
-										</div>
-										<br />
-										<div class="row">
-											<div
-												class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<div class="input-group">
-													<span class="input-group-addon" id="basic-addon1">@</span>
-													<input type="text" class="form-control"
-														placeholder="Email-ID" aria-describedby="basic-addon1">
+											<div class="row">
+												<div
+													class="col-lg-5 col-md-5 col-sm-5 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<div class="input-group">
+														<span class="input-group-addon" id="basic-addon9"><i
+															class="fa fa-map-marker" aria-hidden="true"></i> </span>
+														<input type="text" name="state" class="form-control"
+															placeholder="State" aria-describedby="basic-addon9">
+													</div>
 												</div>
-											</div>
-										</div>
-										<br />
-										<div class="row">
-											<div
-												class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<div class="input-group">
-													<span class="input-group-addon" id="basic-addon2"><i
-														class="fa fa-phone" aria-hidden="true"></i></span> <input
-														type="text" class="form-control" placeholder="Phone"
-														aria-describedby="basic-addon2">
-												</div>
-											</div>
-										</div>
-										<br />
-										<div class="row">
-											<div
-												class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<div class="input-group">
-													<span class="input-group-addon" id="basic-addon3"><i
-														class="fa fa-ellipsis-h" aria-hidden="true"></i> </span> <input
-														type="password" class="form-control"
-														placeholder="Password" aria-describedby="basic-addon3">
-												</div>
-											</div>
-										</div>
-										<br />
-										<div class="row">
-											<div
-												class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<div class="input-group">
-													<span class="input-group-addon" id="basic-addon4"><i
-														class="fa fa-minus" aria-hidden="true"></i> </span> <input
-														type="password" class="form-control"
-														placeholder="Confirm Password"
-														aria-describedby="basic-addon4">
-												</div>
-											</div>
-										</div>
-										<br />
-										<div class="row">
-											<div class="col-lg-1 col-md-1 col-sm-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<label style="padding-top:5px;" for="datepicker_dob" class="control-label">DOB</label>
-											</div>
-											<div
-												class="col-lg-4 col-md-4 col-sm-4">
-												<div class="metro">
-													<div class="input-control text" id="datepicker_dob">
-														<input id="dob" class="form-control" name="dob" type="text">
-														<button class="btn-date" onclick="return false;"></button>
+												<div class="col-lg-6 col-md-6 col-sm-6">
+													<div class="input-group">
+														<span class="input-group-addon" id="basic-addon10"><i
+															class="fa fa-map" aria-hidden="true"></i> </span> <input
+															type="text" name="country" class="form-control"
+															placeholder="Country" aria-describedby="basic-addon10"> <input
+															type="hidden" name="redirect_url"
+															value="<?php echo(CSiteConfig::ROOT_URL."checkout.php");?>">
 													</div>
 												</div>
 											</div>
-											<div
-												class="col-lg-6 col-md-6 col-sm-6">
-												<div class="input-group">
-													<span class="input-group-addon" id="city"><i
-														class="fa fa-location-arrow" aria-hidden="true"></i> </span> <input
-														type="text" class="form-control"
-														placeholder="City" aria-describedby="city">
+											<br />
+											<div class="row">
+												<div
+													class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<div class="checkbox">
+														<label> <input class="btn btn-success" type="checkbox"> I
+															agree to <b><?php echo(CConfig::SNC_SITE_NAME);?>'s</b> <a
+															href="/terms/terms-of-service.php">terms of service</a>
+															&amp; <a href="/terms/privacy_policy.php">privacy policy</a>.
+														</label>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div
-												class="col-lg-5 col-md-5 col-sm-5 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<div class="input-group">
-													<span class="input-group-addon" id="state"><i
-														class="fa fa-map-marker" aria-hidden="true"></i> </span> <input
-														type="text" class="form-control"
-														placeholder="State" aria-describedby="state">
+											<br />
+											<div class="row">
+												<div
+													class="col-lg-4 col-md-4 col-sm-4 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<button class="btn btn-info" data-toggle="collapse"
+														data-parent="#accordion" href="#collapseOne"
+														aria-expanded="false" aria-controls="collapseOne">
+														<i class="fa fa-backward" aria-hidden="true"></i>&nbsp;&nbsp;
+														Back to Cart
+													</button>
+												</div>
+												<div
+													class="col-lg-6 col-md-6 col-sm-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<input class="btn btn-success col-lg-6 col-md-6 col-sm-6"
+														type="submit" value="Register Now">
 												</div>
 											</div>
-											<div
-												class="col-lg-6 col-md-6 col-sm-6">
-												<div class="input-group">
-													<span class="input-group-addon" id="country"><i
-														class="fa fa-map" aria-hidden="true"></i> </span> <input
-														type="text" class="form-control"
-														placeholder="Country" aria-describedby="country">
-												</div>
-											</div>
-										</div>
-										<br />
-										<div class="row">
-											<div
-												class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<div class="checkbox">
-													<label> <input class="btn btn-success" type="checkbox"> I
-														agree to <b><?php echo(CConfig::SNC_SITE_NAME);?>'s</b> <a
-														href="/terms/terms-of-service.php">terms of service</a>
-														&amp; <a href="/terms/privacy_policy.php">privacy policy</a>.
-													</label>
-												</div>
-											</div>
-										</div>
-										<br />
-										<div class="row">
-											<div
-												class="col-lg-4 col-md-4 col-sm-4 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<button class="btn btn-info" data-toggle="collapse"
-													data-parent="#accordion" href="#collapseOne"
-													aria-expanded="false" aria-controls="collapseOne">
-													<i class="fa fa-backward"
-														aria-hidden="true"></i>&nbsp;&nbsp; Back to Cart
-												</button>
-											</div>
-											<div
-												class="col-lg-6 col-md-6 col-sm-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-												<input class="btn btn-success col-lg-6 col-md-6 col-sm-6"
-													type="submit" value="Register Now">
-											</div>
-										</div>
+										</form>
 									</div>
+									<?php
+									}
+									?>
 								</div>
 							</div>
 						</div>
@@ -502,6 +571,82 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "" );
 			});
 		});
 
+		$("#register_form").validate({
+			errorPlacement: function(error, element) {
+				$('#error_callback').append(error);
+			},
+    		rules: {
+    			fname: {
+            		required:true
+        		},
+        		lname: {
+            		required:true
+            	},
+            	email: {
+            		required:true
+            	},
+            	contact: {
+            		required:true
+            	},
+            	password: {
+            		required:true
+            	},
+            	confirm_password: {
+            		required:true
+            	},
+            	gender: {
+            		required:true
+            	},
+            	city: {
+            		required:true
+            	},
+            	state: {
+            		required:true
+            	},
+            	country: {
+            		required:true
+            	},
+            	dob: {
+            		required:true
+            	}
+    		},
+    		messages: {
+    			fname: {	
+    				required:	"<div style='color:red'>* Please provide first name</div>",
+        		},
+        		lname:{
+    				required:	"<div style='color:red'>* Please provide last name</div>",
+				},
+				email:{
+					required:	"<div style='color:red'>* Please provide email-id</div>",
+    			},
+    			contact:{
+    				required:	"<div style='color:red'>* Please provide your cell phone number</div>",
+    			},
+    			password:{
+    				required:	"<div style='color:red'>* Please enter password</div>",
+    			},
+    			confirm_password:{
+    				required:	"<div style='color:red'>* Please enter confirm password</div>",
+    			},
+    			gender:{
+    				required:	"<div style='color:red'>* Please select gender</div>",
+    			},
+    			city:{
+    				required:	"<div style='color:red'>* Please provide city</div>",
+    			},
+    			state:{
+    				required:	"<div style='color:red'>* Please provide state</div>",
+    			},
+    			country:{
+    				required:	"<div style='color:red'>* Please provide country</div>",
+    			},
+    			dob:{
+    				required:	"<div style='color:red'>* Please provide your date of birth</div>",
+    			}
+	    	}
+		});
+		
 		function OnRemove(obj)
 		{
 			//alert(document.location.href);
@@ -533,22 +678,20 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "" );
 
 		(function ($) {
 			<?php
-			if(FALSE)
-			{
-				foreach ($aryProductsInCart as $product)
-				{
-				  printf("$('#spinner_%d .btn:first-of-type').on('click', function() {", $product['id']);
-				  	printf("$('#spinner_%d input').val( parseInt($('#spinner_%d input').val(), 10) + 1);", $product['id'], $product['id']);
-				    printf("$('#items_%d').text($('#spinner_%d input').val());", $product['id'], $product['id']);
-				  printf("});");
-				  printf("$('#spinner_%d .btn:last-of-type').on('click', function() {", $product['id']);
-				  	printf("var iItems = $('#spinner_%d input').val();", $product['id']);
-				  	printf("if(iItems > 1)");
-				  	printf("{");
-				    printf("$('#spinner_%d input').val( parseInt($('#spinner_%d input').val(), 10) - 1);", $product['id'], $product['id']);
-				    printf("$('#items_%d').text($('#spinner_%d input').val()); ", $product['id'], $product['id']);
-				    printf("}");
-				  printf("});");
+			if (FALSE) {
+				foreach ( $aryProductsInCart as $product ) {
+					printf ( "$('#spinner_%d .btn:first-of-type').on('click', function() {", $product ['id'] );
+					printf ( "$('#spinner_%d input').val( parseInt($('#spinner_%d input').val(), 10) + 1);", $product ['id'], $product ['id'] );
+					printf ( "$('#items_%d').text($('#spinner_%d input').val());", $product ['id'], $product ['id'] );
+					printf ( "});" );
+					printf ( "$('#spinner_%d .btn:last-of-type').on('click', function() {", $product ['id'] );
+					printf ( "var iItems = $('#spinner_%d input').val();", $product ['id'] );
+					printf ( "if(iItems > 1)" );
+					printf ( "{" );
+					printf ( "$('#spinner_%d input').val( parseInt($('#spinner_%d input').val(), 10) - 1);", $product ['id'], $product ['id'] );
+					printf ( "$('#items_%d').text($('#spinner_%d input').val()); ", $product ['id'], $product ['id'] );
+					printf ( "}" );
+					printf ( "});" );
 				}
 			}
 			?>

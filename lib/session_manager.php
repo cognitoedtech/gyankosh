@@ -8,6 +8,7 @@
 		// - - - - - - - - - -
 		const STR_USER_ID				= "UserID" ;
 		const STR_EMAIL_ID				= "EmailID" ;
+		const STR_CONTACT_NO			= "ContactNo";
 		const STR_USER_NAME				= "UserName" ;
 		const STR_LOGIN_NAME			= "LoginName" ;
 		const STR_REDIRECT_URL			= "RedirectURL" ;

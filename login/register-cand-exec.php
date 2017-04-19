@@ -58,7 +58,7 @@
 		$batch			= json_encode(array(CConfig::CDB_ID, intval($_POST['batch_id'])));
 	}
 	
-	
+	$redirect_url		= $_POST['redirect_url'] ;
 	$fname				= clean($_POST['fname']);
 	$lname				= clean($_POST['lname']);
 	$contact_no			= clean($_POST['contact']);
@@ -68,12 +68,12 @@
 	$city				= clean($_POST['city']);
 	$state				= clean($_POST['state']);
 	$country			= clean($_POST['country']);
-	$year				= clean($_POST['birthyear']);
-	$day				= clean($_POST['day']);
-	$month				= clean($_POST['month']);
-	$question			= clean($_POST['question']);
-	$security_answer	= clean($_POST['answer']);
-	$dob				= sprintf("%s-%s-%s",$year,$month,$day);
+	//$year				= clean($_POST['birthyear']);
+	//$day				= clean($_POST['day']);
+	//$month			= clean($_POST['month']);
+	$question			= "";//clean($_POST['question']);
+	$security_answer	= "";//clean($_POST['answer']);
+	$dob				= clean($_POST['dob']);//sprintf("%s-%s-%s",$year,$month,$day);
 	
 	/*$qualification	= $_POST['qualification'];
 	$area			= $_POST['area'];
@@ -87,7 +87,7 @@
 	if($objUM->IsUserExists($email)) 
 	{
 		CSessionManager::SetErrorMsg("Email-ID already in use.");
-		CUtils::Redirect("register-cand.php".$owner_param);				
+		CUtils::Redirect($redirect_url.$owner_param);				
 		exit();
 	}
 	else
@@ -135,7 +135,7 @@
 			$objMail->PrepAndSendNewCandRegistrationNotificationMail($owner_name, $owner_email, $fname." ".$lname, $email);
 			
 			CSessionManager::Logout() ;
-			CUtils::Redirect("register-success.php?umail=".urlencode($email));
+			CUtils::Redirect($redirect_url."?umail=".urlencode($email));
 					
 			exit();
 		}
@@ -143,7 +143,7 @@
 		{
 			//die("Query failed: ".mysql_error());
 			CSessionManager::SetErrorMsg("<BR/><BR/>Dear User,<BR/><BR/> [Insert Failed] Your registration process had been failed, please re-fill the form.<BR/><BR/>-Team ".CConfig::SNC_SITE_NAME);
-			CUtils::Redirect("register-cand.php".$owner_param);
+			CUtils::Redirect($redirect_url.$owner_param);
 			exit();
 		}
 	}

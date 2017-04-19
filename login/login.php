@@ -59,6 +59,7 @@
 			
 			$objUser = $objUM->GetUserByEmail($email) ;
 			CSessionManager::Set(CSessionManager::STR_USER_ID, $objUser->GetUserID()) ;
+			CSessionManager::Set(CSessionManager::STR_CONTACT_NO, $objUser->GetContactNo());
 			CSessionManager::Set(CSessionManager::STR_EMAIL_ID, $email);
 			CSessionManager::Set(CSessionManager::BOOL_LOGIN, true) ;
 			CSessionManager::Set(CSessionManager::INT_USER_TYPE, $objUser->GetUserType()) ;
@@ -83,6 +84,7 @@
 			
 			$objUser = $objUM->GetUserByEmail($email) ;
 			CSessionManager::Set(CSessionManager::STR_USER_ID, $objUser->GetUserID()) ;
+			CSessionManager::Set(CSessionManager::STR_CONTACT_NO, $objUser->GetContactNo());
 			CSessionManager::Set(CSessionManager::STR_EMAIL_ID, $email);
 			CSessionManager::Set(CSessionManager::BOOL_LOGIN, true) ;
 			CSessionManager::Set(CSessionManager::INT_USER_TYPE, $objUser->GetUserType()) ;
