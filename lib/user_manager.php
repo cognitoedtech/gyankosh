@@ -44,6 +44,7 @@
 				$objUser->SetSignupDate($row[CUser::FIELD_SIGNUP_DATE]) ;
 				$objUser->SetState($row[CUser::FIELD_STATE]) ;
 				$objUser->SetUserID($row[CUser::FIELD_USER_ID]) ;
+				$objUser->SetVerificationCode($row[CUser::FIELD_VCODE]) ;
 			}
 			mysql_free_result($result) ;
 			
@@ -76,6 +77,7 @@
 				$objUser->SetSignupDate($row[CUser::FIELD_SIGNUP_DATE]) ;
 				$objUser->SetState($row[CUser::FIELD_STATE]) ;
 				$objUser->SetUserID($row[CUser::FIELD_USER_ID]) ;
+				$objUser->SetVerificationCode($row[CUser::FIELD_VCODE]) ;
 			}
 			mysql_free_result($result) ;
 			
@@ -268,8 +270,8 @@
 			}
 			
 			$user_id = CUtils::uuid() ;
-			$query = sprintf("INSERT INTO users(".CUser::FIELD_USER_ID.", ".CUser::FIELD_USER_TYPE.", ".CUser::FIELD_LOGIN_NAME.", ".CUser::FIELD_ORGANIZATION_ID.", ".CUser::FIELD_PAN_NO.", ".CUser::FIELD_FIRST_NAME.", ".CUser::FIELD_LAST_NAME.", ".CUser::FIELD_PASSWORD.", ".CUser::FIELD_CONTACT_NO .", ".CUser::FIELD_EMAIL.", ".CUser::FIELD_GENDER.", ".CUser::FIELD_ADDRESS.", ".CUser::FIELD_CITY.", ".CUser::FIELD_STATE.", ".CUser::FIELD_COUNTRY.", ".CUser::FIELD_DOB.", ".CUser::FIELD_SECURITY_QUES .", ".CUser::FIELD_SECURITY_ANS.", ".CUser::FIELD_BUSS_ASSOC_ID.", ".CUser::FIELD_OWNER_ID.", ".CUser::FIELD_BATCH.") VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s') ;", 
-							$user_id, $objUser->GetUserType(), $objUser->GetLoginName(), $objUser->GetOrganizationId(), $objUser->GetPANNo(), $objUser->GetFirstName(), $objUser->GetLastName(), md5($objUser->GetPassword()), $objUser->GetContactNo(), $objUser->GetEmail(), $objUser->GetGender(), $objUser->GetAddress(), $objUser->GetCity(), $objUser->GetState(), $objUser->GetCountry(), $objUser->GetDOB(), $objUser->GetSecQues(), $objUser->GetSecAns(), $objUser->GetBusinessAssociateId(), $objUser->GetOwnerID(), mysql_real_escape_string($batch)) ;
+			$query = sprintf("INSERT INTO users(".CUser::FIELD_USER_ID.", ".CUser::FIELD_USER_TYPE.", ".CUser::FIELD_LOGIN_NAME.", ".CUser::FIELD_ORGANIZATION_ID.", ".CUser::FIELD_PAN_NO.", ".CUser::FIELD_FIRST_NAME.", ".CUser::FIELD_LAST_NAME.", ".CUser::FIELD_PASSWORD.", ".CUser::FIELD_CONTACT_NO .", ".CUser::FIELD_EMAIL.", ".CUser::FIELD_GENDER.", ".CUser::FIELD_ADDRESS.", ".CUser::FIELD_CITY.", ".CUser::FIELD_STATE.", ".CUser::FIELD_COUNTRY.", ".CUser::FIELD_DOB.", ".CUser::FIELD_SECURITY_QUES .", ".CUser::FIELD_SECURITY_ANS.", ".CUser::FIELD_BUSS_ASSOC_ID.", ".CUser::FIELD_OWNER_ID.", ".CUser::FIELD_BATCH.", ".CUser::FIELD_VCODE.") VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s') ;", 
+							$user_id, $objUser->GetUserType(), $objUser->GetLoginName(), $objUser->GetOrganizationId(), $objUser->GetPANNo(), $objUser->GetFirstName(), $objUser->GetLastName(), md5($objUser->GetPassword()), $objUser->GetContactNo(), $objUser->GetEmail(), $objUser->GetGender(), $objUser->GetAddress(), $objUser->GetCity(), $objUser->GetState(), $objUser->GetCountry(), $objUser->GetDOB(), $objUser->GetSecQues(), $objUser->GetSecAns(), $objUser->GetBusinessAssociateId(), $objUser->GetOwnerID(), mysql_real_escape_string($batch),$objUser->GetVerificationCode()) ;
 			
 			//echo  $query."<br/>";
 			
@@ -505,6 +507,15 @@
 			}
 			
 			return $ret_val;
+		}
+		
+		public function ActivateAccountByEmail($email)
+		{
+			$query = sprintf("update users set reg_status = 1 where email='%s'", $email);
+				
+			$retVal = mysql_query($query,$this->db_link_id) or die ("Activate account by email error : ".mysql_error($this->db_link_id));
+				
+			return $retVal;
 		}
 		
 		public function AddBusinessAssociate($ba_id,$pref_pmnt_mode,$payment_cycle,$acc_name,$acc_num,$acc_type,$bank_name,$bank_ifsc)

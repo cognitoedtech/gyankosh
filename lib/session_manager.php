@@ -27,6 +27,8 @@
 		const INT_APPLIED_PLAN			= "AppliedPlan";
 		const INT_TEST_SCHEDULE_ID		= "TestScheduleID";
 		const JSON_CART_ITEMS			= "CartItems";
+		const BOOL_VALIDATE_CODE		= "ValidateCode" ;
+		const BOOL_VERIFIED				= "Verified" ;
 		// - - - - - - - - - -
 		
 		/*

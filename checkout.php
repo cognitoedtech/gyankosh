@@ -7,6 +7,7 @@ include_once (dirname ( __FILE__ ) . "/lib/include_js_css.php");
 include_once (dirname ( __FILE__ ) . "/lib/session_manager.php");
 include_once (dirname ( __FILE__ ) . "/lib/site_config.php");
 include_once (dirname ( __FILE__ ) . "/lib/utils.php");
+include_once (dirname ( __FILE__ ) . "/lib/user_manager.php");
 include_once (dirname ( __FILE__ ) . "/database/config.php");
 include_once (dirname ( __FILE__ ) . "/database/mcat_db.php");
 include_once (dirname ( __FILE__ ) . "/3rd_party/recaptcha/recaptchalib.php");
@@ -20,8 +21,10 @@ $aryCartItems = json_decode ( $jsonCartItems, TRUE );
 $parsAry = parse_url ( CUtils::curPageURL () );
 $qry = split ( "[=&]", $parsAry ["query"] );
 
-$email = "manish.mastishka@gmail.com";
-$bValidateCode = TRUE;
+$email 			= CSessionManager::Get(CSessionManager::STR_EMAIL_ID);
+$contact 		= CSessionManager::Get(CSessionManager::STR_CONTACT_NO);
+$bValidateCode 	= CSessionManager::Get(CSessionManager::BOOL_VALIDATE_CODE) || CSessionManager::Get(CSessionManager::BOOL_LOGIN);
+$bVerified		= CSessionManager::Get(CSessionManager::BOOL_VERIFIED) || CSessionManager::Get(CSessionManager::BOOL_LOGIN);
 
 /*
  * if($login) { CUtils::Redirect("core/dashboard.php"); } else
@@ -220,7 +223,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 							</span>
 						</h4>
 					</div>
-					<div id="collapseOne" class="panel-collapse collapse in"
+					<div id="collapseOne" class="panel-collapse collapse <?php echo(($bValidateCode || CSessionManager::IsError())?'':'in');?>"
 						role="tabpanel" aria-labelledby="collapseOne">
 						<div class="panel-body">
 							<?php
@@ -234,10 +237,10 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 											aria-hidden="true"></i>
 									</button>
 									<button class="btn btn-info" data-toggle="collapse"
-										data-parent="#accordion" href="#collapsePersonalInfo"
-										aria-expanded="false" aria-controls="collapsePersonalInfo"
+										data-parent="#accordion" href="#<?php echo($bVerified?'collapseThree':'collapsePersonalInfo');?>"
+										aria-expanded="false" aria-controls="<?php echo($bVerified?'collapseThree':'collapsePersonalInfo');?>"
 										<?php echo($disableCheckout); ?>>
-										Checkout &nbsp;&nbsp; <i class="fa fa-forward"
+										<?php echo($bVerified?'Pay Now':'Checkout');?> &nbsp;&nbsp; <i class="fa fa-forward"
 											aria-hidden="true"></i>
 									</button>
 								</div>
@@ -245,6 +248,10 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 						</div>
 					</div>
 				</div>
+				<?php 
+				if(!$bVerified)
+				{
+				?>
 				<div class="panel panel-default">
 					<div class="panel-heading" role="tab" id="headingPersonalInfo">
 						<!-- data-toggle="collapse" -->
@@ -255,7 +262,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 							</span>
 						</h4>
 					</div>
-					<div id="collapsePersonalInfo" class="panel-collapse collapse"
+					<div id="collapsePersonalInfo" class="panel-collapse collapse <?php echo(($bValidateCode || CSessionManager::IsError())?'in':'');?>"
 						role="tabpanel" aria-labelledby="collapsePersonalInfo">
 						<div class="panel-body">
 							<div class="row">
@@ -276,7 +283,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 												<div class="input-group">
 													<span class="input-group-addon" id="basic-addon-1"><i
 														class="fa fa-list-ol" aria-hidden="true"></i></span> <input
-														type="text" name="verification_code" class="form-control"
+														type="text" name="vcode" class="form-control"
 														placeholder="Verification Code"
 														aria-describedby="basic-addon-1">
 												</div>
@@ -313,7 +320,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 														type="password" name="password" class="form-control"
 														placeholder="Password" aria-describedby="basic-addon2" />
 													<input type="hidden" name="redirect_url"
-														value="<?php echo(CSiteConfig::ROOT_URL."checkout.php");?>">
+														value="../checkout.php">
 												</div>
 												<br />
 												<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
@@ -401,7 +408,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 													<div class="input-group">
 														<span class="input-group-addon" id="basic-addon6"><i
 															class="fa fa-ellipsis-h" aria-hidden="true"></i> </span>
-														<input type="password" name="password"
+														<input type="password" id="password" name="password"
 															class="form-control" placeholder="Password"
 															aria-describedby="basic-addon6">
 													</div>
@@ -462,8 +469,20 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 															type="text" name="country" class="form-control"
 															placeholder="Country" aria-describedby="basic-addon10"> <input
 															type="hidden" name="redirect_url"
-															value="<?php echo(CSiteConfig::ROOT_URL."checkout.php");?>">
+															value="../checkout.php">
 													</div>
+												</div>
+											</div>
+											<br/>
+											<div class="row">
+												<div class="form-group col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+												   	<label style="padding-top: 5px;" for="captcha_code" class="col-lg-3 col-md-3 col-sm-3 control-label">Verify Text<span style='color: red;'>*</span> :</label>
+												   	<div class="col-lg-5 col-md-5 col-sm-5">
+												   		<input class="form-control input-sm" id="captcha_code" name="captcha_code" type="text" />
+												   	</div>
+												   	<div class="col-lg-3 col-md-3 col-sm-3" style="position:relative;">
+												   		<img style="padding-top: 5px;" id="captcha_img_demo" src="">
+												  	</div>
 												</div>
 											</div>
 											<br />
@@ -471,7 +490,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 												<div
 													class="col-lg-11 col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
 													<div class="checkbox">
-														<label> <input class="btn btn-success" type="checkbox"> I
+														<label> <input class="btn btn-success" type="checkbox" onclick="OnTerms(this);"> I
 															agree to <b><?php echo(CConfig::SNC_SITE_NAME);?>'s</b> <a
 															href="/terms/terms-of-service.php">terms of service</a>
 															&amp; <a href="/terms/privacy_policy.php">privacy policy</a>.
@@ -492,8 +511,8 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 												</div>
 												<div
 													class="col-lg-6 col-md-6 col-sm-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-													<input class="btn btn-success col-lg-6 col-md-6 col-sm-6"
-														type="submit" value="Register Now">
+													<input id="register_btn" class="btn btn-success col-lg-6 col-md-6 col-sm-6"
+														type="submit" value="Register Now" disabled>
 												</div>
 											</div>
 										</form>
@@ -506,6 +525,9 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 						</div>
 					</div>
 				</div>
+				<?php 
+				}
+				?>
 				<div class="panel panel-default">
 					<div class="panel-heading" role="tab" id="headingThree">
 						<h4 class="panel-title">
@@ -515,7 +537,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 								aria-controls="collapseThree"> Payment details </span>
 						</h4>
 					</div>
-					<div id="collapseThree" class="panel-collapse collapse"
+					<div id="collapseThree" class="panel-collapse collapse <?php echo($bVerified?'in':'');?>"
 						role="tabpanel" aria-labelledby="headingThree">
 						<div class="panel-body">Anim pariatur cliche reprehenderit, enim
 							eiusmod high life accusamus terry richardson ad squid. 3 wolf
@@ -526,7 +548,18 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 							beer labore wes anderson cred nesciunt sapiente ea proident. Ad
 							vegan excepteur butcher vice lomo. Leggings occaecat craft beer
 							farm-to-table, raw denim aesthetic synth nesciunt you probably
-							haven't heard of them accusamus labore sustainable VHS.</div>
+							haven't heard of them accusamus labore sustainable VHS.
+							
+							<div
+								class="col-lg-4 col-md-4 col-sm-4 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+								<button class="btn btn-info" data-toggle="collapse"
+									data-parent="#accordion" href="#collapseOne"
+									aria-expanded="false" aria-controls="collapseOne">
+									<i class="fa fa-backward" aria-hidden="true"></i>&nbsp;&nbsp;
+									Back to Cart
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -571,40 +604,65 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 			});
 		});
 
+		function OnTerms(obj)
+		{
+			if ($(obj).is(':checked',true))
+			{
+				$("#register_btn").attr('disabled', false);
+			}
+			else
+			{
+				$("#register_btn").attr('disabled', true);
+			}
+		}
+		$('#captcha_img_demo').attr('src','3rd_party/captcha/captcha.php?r=' + Math.random());
+		
+		jQuery.validator.addMethod("alphanumeric", function(value, element) {
+			return this.optional(element) || /^[a-zA-Z_\s]+[0-9]*[a-zA-Z0-9_\s]*$/.test(value);
+		}, "<p style='color: red;'>Field required only alphanumeric letters (underscore and space is allowed) !</p>");
+		
 		$("#register_form").validate({
 			errorPlacement: function(error, element) {
 				$('#error_callback').append(error);
 			},
     		rules: {
     			fname: {
-            		required:true
+            		required:true,
+            		'alphanumeric': true
         		},
         		lname: {
-            		required:true
+            		required:true,
+            		'alphanumeric': true
             	},
             	email: {
-            		required:true
+            		required:true,
+            		email: true
             	},
             	contact: {
             		required:true
             	},
             	password: {
-            		required:true
+            		required:true,
+            		minlength: 8
             	},
             	confirm_password: {
-            		required:true
+            		required:true,
+            		equalTo: '#password'
             	},
             	gender: {
             		required:true
             	},
             	city: {
-            		required:true
+            		required:true,
+            		'alphanumeric': true
             	},
             	state: {
-            		required:true
+            		required:true,
+            		'alphanumeric': true
             	},
             	country: {
-            		required:true
+            		required:true,
+            		'alphanumeric': true
             	},
             	dob: {
             		required:true
@@ -618,33 +676,40 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
     				required:	"<div style='color:red'>* Please provide last name</div>",
 				},
 				email:{
-					required:	"<div style='color:red'>* Please provide email-id</div>",
+					required:	"<div style='color:red'>* Please enter your valid email-id</div>",
+					email: 		"<div style='color:red'>* Please enter your valid email-id</div>"
     			},
     			contact:{
-    				required:	"<div style='color:red'>* Please provide your cell phone number</div>",
+    				required:	"<div style='color:red'>* Please enter your valid contact number</div>",
     			},
     			password:{
-    				required:	"<div style='color:red'>* Please enter password</div>",
+    				required:	"<div style='color:red'>* Minimum length for password field should be eight letters</div>",
+    				minlength:	"<div style='color:red'>* Minimum length for password field should be eight letters</div>"
     			},
     			confirm_password:{
-    				required:	"<div style='color:red'>* Please enter confirm password</div>",
+    				required:	"<div style='color:red'>* Confirm password should be same as password field</div>",
+    				equalTo:	"<div style='color:red'>* Confirm password should be same as password field</div>"
     			},
     			gender:{
     				required:	"<div style='color:red'>* Please select gender</div>",
     			},
     			city:{
-    				required:	"<div style='color:red'>* Please provide city</div>",
+    				required:	"<div style='color:red'>* Please provide your city name</div>",
     			},
     			state:{
-    				required:	"<div style='color:red'>* Please provide state</div>",
+    				required:	"<div style='color:red'>* Please provide your state name</div>",
     			},
     			country:{
-    				required:	"<div style='color:red'>* Please provide country</div>",
+    				required:	"<div style='color:red'>* Please provide your country name</div>",
     			},
     			dob:{
     				required:	"<div style='color:red'>* Please provide your date of birth</div>",
     			}
-	    	}
+	    	},
+	    	showErrors: function(errorMap, errorList){
+	    		$('#error_callback').html("");
+	    		this.defaultShowErrors();
+		    }
 		});
 		
 		function OnRemove(obj)
@@ -702,6 +767,23 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 			$("#headingOne").collapse('hide');
 			$("#headingPersonalInfo").collapse('show');
 		}
+
+		$(document).ready(function(){
+			<?php
+			if(CSessionManager::IsError())
+			{
+				CSessionManager::SetError(false) ;
+			?>
+			$.Notify({
+				 caption: "<b>Error</b>",
+				 content: "<?php echo("<p style='color:#fff;'><b>Error during login / registeration : </b>".CSessionManager::GetErrorMsg()."</p>");?>",
+				 style: {background: 'green', color: 'white'}, 
+				 timeout: 10000
+				 });
+			<?php
+			}
+			?>
+		});
 	</script>
 </body>
 </html>

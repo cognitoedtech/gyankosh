@@ -109,7 +109,14 @@
 			
 			/* noisrev is reverse of version, assigning a random time for version so that 
 			page will reload and cached page should not use.*/
-			printf("<script language='javascript'> window.parent.location = '../core/dashboard.php?noisrev=%d' ;</script>", time());
+			if(empty($redirect_url))
+			{
+				printf("<script language='javascript'> window.parent.location = '../core/dashboard.php?noisrev=%d' ;</script>", time());
+			}
+			else
+			{
+				CUtils::Redirect($redirect_url);
+			}
 		}
 		else if($result == 1)
 		{
@@ -122,6 +129,7 @@
 			}
 			else 
 			{
+				CSessionManager::SetErrorMsg("Activation pending, please check your E-mail: ".$email);
 				CUtils::Redirect($redirect_url."?err_msg=".urlencode("Activation pending, please check your E-mail: ".$email));
 			}
 		}

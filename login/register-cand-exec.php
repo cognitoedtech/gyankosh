@@ -1,9 +1,4 @@
 <?php
-	/*echo("<pre>");
-	print_r($_POST);
-	echo("</pre>");
-	exit();*/
-	
 	//Start session
 	include_once("../lib/session_manager.php");
 	include_once("../database/config.php");
@@ -13,52 +8,43 @@
 	include_once("../lib/billing.php");
 	
 	$captcha_value = CSessionManager::Get(CSessionManager::INT_CAPTCH_VALUE);
-        	                    
+	
+	$redirect_url		= $_POST['redirect_url'] ;
     $owner_id 			= clean($_POST['owner_id']);
-    $owner_param = empty($owner_id) ? "" : "?owner=".$owner_id."&batch_id=".$_POST['batch_id'];
-    $verif_code = clean($_POST['VERIF_CODE']);
+    $owner_param 		= empty($owner_id) ? "" : "?owner=".$owner_id."&batch_id=".$_POST['batch_id'];
+    $verif_code 		= clean($_POST['captcha_code']);
+    
+    /*$date 	= new DateTime($_POST['dob']);
+    $_POST['dateofbirth']	= $date->format('Y-m-d');
+    $_POST['server_captcha'] = $captcha_value;
+    echo("<pre>");
+    print_r($_POST);
+    echo("</pre>");
+    exit();*/
     
     CSessionManager::UnsetSessVar(CSessionManager::INT_CAPTCH_VALUE);
  	if ($captcha_value != $verif_code) 
 	{
    		// What happens when the CAPTCHA was entered incorrectly
 		CSessionManager::SetErrorMsg("Dear User,<br/><br/> Your registration process had been failed due to incorrect captcha value, please re-fill the form.<BR/><BR/>-Team ".CConfig::SNC_SITE_NAME);
-		CUtils::Redirect("register-cand.php".$owner_param);
+		CUtils::Redirect($redirect_url.$owner_param);
 		exit();
 	} 
-	else 
-	{
-		   // Your code here to handle a successful verification
- 	}
+	
+	CSessionManager::Set(BOOL_VALIDATE_CODE, FALSE);
 	
 	//Function to sanitize values received from the form. Prevents SQL injection
 	function clean($str) 
 	{
-		/*if(!get_magic_quotes_gpc()) 
-		{
-			$str = trim(mysql_real_escape_string($str));
-		}
-		else */
-		{
-			$str = trim($str);
-		}
-
-		return $str;
+		return trim($str);
 	}
 	
 	$objUM = new CUserManager();
 	
 	//Sanitize the POST values
 	
-	$plan				= clean($_POST['splan']);
-	
-	$batch				= json_encode(array(intval($_POST['batch_id'])));
-	if($_POST['batch_id'] != CConfig::CDB_ID)
-	{
-		$batch			= json_encode(array(CConfig::CDB_ID, intval($_POST['batch_id'])));
-	}
-	
-	$redirect_url		= $_POST['redirect_url'] ;
+	$plan				= CConfig::UT_INDIVIDAL;
+	$batch				= json_encode(array(intval(CConfig::CDB_ID)));
 	$fname				= clean($_POST['fname']);
 	$lname				= clean($_POST['lname']);
 	$contact_no			= clean($_POST['contact']);
@@ -68,26 +54,17 @@
 	$city				= clean($_POST['city']);
 	$state				= clean($_POST['state']);
 	$country			= clean($_POST['country']);
-	//$year				= clean($_POST['birthyear']);
-	//$day				= clean($_POST['day']);
-	//$month			= clean($_POST['month']);
-	$question			= "";//clean($_POST['question']);
-	$security_answer	= "";//clean($_POST['answer']);
-	$dob				= clean($_POST['dob']);//sprintf("%s-%s-%s",$year,$month,$day);
+	$question			= "";
+	$security_answer	= "";
+	$verification_code 	= mt_rand(100000, 999999);
 	
-	/*$qualification	= $_POST['qualification'];
-	$area			= $_POST['area'];
-	$stream			= $_POST['stream'];
-	$percent		= $_POST['percent'];
-	$institute		= $_POST['institute'];
-	$board			= $_POST['board'];
-	$passing_year	= $_POST['passing_year'];
-	$qual_count 	= $_POST['qual_count'];*/
+	$date 	= new DateTime($_POST['dob']);
+	$dob	= $date->format('Y-m-d');
 	
 	if($objUM->IsUserExists($email)) 
 	{
 		CSessionManager::SetErrorMsg("Email-ID already in use.");
-		CUtils::Redirect($redirect_url.$owner_param);				
+		CUtils::Redirect($redirect_url);				
 		exit();
 	}
 	else
@@ -103,7 +80,7 @@
 		$objUser->SetLastName(ucwords(strtolower($lname)));
 		$objUser->SetPassword($password);
 		$objUser->SetContactNo($contact_no);
-		$objUser->SetEmail(strtolower($email)); //only E-mail in lower case
+		$objUser->SetEmail(strtolower($email)); //E-mail only in lower case
 		$objUser->SetGender($gender);
 		$objUser->SetCity(ucwords(strtolower($city)));
 		$objUser->SetState(ucwords(strtolower($state)));
@@ -111,41 +88,50 @@
 		$objUser->SetDOB($dob);
 		$objUser->SetSecQues(ucwords(strtolower($question)));
 		$objUser->SetSecAns(ucwords(strtolower($security_answer)));
-
+		$objUser->SetVerificationCode($verification_code);
+		
 		$result = $objUM->AddUser($objUser);
 		
 		//Check whether the query was successful or not
 		if($result != false) 
 		{
-			/*for ($aryIndex = 0; $aryIndex <$qual_count; $aryIndex++)
-			{
-				$objUM->InsertIntoUserCV($result, $qualification[$aryIndex], $area[$aryIndex],
-										 $stream[$aryIndex], $percent[$aryIndex],
-										 $institute[$aryIndex], $board[$aryIndex], $passing_year[$aryIndex]);
-			}*/
-			$objBilling = new CBilling();
-			$objBilling->ApplyPlan($result, $plan);
+			//$objBilling = new CBilling();
+			//$objBilling->ApplyPlan($result, $plan);
 			
-			$objOwner = $objUM->GetUserById($owner_id);
-			$owner_name = $objOwner->GetFirstName()." ".$objOwner->GetLastName();
-			$owner_email = $objOwner->GetEmail();
+			$objOwner = null;
+			if(!empty($owner_id))
+				$objOwner = $objUM->GetUserById($owner_id);
+			
+			$owner_name 	= $objOwner == null ? "" : $objOwner->GetFirstName()." ".$objOwner->GetLastName();
+			$owner_email 	= $objOwner == null ? "" : $objOwner->GetEmail();
 			
 			$objDB = new CMcatDB();
 			$objMail = new CEMail(CConfig::OEI_SUPPORT, $objDB->GetPasswordFromOfficialEMail(CConfig::OEI_SUPPORT));
-			$objMail->PrepAndSendNewCandRegistrationNotificationMail($owner_name, $owner_email, $fname." ".$lname, $email);
 			
-			CSessionManager::Logout() ;
-			CUtils::Redirect($redirect_url."?umail=".urlencode($email));
+			if(empty($owner_email))
+			{
+				$objMail->PrepAndSendNewCandPreCheckoutNotificationMail($fname." ".$lname, $email);
+				$objMail->PrepAndSendVerificationMail($email, $fname." ".$lname, $verification_code);
+			}
+			else 
+			{
+				$objMail->PrepAndSendNewCandRegistrationNotificationMail($owner_name, $owner_email, $fname." ".$lname, $email);
+			}
+			CSessionManager::Set(CSessionManager::BOOL_VALIDATE_CODE, TRUE);
+			CSessionManager::Set(CSessionManager::STR_EMAIL_ID, $email);
+			CSessionManager::Set(CSessionManager::STR_CONTACT_NO, $contact_no);
+			
+			//CSessionManager::Logout() ;
+			CUtils::Redirect($redirect_url);
 					
 			exit();
 		}
 		else 
 		{
-			//die("Query failed: ".mysql_error());
 			CSessionManager::SetErrorMsg("<BR/><BR/>Dear User,<BR/><BR/> [Insert Failed] Your registration process had been failed, please re-fill the form.<BR/><BR/>-Team ".CConfig::SNC_SITE_NAME);
 			CUtils::Redirect($redirect_url.$owner_param);
 			exit();
 		}
 	}
-	CSessionManager::Logout() ;
+	//CSessionManager::Logout() ;
 ?>

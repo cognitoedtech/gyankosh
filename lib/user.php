@@ -51,6 +51,7 @@
 		const FIELD_REG_STATUS		= "reg_status" ;
 		const FIELD_ONLINE			= "online" ;
 		const FIELD_PERMISSIONS     = "permissions";
+		const FIELD_VCODE			= "verification_code";
 		// -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 		// Organization table holds supplymentary information about user's organization.
 		// -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -95,6 +96,7 @@
   		private $signup_date ;
   		private $reg_status ;
   		private $online ;
+  		private $verification_code;
 
 		private $organization_name;
 		private $organization_size;
@@ -341,6 +343,15 @@
 	    	$this->online = $online ;
 	    }
 
+	    public function GetVerificationCode()
+	    {
+	    	return $this->verification_code;
+	    }
+	    public function SetVerificationCode($verification_code)
+	    {
+	    	$this->verification_code = $verification_code;
+	    }
+	    
 		public function GetOrganizationName()
 	    {
 	    	return $this->organization_name ;

@@ -94,6 +94,19 @@
 		}
 		
 		/*
+		 * Share one time verification code with candidate.
+		*/
+		public function PrepAndSendVerificationMail($candidate_email, $candidate_name, $verification_code)
+		{
+			//echo "EmailTo: ".$candidate_email."<br/>";
+				
+			$sub_for_candidate = "[".CConfig::SNC_SITE_NAME."] ".$candidate_name." - "." your verification code" ;
+			$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/> Thanks for registering with ".CConfig::SNC_SITE_NAME.", your verification code is ".$verification_code.".<br/><br/><h1 style='border: 1px solix #ddd; text-align: center;'>".$verification_code."</h1><br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
+				
+			$this->Send($candidate_email, $sub_for_candidate, $msg_for_candidate) ;
+		}
+		
+		/*
 		 * Inform candidate that a test has been scheduled for him/her.
 		 */
 		public function PrepAndSendTestScheduleMail($test_name, $candidate_email, $candidate_name, $organization_name, $user_email, $user_name, $date, $hours, $minutes,$expire_on, $expire_hours, $expire_minutes, $time_zone_name)
@@ -402,6 +415,19 @@
         	
         	$this->Send($owner_email, $subject, $body);
         	
+        	$this->Send(CConfig::OEI_SUPPORT, $subject, $body);
+        }
+        
+        public function PrepAndSendNewCandPreCheckoutNotificationMail($cand_name, $cand_email)
+        {
+        	$subject = "New Candidate Registered!";
+        	 
+        	$body    = "Hi ".CSiteConfig::ROOT_URL.",<br /><br />";
+        	 
+        	$body 	.= "The candidate ".ucfirst($cand_name)." (".$cand_email."), is registrated via Checkout page.<br /><br />";
+        	 
+        	$body	.= "You Matter,<br />".CConfig::SNC_SITE_NAME." Technical Support<br />".CSiteConfig::ROOT_URL."<br />".CConfig::SNC_PUNCH_LINE;
+        	 
         	$this->Send(CConfig::OEI_SUPPORT, $subject, $body);
         }
         
