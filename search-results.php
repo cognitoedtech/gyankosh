@@ -51,9 +51,10 @@ var imageUpArrowIncludeBasePath = "<?php echo(CSiteConfig::ROOT_URL);?>";
 <?php
 $objIncludeJsCSS->CommonIncludeCSS ( CSiteConfig::ROOT_URL . "/" );
 $objIncludeJsCSS->IncludeMipcatCSS ( CSiteConfig::ROOT_URL . "/" );
+$objIncludeJsCSS->IncludeIconFontCSS ( "" );
 $objIncludeJsCSS->Include3DCornerRibbonsCSS ( CSiteConfig::ROOT_URL . "/" );
 $objIncludeJsCSS->IncludeFuelUXCSS ( CSiteConfig::ROOT_URL . "/" );
-$objIncludeJsCSS->IncludeSRNavBarCSS ( CSiteConfig::ROOT_URL . "/" );
+
 $objIncludeJsCSS->CommonIncludeJS ( CSiteConfig::ROOT_URL . "/" );
 $objIncludeJsCSS->IncludeScrollUpJS ( CSiteConfig::ROOT_URL . "/" );
 $objIncludeJsCSS->IncludeAngularMinJS ( CSiteConfig::ROOT_URL . "/" );
@@ -93,141 +94,132 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 	<div id="overlay" style="display: none;">
 		<iframe id="overlay_frame" src="#" width="100%" height="100%"></iframe>
 	</div>
-	<!-- <div style="margin-top: -30px; position: fixed;cursor:pointer;">
-		<img src="<?php echo(CSiteConfig::ROOT_URL);?>/images/request_demo_corner.png" onclick="LaunchRequestedModal();"/>
-	</div>
-	<div style="margin-top: -18px; right: 10px; position: fixed;">
-		<div class="ribbon ribbon-red" style="cursor:pointer;" onclick="LaunchFeedbackdModal();">
-			<div class="banner">
-				<div class="text">Your Feedback!</div>
-			</div>
-		</div>
-	</div> -->
+
 	<div id="scrollUp"></div>
-	<div style="margin-top: 23px">
-		<div class="row">
-			<div class="fuelux modal1">
-				<div class="preloader">
-					<i></i><i></i><i></i><i></i>
-				</div>
-			</div>
-			<div
-				class="col-sm-10 col-md-10 col-lg-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-2"
-				style="position: fixed; z-index: 100;">
-				<div class="drop-shadow">
-					<form id="search_form" action="search-results.php" method="post">
-						<div class="row">
-							<div class="col-sm-6 col-md-6 col-lg-6">
-								<input class="form-control" type="text" name="search_text"
-									placeholder="Search Practice Tests / Quizzes / Assessments"
-									value="<?php echo(trim($_POST['search_text']));?>" />
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
-								<select name="search_category" class="form-control">
-									<option value="keywords"
-										<?php echo(($_POST['search_category'] == "keywords")?"selected='selected'":"");?>>by
-										Keywords</option>
-									<option value="test_name"
-										<?php echo(($_POST['search_category'] == "test_name")?"selected='selected'":"");?>>by
-										Test Name</option>
-									<option value="inst_name"
-										<?php echo(($_POST['search_category'] == "inst_name")?"selected='selected'":"");?>>by
-										Organization Published</option>
-								</select>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
-								<button type="submit" class="btn btn-primary">
-									<b><span class="glyphicon glyphicon-search"></span> Search</b>
-								</button>
-								<button type="button" class="btn btn-primary btn-sm"
-									onclick="window.location=window.location">
-									<b><span class="glyphicon glyphicon-list"></span> Explore All</b>
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
+
+	<div class="row" style="margin-top: 23px;">
+		<div class="fuelux modal1">
+			<div class="preloader">
+				<i></i><i></i><i></i><i></i>
 			</div>
 		</div>
+	</div>
+	<div class="row-fluid" id="main" style="margin-top: 23px;">
+		<div class="col-lg-3 col-md-3 col-sm-3">
 		<?php
 		include_once (dirname ( __FILE__ ) . "/lib/sr-sidebar.php");
 		?>
-		<div class="container col-sm-offset-2 col-md-offset-2 col-lg-offset-2"
-			id="main">
-			<div class="row" style="margin-top: 100px;">
-				<div class="col-md-12">
-					<!-- Search Results -->
-					<div ng-controller="InfiniteScrollDemoController">
-						<div tagged-infinite-scroll="getMore()"
-							tagged-infinite-scroll-disabled="!enabled || paginating"
-							tagged-infinite-scroll-distance="distance">
-							<div class="items" ng-class="{ paginating: paginating }">
-								<div ng-repeat="item in items">
-									<div class="row">
-										<div class="col-lg-3 col-md-3 col-sm-3"
-											style="padding-right: 30px; border-top: 1px solid #eee;">
-											<div class="drop-shadow">
-												<img alt="..." ng-src='{{item.product_image}}' style='' />
+		</div>
+		<div class="col-lg-9 col-md-9 col-sm-9"
+			style="border-left: 1px solid #ddd;">
+			<div class="row">
+				<div
+					class="col-sm-9 col-md-9 col-lg-9"
+					style="position: fixed; z-index: 100; margin-top: -15px;">
+					<div class="drop-shadow">
+						<form id="search_form" action="search-results.php" method="post">
+							<div class="row">
+								<div class="col-sm-6 col-md-6 col-lg-6">
+									<input class="form-control" type="text" name="search_text"
+										placeholder="Search Practice Tests / Quizzes / Assessments"
+										value="<?php echo(trim($_POST['search_text']));?>" />
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-3">
+									<select name="search_category" class="form-control">
+										<option value="keywords"
+											<?php echo(($_POST['search_category'] == "keywords")?"selected='selected'":"");?>>by
+											Keywords</option>
+										<option value="test_name"
+											<?php echo(($_POST['search_category'] == "test_name")?"selected='selected'":"");?>>by
+											Test Name</option>
+										<option value="inst_name"
+											<?php echo(($_POST['search_category'] == "inst_name")?"selected='selected'":"");?>>by
+											Organization Published</option>
+									</select>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-3">
+									<button type="submit" class="btn btn-primary">
+										<b><span class="glyphicon glyphicon-search"></span> Search</b>
+									</button>
+									<button type="button" class="btn btn-primary btn-sm"
+										onclick="window.location=window.location">
+										<b><span class="glyphicon glyphicon-list"></span> Explore All</b>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- Search Results -->
+				<div ng-controller="InfiniteScrollDemoController" style="margin-top: 100px;">
+					<div tagged-infinite-scroll="getMore()"
+						tagged-infinite-scroll-disabled="!enabled || paginating"
+						tagged-infinite-scroll-distance="distance">
+						<div class="items" ng-class="{ paginating: paginating }">
+							<div ng-repeat="item in items">
+								<div class="row">
+									<div class="col-lg-3 col-md-3 col-sm-3"
+										style="padding-right: 30px; border-top: 1px solid #eee;">
+										<div class="drop-shadow">
+											<img alt="..." ng-src='{{item.product_image}}' style='' />
+										</div>
+									</div>
+									<div class="col-lg-8 col-md-8 col-sm-8"
+										style="border-left: 1px solid #eee; border-top: 1px solid #eee; padding-left: 30px;">
+										<div class="row">
+											<div class="h5">
+												<br />by <a href="{{item.org_url}}">{{item.org_name}}</a>
 											</div>
 										</div>
-										<div class="col-lg-8 col-md-8 col-sm-8"
-											style="border-left: 1px solid #eee; border-top: 1px solid #eee; padding-left: 30px;">
-											<div class="row">
-												<div class="h5">
-													<br />by <a href="{{item.org_url}}">{{item.org_name}}</a>
-												</div>
+										<div class="row">
+											<div class="h3">
+												<a href="{{item.product_page}}">{{ item.product_name }}</a>
+												<img src="images/search-results/free-sm.jpg" alt="free"
+													style="visibility: {{!item.inr_cost||   'hidden'" />
 											</div>
-											<div class="row">
-												<div class="h3">
-													<a href="{{item.product_page}}">{{ item.product_name }}</a> <img
-														src="images/search-results/free-sm.jpg" alt="free"
-														style="visibility: {{!item.inr_cost || 'hidden'}}" />
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-3 col-md-3 col-sm-3">
-													<span class="h4"
-														style="border: 1px solid #ddd; padding: 5px;"> <i
-														class="fa fa-inr" aria-hidden="true"></i>
-														{{item.inr_cost}}
-													</span>
-												</div>
-												<div class="col-lg-4 col-md-4 col-sm-4">
-													<span is_rated="false" name='{{item.product_id}}_star'
-														data-score='{{item.rating}}' id='{{item.product_id}}_star'
-														class="star"></span></span> <a href="#"
-														id="product-rating-details" class="btn btn-xs"
-														data-toggle="popover" data-trigger="hover"
-														data-placement="bottom"><i class="fa fa-sort-desc"
-														aria-hidden="true"></i> </a>
-												</div>
-												<div class="col-lg-5 col-md-5 col-sm-5">
-													<a href="{{item.review_bookmark}}">21 Customer Reviews</a>
-												</div>
-											</div>
-											<hr />
-											<div class="row">
-												<div class="col-lg-9 col-md-9 col-sm-9" ng-controller="actionButtonsController">
-													<button
-														class="btn btn-info col-lg-3 col-md-3 col-sm-3"
-														ng-click="OnAddToCart(item.product_name,item.product_id,item.product_type);">
-														Add to cart<i
-															class="fa fa-shopping-cart" aria-hidden="true"></i>
-													</button>
-													<button
-														class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-lg-offset-1 col-md-offset-1 col-sm-offset-1"
-														ng-click="OnBuyNow(item.product_name,item.product_id,item.product_type);">
-														Buy Now <i class="fa fa-credit-card" aria-hidden="true"></i>
-													</button>
-												</div>
-											</div>
-											<hr />
-											<div class="row">
-												<span class="h5">Description:</span><span
-													id="product-description"> {{ item.description }} <a
-													href="{{item.product_page}}">more...</a>
+										</div>
+										<div class="row">
+											<div class="col-lg-3 col-md-3 col-sm-3">
+												<span class="h4"
+													style="border: 1px solid #ddd; padding: 5px;"> <i
+													class="fa fa-inr" aria-hidden="true"></i> {{item.inr_cost}}
 												</span>
 											</div>
+											<div class="col-lg-4 col-md-4 col-sm-4">
+												<span is_rated="false" name='{{item.product_id}}_star'
+													data-score='{{item.rating}}' id='{{item.product_id}}_star'
+													class="star"></span></span> <a href="#"
+													id="product-rating-details" class="btn btn-xs"
+													data-toggle="popover" data-trigger="hover"
+													data-placement="bottom"><i class="fa fa-sort-desc"
+													aria-hidden="true"></i> </a>
+											</div>
+											<div class="col-lg-5 col-md-5 col-sm-5">
+												<a href="{{item.review_bookmark}}">21 Customer Reviews</a>
+											</div>
+										</div>
+										<hr />
+										<div class="row">
+											<div class="col-lg-9 col-md-9 col-sm-9"
+												ng-controller="actionButtonsController">
+												<button class="btn btn-info col-lg-3 col-md-3 col-sm-3"
+													ng-click="OnAddToCart(item.product_name,item.product_id,item.product_type);">
+													Add to cart<i class="fa fa-shopping-cart"
+														aria-hidden="true"></i>
+												</button>
+												<button
+													class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-lg-offset-1 col-md-offset-1 col-sm-offset-1"
+													ng-click="OnBuyNow(item.product_name,item.product_id,item.product_type);">
+													Buy Now <i class="fa fa-credit-card" aria-hidden="true"></i>
+												</button>
+											</div>
+										</div>
+										<hr />
+										<div class="row">
+											<span class="h5">Description:</span><span
+												id="product-description"> {{ item.description }} <a
+												href="{{item.product_page}}">more...</a>
+											</span>
 										</div>
 									</div>
 								</div>
@@ -237,9 +229,10 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 				</div>
 			</div>
 		</div>
-		<!-- ****************************************************** -->
-
 	</div>
+	<!-- ****************************************************** -->
+
+
 	<script type="text/javascript">
 		var demo = angular.module('QuizUS', ['tagged.directives.infiniteScroll']);
 		var limit_start_value = 0;

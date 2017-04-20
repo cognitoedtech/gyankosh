@@ -23,12 +23,18 @@
 	else
 		$iItemsInCart = count($aryCartItems) - 1; // Remove status item
 ?>
-
-<div class="nav-side-menu">
+<div id='sidebar' class="col-sm-3 col-md-3 col-lg-3" style='position: fixed;padding-right:30px;'>
+		<div class="metro">
+			<div class="grid fluid">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12">
+						<nav class="sidebar light">
+<!-- <div class="nav-side-menu">
 	<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
 		data-target="#menu-content"></i>
-	<div class="menu-list">
-		<ul id="menu-content" class="menu-content collapse out">
+	<div class="menu-list"> 
+		<ul id="menu-content" class="menu-content collapse out">-->
+		<ul>
 			<li><a href="<?php echo(CSiteConfig::ROOT_URL);?>"> <i
 					class="fa fa-home fa-lg"></i> Home
 			</a></li>
@@ -39,21 +45,28 @@
 				
 				if(count($aryValues) > 0)
 				{
-					printf ( "<li data-toggle='collapse' data-target='#%s' class='collapsed'><a href='#'>%s %s<span class='arrow'></span></a></li>", $element_id, $aryIcons [$strCategory], $strCategory );
-					printf ( "<ul class='sub-menu collapse' id='%s'>", $element_id );
+					printf ( "<li><a class='dropdown-toggle' href='#'>%s %s</a>", $aryIcons [$strCategory], $strCategory );
+					printf ( "<ul class='dropdown-menu' data-role='dropdown' id='%s'>", $element_id );
 					
 					foreach ( $aryValues as $subCategory ) {
-						printf ( "<li class='active'><a href='#'>%s</a></li>", $subCategory );
+						//class='active'
+						printf ( "<li><a href='#'><i class='icon-arrow-right-4'></i> %s</a></li>", $subCategory );
 					}
 					
-					printf ( "</ul>" );
+					printf ( "</ul></li>" );
 				}
 			}
 			?>
 			<li class="sr-sidebar-checkout"><a href="#"> Checkout <i
 					class="fa fa-shopping-cart fa-lg"></i> <span
-					class="badge badge-warning" id="checkout_badge" style="margin-top: -17px;"><?php echo($iItemsInCart);?></span>
+					class="badge badge-warning" id="checkout_badge" style="margin-top: -5px;"><?php echo($iItemsInCart);?></span>
 			</a></li>
 		</ul>
+<!-- 	</div>
+</div> -->
+</nav>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
