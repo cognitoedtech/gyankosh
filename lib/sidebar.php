@@ -109,7 +109,7 @@
 										?>
 									</ul></li>
 								<?php 
-								if($user_type == CConfig::UT_SUPER_ADMIN)
+								if(FALSE)//$user_type == CConfig::UT_SUPER_ADMIN
 								{
 								?>
 								<li><a class="dropdown-toggle" href="#"><i class="icon-share-2 fg-steel"></i>My Coordinators</a>
@@ -151,21 +151,19 @@
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_REGISTER_USERS]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/register-candidates/register_cands.php"><i class="icon-arrow-right-4"></i>Register Users</a></li>
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_REGISTERED_USERS]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/register-candidates/dt_candidates.php"><i class="icon-arrow-right-4"></i>Manage Registered Users</a></li>
 									</ul></li>
+								<?php 
+								if(false)
+								{
+								?>
 								<li><a class="dropdown-toggle" href="#"><i class="icon-clock fg-steel"></i>Launch Test</a>
 									<ul class="dropdown-menu <?php echo($menu_class_ary[CSiteConfig::UAMM_SCHEDULE_TEST]);?>" data-role="dropdown">
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_SCHEDULE_TEST]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/schedule-test/schedule_new_test.php"><i class="icon-arrow-right-4"></i>Schedule Test</a></li>
-										<?php 
-										if($user_type == CConfig::UT_SUPER_ADMIN)
-										{
-										?>
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_MANAGE_SCHEDULED_TEST]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/schedule-test/edit_scheduled_test.php"><i class="icon-arrow-right-4"></i>Manage Scheduled Tests</a></li>
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_MONITOR_ACTIVE_TEST]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/schedule-test/monitor_active_tests.php"><i class="icon-arrow-right-4"></i>Monitor Active Tests</a></li>
-										<?php 
-										}
-										?>
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_VIEW_SCHEDULED_TEST]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/schedule-test/view_scheduled_test.php"><i class="icon-arrow-right-4"></i>View Scheduled Tests</a></li>
 									</ul></li>
 								<?php
+								}
 								} 
 								/*
 								?>

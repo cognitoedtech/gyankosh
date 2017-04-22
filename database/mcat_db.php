@@ -5201,5 +5201,44 @@
         	
         	return $retVal;
 		}
+		
+		public function SubmitReview($product_id, $product_type, $aryReview)
+		{
+			$query = sprintf("select * from published_products where product_id=%d and product_type=%d", $product_id, $product_type);
+			 
+			$result = mysql_query($query, $this->db_link) or die('Get Review Error : ' . mysql_error());
+			 
+			if(mysql_num_rows($result) > 0)
+			{
+				$fRating = 0;
+				$row = mysql_fetch_array($result);
+				
+				$aryProductReviews = json_decode($row['reviews'], TRUE);
+				if(!is_array($aryProductReviews))
+				{
+					$aryProductReviews = array();
+				}
+				else 
+				{
+					$totalReviews = count($aryProductReviews) + 1;
+					foreach($aryProductReviews as $Review)
+					{
+						$fRating += $Review['rating'];
+					}
+					
+					$fRating += $aryReview['rating'];
+					$fRating /= $totalReviews;
+				}
+				
+				array_push($aryProductReviews, $aryReview);
+				$jsonProductReview = json_encode($aryProductReviews);
+			
+				$query_inner = sprintf("update published_products set rating=%f, reviews = '%s' where product_id=%d and product_type=%d", $fRating, $jsonProductReview, $product_id, $product_type);
+			
+				$result = mysql_query($query_inner, $this->db_link) or die('Submit Review error : ' . mysql_error());
+			}
+			
+			return $result;
+		}
 	}
 ?>

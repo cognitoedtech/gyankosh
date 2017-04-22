@@ -33,5 +33,5 @@
 		CSessionManager::SetErrorMsg("<BR/><BR/>Dear User,<BR/><BR/> Wrong verification code, please provide right verification code.<BR/><BR/>-Team ".CConfig::SNC_SITE_NAME);
 	}
 	
-	CUtils::Redirect();
+	CUtils::Redirect($redirect_url);
 ?>

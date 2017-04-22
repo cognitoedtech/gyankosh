@@ -614,6 +614,7 @@
 			$sTestDetails .= "</div></div>";
 			return $sTestDetails;
 		}
+		
 		public function PrepareTestDetailsHTML2($test_id)
 		{
 			$sTestDetails = "";
@@ -853,6 +854,169 @@
 			$sTestDetails .= "</tr>";
 			$sTestDetails .= "</table><br/>";
 			//$sTestDetails .= "</div></div>";
+			return $sTestDetails;
+		}
+		
+		public function PrepareProductSpecificationsHTML($test_id)
+		{
+			$sTestDetails = "";
+				
+			$aryCriteria   = array("Cutoff", "Top Candidates");
+			$aryVisibility = array("None", "Minimal", "Detailed");
+				
+			$aryBTDetails = $this->GetBasicTestDetails($test_id);
+			$aryETDetails = $this->GetExtendedTestDetails($test_id);
+				
+			$criteria = $aryETDetails['criteria'];
+				
+			// - - - - - - - - - - - - - - - - - -
+			// Prepare Basic Details
+			// - - - - - - - - - - - - - - - - - -
+			$sTestDetails .= "<div style='height:300px;overflow:auto;'>";
+			$sTestDetails .= "<div style='border:hidden;'>";
+			$sTestDetails .= "<b>Basic Test Details:</b>";
+			$sTestDetails .= "<table class='js-responsive-table' width='100%' border='1' style='font-weight:bold;margin-top:5px;text-align:center;font:inherit;border-collapse:collapse;'>";
+			$sTestDetails .= "<tr style='color:darkred;font-weight:bold;'>";
+			$sTestDetails .= "<td>Duration (mins)</td>";
+			$sTestDetails .= "<td>Total Questions</td>";
+			//$sTestDetails .= "<td>Criteria</td>";
+			if($criteria == 0)
+			{
+				$sTestDetails .= "<td>Minimum Cutoff</td>";
+				$sTestDetails .= "<td>Maximum Cutoff</td>";
+			}
+			else if($criteria == 1)
+			{
+				$sTestDetails .= "<td colspan='2'>Top N Candidates</td>";
+			}
+			$sTestDetails .= "</tr>";
+			$sTestDetails .= "<tr>";
+			$sTestDetails .= "<td>".$aryETDetails['test_duration']."</td>";
+			$sTestDetails .= "<td>".$aryETDetails['max_question']."</td>";
+			//$sTestDetails .= "<td>".$aryCriteria[$criteria]."</td>";
+				
+			if($criteria == 0)
+			{
+				$sTestDetails .= "<td>".$aryETDetails['cutoff_min']."%</td>";
+				$sTestDetails .= "<td>".$aryETDetails['cutoff_max']."%</td>";
+			}
+			else if($criteria == 1)
+			{
+				$sTestDetails .= "<td>".$aryETDetails['top_result']."</td>";
+			}
+			$sTestDetails .= "</tr></table><br/>";
+				
+			// - - - - - - - - - - - - - - - - - -
+			// Prepare Section Details
+			// - - - - - - - - - - - - - - - - - -
+			$arySecDtls = explode(";", $aryETDetails['section_details']);
+			$sTestDetails .= "<b>Section Details:</b>";
+			$sTestDetails .= "<table class='js-responsive-table' width='100%' border='1' style='font-weight:bold;margin-top:5px;text-align:center;font:inherit;border-collapse:collapse;'>";
+			$sTestDetails .= "<tr style='font-weight:bold;'>";
+			$sTestDetails .= "<td style='color:green'>Section Name</td>";
+			$sTestDetails .= "<td style='color:green'>Questions Limit</td>";
+			$sTestDetails .= "<td style='color:green'>Min Cutoff</td>";
+			$sTestDetails .= "<td style='color:green'>Max Cutoff</td>";
+			$sTestDetails .= "<td style='color:green'>Marks for Correct</td>";
+			$sTestDetails .= "<td style='color:green'>Marks for Incorrect</td>";
+			$sTestDetails .= "</tr>";
+			foreach($arySecDtls as $section)
+			{
+				$params = split('[#(,,,)]', $section);
+				if(!empty($params[0]))
+				{
+					$sTestDetails .= "<tr>";
+					$sTestDetails .= "<td>".$params[0]."</td>";
+					$sTestDetails .= "<td>".$params[1]."</td>";
+					$sTestDetails .= "<td>".$params[2]."%</td>";
+					$sTestDetails .= "<td>".$params[3]."%</td>";
+					$sTestDetails .= "<td>".$params[4]."</td>";
+					$sTestDetails .= "<td>".$params[5]."</td>";
+					$sTestDetails .= "</tr>";
+				}
+			}
+			$sTestDetails .= "</table><br/>";
+				
+			// - - - - - - - - - - - - - - - - - -
+			// Prepare Subject Details
+			// - - - - - - - - - - - - - - - - - -
+			$arySubDtls = split("[:#;]", $aryETDetails['subject_in_section']);
+			$normSubAry = $this->NormalizeSubDetailsAry($arySubDtls);
+			/*
+			 echo "<pre>";
+			print_r($normSubAry);
+			echo "</pre>";
+			*/
+			$sTestDetails .= "<b>Subject Details:</b>";
+			$sTestDetails .= "<table class='js-responsive-table' width='100%' border='1' style='font-weight:bold;margin-top:5px;text-align:center;font:inherit;border-collapse:collapse;'>";
+			$sTestDetails .= "<tr>";
+			$sTestDetails .= "<td style='color:green;font-weight:bold;'>Section</td>";
+			$sTestDetails .= "<td style='color:green;font-weight:bold;'>Questions Limit</td>";
+			$sTestDetails .= "<td style='color:green;font-weight:bold;'>Subject Details</td>";
+			$sTestDetails .= "</tr>";
+			$sTestDetails .= "<tr>";
+				
+			$arySecDtls = split("[#(,,,);]", $aryETDetails['section_details']);
+			foreach ($normSubAry as $section => $SubjDtls)
+			{
+				$key = array_search($section, $arySecDtls);
+				$ques_cnt = $arySecDtls[$key+1];
+				$sTestDetails .= "<td rowspan='".((count($SubjDtls)*2))."'>".$section."</td>";
+				$sTestDetails .= "<td rowspan='".((count($SubjDtls)*2))."'>".$ques_cnt."</td>";
+		
+				foreach ($SubjDtls as $key => $arySubj)
+				{
+					if($key != 0)
+					{
+						$sTestDetails .= "<tr>";
+					}
+					$sTestDetails .= "<td style='color:darkred;font-weight:bold;'>".htmlentities($this->objTestDynamic->GetSubjectName($arySubj[0]))."</td>";
+					$sTestDetails .= "</tr>";
+					$sTestDetails .= "<tr>";
+					$sTestDetails .= "<td>".$arySubj[1]."</td>";
+					$sTestDetails .= "</tr>";
+				}
+			}
+			$sTestDetails .= "</table><br/>";
+				
+			// - - - - - - - - - - - - - - - - - -
+			// Prepare Topic Details
+			// - - - - - - - - - - - - - - - - - -
+			$aryTopicDtls = split('[-:@#&;]', $aryETDetails['topic_in_subject']);
+			$normTpcAry = $this->NormalizeTpcDetailsAry($aryTopicDtls);
+			/*
+			 echo "<pre>";
+			print_r($normTpcAry);
+			echo "</pre>";
+			*/
+			$sTestDetails .= "<b>Topic Details:</b>";
+			$sTestDetails .= "<table class='js-responsive-table' width='100%' border='1' style='font-weight:bold;margin-top:5px;text-align:center;font:inherit;border-collapse:collapse;'>";
+			$sTestDetails .= "<tr>";
+			$sTestDetails .= "<td style='color:green;font-weight:bold;'>Subject</td>";
+			$sTestDetails .= "<td style='color:green;font-weight:bold;'>Question Limit</td>";
+			$sTestDetails .= "<td style='color:green;font-weight:bold;' colspan='2'>Topic Details</td>";
+			$sTestDetails .= "</tr>";
+				
+			foreach($normTpcAry as $subj_id => $subj_dtls)
+			{
+				//echo count($subj_dtls['topic_details'])."<br/>";
+				$sTestDetails .= "<tr>";
+				$sTestDetails .= "<td style='color:blue;font-weight:bold;' rowspan='".(count($subj_dtls['topic_details']))."'>".$this->objTestDynamic->GetSubjectName($subj_id)."</td>";
+				$sTestDetails .= "<td style='color:blue;font-weight:bold;' rowspan='".(count($subj_dtls['topic_details']))."'>".$subj_dtls['ques_cnt']."</td>";
+				foreach($subj_dtls['topic_details'] as $key => $topic_dtls)
+				{
+					if($key != 0)
+					{
+						$sTestDetails .= "<tr>";
+					}
+					$sTestDetails .= "<td style='color:darkred;font-weight:bold;'>".ucwords($this->objTestDynamic->GetTopicName($topic_dtls[0]))."</td>";
+					$sTestDetails .= "<td>".($topic_dtls[1]+$topic_dtls[2]+$topic_dtls[3])."</td>";
+					$sTestDetails .= "</tr>";
+				}
+			}
+			$sTestDetails .= "</table><br/>";
+				
+			$sTestDetails .= "</div></div>";
 			return $sTestDetails;
 		}
 		
