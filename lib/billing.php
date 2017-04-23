@@ -1151,11 +1151,46 @@
        				print "<td>".$projected_balance."</td>";
        				print "<td>".$main_balance."</td>";
        				print "</tr>";
-       				$limit++;
        			}
        		}
-       		
        	}
-        
+
+       	function AddToCustomerBilling($user_id, $products_purchased, $payment_info)
+       	{
+       		/* completion_timestamp = 0 means test is not finished
+       		 * 
+       		 * {"products": {
+			 * "tests": [
+			 * {"id": 123, "scheduled_id": 5, "amount_base": 100, "taxes": 15, "seller_share": 50, "quizus_share": 50}
+			 * {"id": 234, "scheduled_id": 4, "amount_base": 150, "taxes": 30, "seller_share": 75, "quizus_share": 75} ]
+			 * "packages": [
+			 * {"id": 345, "scheduled_id": 54, "amount_base": 500, "taxes": 75, "seller_share": 250, "quizus_share": 250}
+			 * {"id": 456, "scheduled_id": 19, "amount_base": 400, "taxes": 60, "seller_share": 200, "quizus_share": 200} ]
+			 * 
+			 * payment_info:
+			 * {"bank": , "amount_processed", etc}
+       		 */
+       		
+       		$query  = sprintf("insert into customer_billing(user_id, products_purchased, payment_info) values('%s', '%s', '%s')", $user_id, $products_purchased, $payment_info);
+       		 
+       		$result	= mysql_query($query, $this->db_link) or die('Add To Customer Billing error : '. mysql_error());
+       		
+       		return $result;
+       	} 
+       	
+       	function GetFromCustomerBilling($user_id)
+       	{
+       		$retVal = 0;
+       		$query 		= sprintf("select * from customer_billing where user_id='%s'",$user_id);
+       		
+       		$result 	= mysql_query($query, $this->db_link) or die('Get From Customer Billing error : '. mysql_error());
+       		 
+       		if(mysql_num_rows($result) >0)
+       		{
+       			$retVal	= mysql_fetch_assoc($result);
+       		}
+       		
+       		return $retVal;
+       	}
 	}
 ?>
