@@ -118,6 +118,7 @@ class CFreeUserManager
 			$retArray[$row['product_id']]['product_type'] = $row['product_type'];
 			$retArray[$row['product_id']]['inr_cost'] = $aryPubInfo['cost']['inr'];
 			$retArray[$row['product_id']]['usd_cost'] = $aryPubInfo['cost']['usd'];
+			$retArray[$row['product_id']]['total_reviews'] = count(json_decode($row['reviews'], TRUE));
 			
 			$rating_ary[$row['test_id']] = $row['rating'];
 		}

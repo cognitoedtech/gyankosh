@@ -29,42 +29,35 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-12">
 						<nav class="sidebar light">
-<!-- <div class="nav-side-menu">
-	<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
-		data-target="#menu-content"></i>
-	<div class="menu-list"> 
-		<ul id="menu-content" class="menu-content collapse out">-->
-		<ul>
-			<li><a href="<?php echo(CSiteConfig::ROOT_URL);?>"> <i
-					class="fa fa-home fa-lg"></i> Home
-			</a></li>
-			<?php
-			foreach ( $aryCategories as $strCategory => $aryValues ) 
-			{
-				$element_id = preg_replace ( "/[^a-zA-Z]+/", "", $strCategory );
-				
-				if(count($aryValues) > 0)
-				{
-					printf ( "<li><a class='dropdown-toggle' href='#'>%s %s</a>", $aryIcons [$strCategory], $strCategory );
-					printf ( "<ul class='dropdown-menu' data-role='dropdown' id='%s'>", $element_id );
-					
-					foreach ( $aryValues as $subCategory ) {
-						//class='active'
-						printf ( "<li><a href='#'><i class='icon-arrow-right-4'></i> %s</a></li>", $subCategory );
-					}
-					
-					printf ( "</ul></li>" );
-				}
-			}
-			?>
-			<li class="sr-sidebar-checkout"><a href="#"> Checkout <i
-					class="fa fa-shopping-cart fa-lg"></i> <span
-					class="badge badge-warning" id="checkout_badge" style="margin-top: -5px;"><?php echo($iItemsInCart);?></span>
-			</a></li>
-		</ul>
-<!-- 	</div>
-</div> -->
-</nav>
+							<ul>
+								<li><a href="<?php echo(CSiteConfig::ROOT_URL);?>"> <i
+										class="fa fa-home fa-lg"></i> Home
+								</a></li>
+								<?php
+								foreach ( $aryCategories as $strCategory => $aryValues ) 
+								{
+									$element_id = preg_replace ( "/[^a-zA-Z]+/", "", $strCategory );
+									
+									if(count($aryValues) > 0)
+									{
+										printf ( "<li><a class='dropdown-toggle' href='#'>%s %s</a>", $aryIcons [$strCategory], $strCategory );
+										printf ( "<ul class='dropdown-menu' data-role='dropdown' id='%s'>", $element_id );
+										
+										foreach ( $aryValues as $subCategory ) {
+											//class='active'
+											printf ( "<li><a href='#'><i class='icon-arrow-right-4'></i> %s</a></li>", $subCategory );
+										}
+										
+										printf ( "</ul></li>" );
+									}
+								}
+								?>
+								<li class="sr-sidebar-checkout"><a href="checkout.php"> Checkout <i
+										class="fa fa-shopping-cart fa-lg"></i> <span
+										class="badge badge-warning" id="checkout_badge" style="margin-top: -5px;"><?php echo($iItemsInCart);?></span>
+								</a></li>
+							</ul>
+						</nav>
 					</div>
 				</div>
 			</div>

@@ -7,6 +7,11 @@ include_once (dirname ( __FILE__ ) . "/lib/site_config.php");
 
 $objIncludeJsCSS = new IncludeJSCSS ();
 
+if(!isset ( $_POST['search_text'] ) && !isset( $_POST['search_category'] )) {
+	$_POST['search_text'] = "";
+	$_POST['search_category'] = "keywords";
+}
+
 $bCopiedLink = false;
 $bProperURL = true;
 $test_id = NULL;
@@ -31,6 +36,10 @@ if (isset ( $_GET ['ln'] ) && ! empty ( $_GET ['ln'] )) {
 	} else {
 		$bProperURL = false;
 	}
+}
+elseif (isset( $_GET ['company-name'] ) && ! empty ( $_GET ['company-name'] )) {
+	$_POST['search_text'] = $_GET ['company-name'];
+	$_POST['search_category'] = "inst_name";
 }
 
 $from_free = 1;
@@ -139,11 +148,11 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 								</div>
 								<div class="col-lg-3 col-md-3 col-sm-3">
 									<button type="submit" class="btn btn-primary">
-										<b><span class="glyphicon glyphicon-search"></span> Search</b>
+										<b><i class="fa fa-search" aria-hidden="true"></i> Search</b>
 									</button>
 									<button type="button" class="btn btn-primary btn-sm"
 										onclick="window.location=window.location">
-										<b><span class="glyphicon glyphicon-list"></span> Explore All</b>
+										<b><i class="fa fa-th-large" aria-hidden="true"></i> Explore All</b>
 									</button>
 								</div>
 							</div>
@@ -195,7 +204,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 													aria-hidden="true"></i> </a>
 											</div>
 											<div class="col-lg-5 col-md-5 col-sm-5">
-												<a href="{{item.review_bookmark}}">21 Customer Reviews</a>
+												<a href="{{item.review_bookmark}}">{{item.total_reviews}} Customer Reviews</a>
 											</div>
 										</div>
 										<hr />
@@ -282,6 +291,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 								rating: value['rating'],
 								inr_cost: value['inr_cost'] ? value['inr_cost'] : 0,
 								usd_cost: value['usd_cost'] ? value['usd_cost'] : 0,
+								total_reviews: value['total_reviews'],
 								product_image: '<?php echo(CSiteConfig::ROOT_URL);?>/lib/fetch_base64_image.php?product_id='+value['product_id']+'&product_type='+value['product_type']+'&random=1',
 								product_page: '<?php echo(CSiteConfig::ROOT_URL);?>/product-details.php?product='+encodeURIComponent(value['product_name'])+'&product-id='+value['product_id']+'&product-type='+value['product_type'],
 								review_bookmark: '<?php echo(CSiteConfig::ROOT_URL);?>/product-details.php?product='+encodeURIComponent(value['product_name'])+'&product-id='+value['product_id']+'&product-type='+value['product_type']+'#review'
@@ -404,27 +414,6 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 			$("#header").show();
 		}
 		
-		function RemoveTest()
-		{
-			//window.if_platform.TestOver(RemoveTest.div_id);
-		}
-	
-		/*$("#search_form").validate({
-			errorPlacement: function(error, element) {
-				$(element).css("border", "1px solid red");
-			},
-	    	rules: {
-	        	search_text: {
-	            	required:true,
-	        	}
-	    	},
-	    	messages: {
-	    		search_text: {	
-	    			required:	"<span style='color:red'>* Please enter the text</span>"
-	        	}
-		    }
-		});*/
-
 		$("#ORG_TYPE").change(function(){
 			if($("#ORG_TYPE").val() == "<?php echo(CConfig::$ORG_TYPE_ARY[CConfig::OT_OTHER]);?>")
 			{

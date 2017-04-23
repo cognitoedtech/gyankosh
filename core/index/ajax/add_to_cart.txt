@@ -145,3 +145,10 @@ Array
     [type] => 0
 )
 
+1
+Array
+(
+    [id] => 69
+    [type] => 0
+)
+

@@ -53,7 +53,7 @@ $aryPublishedInfo = json_decode ( $aryPublishedProduct ['published_info'], TRUE 
 $aryReviews = json_decode ( $aryPublishedProduct ['reviews'], TRUE );
 /*
  * $reviews = array ('user_id'=>8320890bfdeac753, 'rating'=>4, 'subject' =>
- * 'Awesome Test', 'description'=>'Awesome Test');
+ * 'Awesome Test', 'description'=>'Awesome Test', 'timestamp' => '2017-5-6 12:24:54');
  */
 
 $totalReviews = count ( $aryReviews );
