@@ -5217,6 +5217,7 @@
 				if(!is_array($aryProductReviews))
 				{
 					$aryProductReviews = array();
+					$fRating = $aryReview['rating'];
 				}
 				else 
 				{

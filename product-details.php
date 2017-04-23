@@ -41,6 +41,7 @@ if (! empty ( $login_name )) {
 	CSessionManager::UnsetSessVar ( CSessionManager::STR_LOGIN_NAME );
 }
 
+$product_name = urldecode($qry [1]);
 $product_id = $qry [3];
 $product_type = $qry [5];
 
@@ -300,10 +301,10 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 					<hr />
 					<div class="row">
 						<div class="col-lg-9 col-md-9 col-sm-9">
-							<button class="btn btn-info col-lg-3 col-md-3 col-sm-3">
+							<button class="btn btn-info col-lg-3 col-md-3 col-sm-3" onclick="OnAddToCart();">
 								Add to cart <i class="fa fa-shopping-cart" aria-hidden="true"></i>
 							</button>
-							<button
+							<button onclick="OnBuyNow();" 
 								class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
 								Buy Now <i class="fa fa-credit-card" aria-hidden="true"></i>
 							</button>
@@ -387,7 +388,7 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 									name="product_type" value="<?php echo($product_type);?>"> <input
 									type="hidden" name="redirect_url"
 									value="<?php printf("../../../product-details.php?product=%s&product-id=%d&product-type=%d", urlencode($aryPublishedProduct['product_name']), $product_id, $product_type);?>">
-								<button class="btn btn-default" type="submit"
+								<button class="btn btn-success" type="submit"
 									<?php echo($bLoggedIn?'':'disabled');?>>Submit</button>
 							</form>
 						</div>
@@ -447,6 +448,63 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 			    $('.spinner input').val( parseInt($('.spinner input').val(), 10) - 1);
 			  });
 			})(jQuery);
+
+		function OnAddToCart() {
+	    	$(".modal1").show();
+
+	    	$.ajax({
+				url: '<?php echo(CSiteConfig::ROOT_URL);?>/core/index/ajax/ajax_add_to_cart.php',
+				type: 'POST',
+				data: {'product_id' : <?php echo($product_id);?>, 
+					'product_type' : <?php echo($product_type);?>},
+				dataType: 'json',
+				async: false,
+				success: AddToCartSuccess,
+				error: AddToCartError
+			});
+	    }
+	    
+	    function OnBuyNow() {
+	    	OnAddToCart();
+
+			window.location = "<?php echo(CSiteConfig::ROOT_URL);?>/checkout.php";
+	    }
+	    
+	    function AddToCartSuccess(data) {
+		    //alert(Object.keys(data).length);
+			var iItemsInCart = Object.keys(data).length - 1; // Remove status item
+			var jsonCartItems = data;
+
+			/*$.each(data, function(key, value){
+				alert($.param( value ));
+			});*/
+			$("#checkout_badge").text(iItemsInCart);
+			$(".modal1").hide();
+
+			if(data['status'] == 0)
+			{
+				$.Notify({
+					 caption: "<b><?php echo($product_name);?></b> is added to the cart !",
+					 content: "Your cart has total "+iItemsInCart+" items now !",
+					 style: {background: 'green', color: '#fff'}, 
+					 timeout: 5000
+					 });
+			}
+			else
+			{
+				$.Notify({
+					 caption: "<b><?php echo($product_name);?></b> already exists in the cart !",
+					 content: "Your cart has total "+iItemsInCart+" items !",
+					 style: {background: 'green', color: '#fff'}, 
+					 timeout: 1000
+					 });
+			}
+		}
+		
+		function AddToCartError(request, status, error) {
+	        //alert(request.responseText);
+	        $(".modal1").hide();
+	    }
 	</script>
 </body>
 </html>
