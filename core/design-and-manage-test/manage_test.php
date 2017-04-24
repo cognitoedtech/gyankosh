@@ -4,7 +4,31 @@ include_once ("../../lib/session_manager.php");
 include_once ("../../database/mcat_db.php");
 include_once (dirname ( __FILE__ ) . "/../../lib/include_js_css.php");
 include_once (dirname ( __FILE__ ) . "/../../lib/site_config.php");
+include_once (dirname ( __FILE__ ) . "/../../database/product_queries.php");
 
+$objProductQueries = new CProductQuery ();
+
+$aryCategories = $objProductQueries->GetProductCategories ();
+
+function PopulateCategory()
+{
+	foreach($GLOBALS['aryCategories'] as $strCategory => $aryValues)
+	{
+		printf("<option value='%s'>%s</option>", $strCategory, $strCategory);
+	}
+}
+
+function PopulateSubCategory()
+{
+	foreach($GLOBALS['aryCategories'] as $strCategory => $aryValues)
+	{
+		foreach($aryValues as $subCategory)
+		{
+			printf("<option value='%s'>%s</option>", $subCategory, $subCategory);
+		}
+		break;
+	}
+}
 // - - - - - - - - - - - - - - - - -
 // On Session Expire Load ROOT_URL
 // - - - - - - - - - - - - - - - - -
@@ -15,6 +39,8 @@ $objDB = new CMcatDB ();
 
 $user_id = CSessionManager::Get ( CSessionManager::STR_USER_ID );
 $time_zone = CSessionManager::Get ( CSessionManager::FLOAT_TIME_ZONE );
+
+$bKYCDone = $objDB->IsUserKYCDone($user_id);
 
 $objIncludeJsCSS = new IncludeJSCSS ();
 
@@ -141,7 +167,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 	min-height: 100%;
 	font-size: 100px;
 	text-align: right;
-	filter: alpha(opacity =           0);
+	filter: alpha(opacity = 0);
 	opacity: 0;
 	outline: none;
 	background: white;
@@ -298,6 +324,26 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 															id="publish_test_desc" name="publish_test_desc"></textarea>
 													</div>
 												</div>
+												<div class="form-group">
+													<label for="publish_test_category"
+														class="col-lg-4 control-label">Category :</label>
+													<div class="col-lg-8">
+														<select class="form-control"
+															id="publish_test_category" name="publish_test_category">
+															<?php PopulateCategory();?>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="publish_test_sub_category"
+														class="col-lg-4 control-label">Sub-Category :</label>
+													<div class="col-lg-8">
+														<select class="form-control"
+															id="publish_test_sub_category" name="publish_test_sub_category">
+															<?php PopulateSubCategory();?>
+														</select>
+													</div>
+												</div>
 											</div>
 											<div class="tab-pane" id="tab2">
 												<div class="form-group">
@@ -356,6 +402,18 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 													</div>
 												</div>
 												<div class="form-group">
+													<div class="col-lg-offset-4">
+														<div class="col-lg-12 col-md-12 col-sm-12">
+															<?php 
+															if(!$bKYCDone)
+															{
+																echo("<b><i>You can't publish <span style='color:red;'>paid tests</span>.</i></b><br/><br/>Your account doesn't have <b><span style='color:red;'>K</span>now <span style='color:red;'>Y</span>our <span style='color:red;'>C</span>lient</b> check done, please fill <a href='../account/kyc-form.php'>this form</a> to sell paid tests at ".CConfig::SNC_SITE_NAME.".");
+															}
+															?>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
 													<div class="col-lg-3 col-lg-offset-1">
 														<label for="product_img" class="control-label">Upload
 															Image :<br />(300px by 300px)
@@ -401,13 +459,13 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 												</div>
 												<div class="form-group">
 													<div class="col-lg-3 col-lg-offset-1">
-														<label for="schedule_start" class="control-label">Expire
-															Date :</label>
+														<label for="schedule_start" class="control-label">Unpublish
+															On :</label>
 													</div>
 													<div class="col-lg-3">
 														<div class="checkbox">
 															<label> <input type="checkbox" onclick="OnEndDateCheck(this);" id="schedule_end_check"
-																/> Never Expire! <label>
+																/> Never! <label>
 														
 														</div>
 													</div>
@@ -573,26 +631,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 			    	return retVal;
 				}, "<span style='color:red;'>* Supported image dimensions are 300 by 300 pixels");
 
-			    /*var options = { 
-			       	 	//target:        '',   // target element(s) to be updated with server response 
-			       		//beforeSubmit:  showRequest,  // pre-submit callback 
-			      	 	success:       showResponse,  // post-submit callback 
-			 			
-			        	// other available options: 
-			        	url:      'ajax/ajax_publish_test.php',        // override for form's 'action' attribute
-			        	
-			        	type:      'POST',       // 'get' or 'post', override for form's 'method' attribute 
-
-			        	data: {publish : '1'},
-			        	//dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-			        	clearForm: true        // clear all form fields after successful submit 
-			        	//resetForm: true        // reset the form after successful submit 
-			 
-			        	// $.ajax options can be used here too, for example: 
-			        	//timeout:   3000 
-			    	};*/
-			    
-				$("#publish_test").validate({
+			    $("#publish_test").validate({
 					errorPlacement: function(error, element) {
 						$('#error_callback').append(error);
 					},
@@ -779,6 +818,24 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 				// ------------------------
 				// [ Product Image ]
 				// ------------------------
+
+				// ------------------------
+				// [ On Category Change ]
+				// ------------------------
+				$('#publish_test_category').on('change', function() {
+					<?php echo "var jsonCategories = ". json_encode($aryCategories) . ";\n";?>
+
+					$('#publish_test_sub_category').html("");
+					$.each( jsonCategories[this.value], function( key, value ) {
+						$('#publish_test_sub_category').append("<option value='"+value+"'>"+value+"</option>");
+						$('#publish_test_sub_category').attr("disabled", false);
+					});
+
+					if( jsonCategories[this.value].length <=0 ) {
+						$('#publish_test_sub_category').attr("disabled", true);
+					}
+					//alert( this.value );
+				});
 		});
 
 		function OnTabShow()
@@ -1040,6 +1097,12 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 
 		function OnFreeCheck(obj)
 		{
+			var kyc = <?php echo($bKYCDone);?>;
+			if(!kyc)
+			{
+				$(obj).prop("checked", true);
+			}
+			
 			if ($(obj).is(':checked',true))
 			{
 				$("#inr_cost").val(0);

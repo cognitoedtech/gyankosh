@@ -12,32 +12,8 @@ if(!isset ( $_POST['search_text'] ) && !isset( $_POST['search_category'] )) {
 	$_POST['search_category'] = "keywords";
 }
 
-$bCopiedLink = false;
-$bProperURL = true;
 $test_id = NULL;
-if (isset ( $_GET ['ln'] ) && ! empty ( $_GET ['ln'] )) {
-	$bCopiedLink = true;
-	$testInfoAry = explode ( "-", $_GET ['ln'] );
-	
-	if (preg_match ( '/^\d+$/', $testInfoAry [0] ) != 0 && $testInfoAry [0] > 0 && count ( $testInfoAry ) == 3 && strlen ( $testInfoAry [1] ) == 2 && $testInfoAry [1] >= 1 && $testInfoAry [1] <= 31) {
-		$test_id = $testInfoAry [0];
-		$owner_id_hint = $testInfoAry [2];
-		if (strlen ( $owner_id_hint ) == 2) {
-			$objDB = new CMcatDB ();
-			
-			$isFreeTest = $objDB->IsTestPublished ( $test_id, $owner_id_hint );
-			
-			if (! $isFreeTest) {
-				$bProperURL = false;
-			}
-		} else {
-			$bProperURL = false;
-		}
-	} else {
-		$bProperURL = false;
-	}
-}
-elseif (isset( $_GET ['company-name'] ) && ! empty ( $_GET ['company-name'] )) {
+if (isset( $_GET ['company-name'] ) && ! empty ( $_GET ['company-name'] )) {
 	$_POST['search_text'] = $_GET ['company-name'];
 	$_POST['search_category'] = "inst_name";
 }
@@ -284,7 +260,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 								description: value['description'].substring(0, 128),
 								keywords: value['keywords'],
 								org_name: value['org_name'],
-								org_url: '<?php echo(CSiteConfig::ROOT_URL);?>/search-results.php?company-name='+encodeURIComponent(value['org_name'])+'&company-id='+value['org_id'],
+								org_url: '<?php echo(CSiteConfig::ROOT_URL);?>/search-results.php?company-name='+encodeURIComponent(value['org_name']),
 								org_id: value['org_id'],
 								product_id: value['product_id'],
 								product_type: value['product_type'],
@@ -293,7 +269,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 								usd_cost: value['usd_cost'] ? value['usd_cost'] : 0,
 								total_reviews: value['total_reviews'],
 								product_image: '<?php echo(CSiteConfig::ROOT_URL);?>/lib/fetch_base64_image.php?product_id='+value['product_id']+'&product_type='+value['product_type']+'&random=1',
-								product_page: '<?php echo(CSiteConfig::ROOT_URL);?>/product-details.php?product='+encodeURIComponent(value['product_name'])+'&product-id='+value['product_id']+'&product-type='+value['product_type'],
+								product_page: '<?php echo(CSiteConfig::ROOT_URL);?>/product-details.php?product='+encodeURIComponent(value['product_name'])+'&product-id='+value['prod_enct'],
 								review_bookmark: '<?php echo(CSiteConfig::ROOT_URL);?>/product-details.php?product='+encodeURIComponent(value['product_name'])+'&product-id='+value['product_id']+'&product-type='+value['product_type']+'#review'
 						    });
 						}
@@ -654,23 +630,6 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 		        $(".modal1").hide();
 		    };
 		}]);
-		
-	    <?php
-					if ($bCopiedLink && $bProperURL) {
-						?>
-	    ShowOverlay(<?php echo($test_id);?>,"st_x");
-	    <?php
-					} else if ($bCopiedLink && ! $bProperURL) {
-						?>
-	    $.Notify({
-			 caption: "Wrong Test URL",
-			 content: "Please check the URL, we don't have any test that can be identified by <?php echo($_GET['ln']);?>!",
-			 style: {background: 'green', color: '#fff'}, 
-			 timeout: 5000
-			 });
-		<?php
-					}
-					?>
 	</script>
 </body>
 </html>

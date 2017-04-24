@@ -56,6 +56,22 @@ class CFreeUserManager
 		$result = mysql_query($query, $this->db_link_id) or die("Add Free User Test Error: ".mysql_error($this->db_link_id)) ;
 	}
 	
+	public function GetTestOwnerID($test_id)
+	{
+		$RetID = null;
+		$query = sprintf("select owner_id from test where test_id='%s'", $test_id);
+			
+		$result = mysql_query($query, $this->db_link_id) or die('Get Test Owner ID error : ' . mysql_error());
+			
+		if(mysql_num_rows($result) > 0)
+		{
+			$row = mysql_fetch_array($result);
+			$RetID = $row['owner_id'];
+		}
+			
+		return $RetID;
+	}
+	
 	//PopulateFreeTests
 	public function PopulateProducts($searchText, $searchCategory, $limit_start_value = 0)
 	{
@@ -97,7 +113,7 @@ class CFreeUserManager
 		
 		$query = sprintf("select * from published_products where %s order by rating desc limit %d, 10 ", $locateCond, $limit_start_value);
 		
-		/*$fp = fopen("get-search-results.txt", "a");
+		/*$fp = fopen("get-search-results.txt", "w");
 		fwrite($fp, $query."\r\n");
 		fclose($fp);*/
 		
@@ -119,9 +135,16 @@ class CFreeUserManager
 			$retArray[$row['product_id']]['inr_cost'] = $aryPubInfo['cost']['inr'];
 			$retArray[$row['product_id']]['usd_cost'] = $aryPubInfo['cost']['usd'];
 			$retArray[$row['product_id']]['total_reviews'] = count(json_decode($row['reviews'], TRUE));
+			$owner_id = $this->GetTestOwnerID($row['product_id']);
+			$retArray[$row['product_id']]['prod_enct'] = $row['product_id']."-".$row['product_type']."-".date('j')."-".substr($owner_id, 0, 2);
 			
 			$rating_ary[$row['test_id']] = $row['rating'];
 		}
+		
+		/*$fp = fopen("get-search-results.txt", "a");
+		fwrite($fp, print_r($retArray, TRUE)."\r\n");
+		fclose($fp);*/
+		
 		if(!empty($retArray))
 		{
 			array_multisort($rating_ary, SORT_DESC, $retArray);

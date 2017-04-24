@@ -36,6 +36,7 @@
 								<?php
 								foreach ( $aryCategories as $strCategory => $aryValues ) 
 								{
+									// Remove whitespace from name to form html id.
 									$element_id = preg_replace ( "/[^a-zA-Z]+/", "", $strCategory );
 									
 									if(count($aryValues) > 0)

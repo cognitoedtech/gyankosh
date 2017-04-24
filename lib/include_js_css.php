@@ -434,7 +434,7 @@
 		{
 			$this->IncludeBootstrap3_1_1Plus1CSS($include_base_path);
 			$this->IncludeBootswatch3_1_1Plus1LessCSS($include_base_path);
-			$this->IncludeBootstrapFontAwesomeCSS( "" );
+			$this->IncludeBootstrapFontAwesomeCSS( $include_base_path );
 			$this->IncludeMainCSS($include_base_path);
 			$this->IncludeMetroBootstrapCSS($include_base_path);
 		}

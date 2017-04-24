@@ -8,9 +8,9 @@
 	CSessionManager::OnSessionExpire();
 	// - - - - - - - - - - - - - - - - -
 	
-	$fp = fopen("post_file.txt", "w");
+	/*$fp = fopen("post_file.txt", "w");
 	fwrite($fp, print_r($_POST, TRUE));
-	fclose($fp);
+	fclose($fp);*/
 	
 	$objDB = new CMcatDB();
 	

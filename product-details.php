@@ -18,12 +18,46 @@ $jsonCartItems = CSessionManager::Get ( CSessionManager::JSON_CART_ITEMS );
 $bLoggedIn = CSessionManager::Get ( CSessionManager::BOOL_LOGIN );
 $user_id = CSessionManager::Get ( CSessionManager::STR_USER_ID );
 
-$parsAry = parse_url ( CUtils::curPageURL () );
-$qry = split ( "[=&]", $parsAry ["query"] );
+$bCopiedLink = false;
+$bProperURL = true;
+// -------------------------------------------
+// http://localhost/QuizUS/63-1-23-ef
+// http://localhost/QuizUS/product-details.php?product=Aptitude&product-id=63-1-23-ef
+// 63 - Product ID
+// 1  - Product type 0 for test and 1 for package
+// 23 - Date
+// ef - first two letters of owner-id
+// -------------------------------------------
+$product_name = urldecode ( $_GET ['product'] );
+$product_id = 0;
+$product_type = 0;
+
+$objDB = new CMcatDB ();
+if (isset ( $_GET ['product-id'] ) && ! empty ( $_GET ['product-id'] )) {
+	$bCopiedLink = true;
+	$testInfoAry = explode ( "-", $_GET ['product-id'] );
+	
+	if (preg_match ( '/^\d+$/', $testInfoAry [0] ) != 0 && $testInfoAry [0] > 0 && count ( $testInfoAry ) == 4 && ($testInfoAry [1] == 0 || $testInfoAry [1] == 1) && strlen ( $testInfoAry [2] ) == 2 && $testInfoAry [2] >= 1 && $testInfoAry [2] <= 31) {
+		$product_id = $testInfoAry [0];
+		$product_type = $testInfoAry [1];
+		$owner_id_hint = $testInfoAry [3];
+		if (strlen ( $owner_id_hint ) == 2) {
+			$isFreeTest = $objDB->IsTestPublished ( $product_id, $owner_id_hint );
+			
+			if (! $isFreeTest) {
+				$bProperURL = false;
+			}
+		} else {
+			$bProperURL = false;
+		}
+	} else {
+		$bProperURL = false;
+	}
+}
 
 $objUtils = new CUtils ();
 // print_r($qry);
-if (strcasecmp ( $qry [2], "product-id" ) != 0 && strcasecmp ( $qry [4], "product-type" ) != 0) {
+if ( !$bCopiedLink && !$bProperURL ) {
 	// echo("\nTest - 1");
 	$objUtils->Redirect ( "search-results.php" );
 }
@@ -41,30 +75,25 @@ if (! empty ( $login_name )) {
 	CSessionManager::UnsetSessVar ( CSessionManager::STR_LOGIN_NAME );
 }
 
-$product_name = urldecode($qry [1]);
-$product_id = $qry [3];
-$product_type = $qry [5];
-
-$objDB = new CMcatDB ();
-
 $aryPublishedProduct = $objDB->GetPublishedProductDetails ( $product_id, $product_type );
 $aryPublishedInfo = json_decode ( $aryPublishedProduct ['published_info'], TRUE );
 
 $aryReviews = json_decode ( $aryPublishedProduct ['reviews'], TRUE );
 /*
  * $reviews = array ('user_id'=>8320890bfdeac753, 'rating'=>4, 'subject' =>
- * 'Awesome Test', 'description'=>'Awesome Test', 'timestamp' => '2017-5-6 12:24:54');
+ * 'Awesome Test', 'description'=>'Awesome Test', 'timestamp' => '2017-5-6
+ * 12:24:54');
  */
 
 $totalReviews = count ( $aryReviews );
-$aryRatings = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0);
+$aryRatings = array (1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0 );
 
 function PopulateReviews() {
 	foreach ( $GLOBALS ['aryReviews'] as $key => $review ) {
 		$date = new DateTime ( $review ['timestamp'] );
 		$reviewDate = $date->format ( "M jS, Y" );
 		
-		$GLOBALS['aryRatings'][$review ['rating']] += 1;
+		$GLOBALS ['aryRatings'] [$review ['rating']] += 1;
 		
 		printf ( "<div class='panel panel-default'>" );
 		printf ( "<div class='panel-heading'>" );
@@ -92,79 +121,76 @@ function PopulateRaty() {
 }
 
 function PupulateRatingPopover() {
-	printf("<div class='row'>");
-		printf("<div class='col-lg-12 col-md-12 col-sm-12'>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>5</small></div>");
-			printf("<div class='col-lg-8 col-md-8 col-sm-8'>");
-				printf("<div class='progress'>");
-				$percentRating = $GLOBALS['totalReviews'] > 0 ? $GLOBALS['aryRatings'][5]/$GLOBALS['totalReviews'] : 0;
-				$percentRating *= 100;
-				printf("<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>", 
-						$percentRating, $percentRating);
-				printf("</div>");
-			printf("</div>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating);
-		printf("</div>");
-	printf("</div>");
+	printf ( "<div class='row'>" );
+	printf ( "<div class='col-lg-12 col-md-12 col-sm-12'>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>5</small></div>" );
+	printf ( "<div class='col-lg-8 col-md-8 col-sm-8'>" );
+	printf ( "<div class='progress'>" );
+	$percentRating = $GLOBALS ['totalReviews'] > 0 ? $GLOBALS ['aryRatings'] [5] / $GLOBALS ['totalReviews'] : 0;
+	$percentRating *= 100;
+	printf ( "<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>", $percentRating, $percentRating );
+	printf ( "</div>" );
+	printf ( "</div>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating );
+	printf ( "</div>" );
+	printf ( "</div>" );
 	
-	printf("<div class='row'>");
-		printf("<div class='col-lg-12 col-md-12 col-sm-12'>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>4</small></div>");
-			printf("<div class='col-lg-8 col-md-8 col-sm-8'>");
-				printf("<div class='progress'>");
-				$percentRating = $GLOBALS['totalReviews'] > 0 ? $GLOBALS['aryRatings'][4]/$GLOBALS['totalReviews'] : 0;;
-				$percentRating *= 100;
-				printf("<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>",
-						$percentRating, $percentRating);
-				printf("</div>");
-			printf("</div>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating);
-		printf("</div>");
-	printf("</div>");
+	printf ( "<div class='row'>" );
+	printf ( "<div class='col-lg-12 col-md-12 col-sm-12'>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>4</small></div>" );
+	printf ( "<div class='col-lg-8 col-md-8 col-sm-8'>" );
+	printf ( "<div class='progress'>" );
+	$percentRating = $GLOBALS ['totalReviews'] > 0 ? $GLOBALS ['aryRatings'] [4] / $GLOBALS ['totalReviews'] : 0;
+	;
+	$percentRating *= 100;
+	printf ( "<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>", $percentRating, $percentRating );
+	printf ( "</div>" );
+	printf ( "</div>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating );
+	printf ( "</div>" );
+	printf ( "</div>" );
 	
-	printf("<div class='row'>");
-		printf("<div class='col-lg-12 col-md-12 col-sm-12'>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>3</small></div>");
-			printf("<div class='col-lg-8 col-md-8 col-sm-8'>");
-				printf("<div class='progress'>");
-				$percentRating = $GLOBALS['totalReviews'] > 0 ? $GLOBALS['aryRatings'][3]/$GLOBALS['totalReviews'] : 0;
-				$percentRating *= 100;
-				printf("<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>");
-				printf("</div>");
-			printf("</div>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating);
-		printf("</div>");
-	printf("</div>");
+	printf ( "<div class='row'>" );
+	printf ( "<div class='col-lg-12 col-md-12 col-sm-12'>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>3</small></div>" );
+	printf ( "<div class='col-lg-8 col-md-8 col-sm-8'>" );
+	printf ( "<div class='progress'>" );
+	$percentRating = $GLOBALS ['totalReviews'] > 0 ? $GLOBALS ['aryRatings'] [3] / $GLOBALS ['totalReviews'] : 0;
+	$percentRating *= 100;
+	printf ( "<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>" );
+	printf ( "</div>" );
+	printf ( "</div>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating );
+	printf ( "</div>" );
+	printf ( "</div>" );
 	
-	printf("<div class='row'>");
-		printf("<div class='col-lg-12 col-md-12 col-sm-12'>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>2</small></div>");
-			printf("<div class='col-lg-8 col-md-8 col-sm-8'>");
-				printf("<div class='progress'>");
-				$percentRating = $GLOBALS['totalReviews'] > 0 ? $GLOBALS['aryRatings'][2]/$GLOBALS['totalReviews'] : 0;
-				$percentRating *= 100;
-				printf("<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>",
-						$percentRating, $percentRating);
-				printf("</div>");
-			printf("</div>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating);
-		printf("</div>");
-	printf("</div>");
+	printf ( "<div class='row'>" );
+	printf ( "<div class='col-lg-12 col-md-12 col-sm-12'>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>2</small></div>" );
+	printf ( "<div class='col-lg-8 col-md-8 col-sm-8'>" );
+	printf ( "<div class='progress'>" );
+	$percentRating = $GLOBALS ['totalReviews'] > 0 ? $GLOBALS ['aryRatings'] [2] / $GLOBALS ['totalReviews'] : 0;
+	$percentRating *= 100;
+	printf ( "<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>", $percentRating, $percentRating );
+	printf ( "</div>" );
+	printf ( "</div>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating );
+	printf ( "</div>" );
+	printf ( "</div>" );
 	
-	printf("<div class='row'>");
-		printf("<div class='col-lg-12 col-md-12 col-sm-12'>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>1</small></div>");
-			printf("<div class='col-lg-8 col-md-8 col-sm-8'>");
-				printf("<div class='progress'>");
-				$percentRating = $GLOBALS['totalReviews'] > 0 ? $GLOBALS['aryRatings'][1]/$GLOBALS['totalReviews'] : 0;
-				$percentRating *= 100;
-				printf("<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>", 
-						$percentRating, $percentRating);
-				printf("</div>");
-			printf("</div>");
-			printf("<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating);
-		printf("</div>");
-	printf("</div>");
+	printf ( "<div class='row'>" );
+	printf ( "<div class='col-lg-12 col-md-12 col-sm-12'>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>1</small></div>" );
+	printf ( "<div class='col-lg-8 col-md-8 col-sm-8'>" );
+	printf ( "<div class='progress'>" );
+	$percentRating = $GLOBALS ['totalReviews'] > 0 ? $GLOBALS ['aryRatings'] [1] / $GLOBALS ['totalReviews'] : 0;
+	$percentRating *= 100;
+	printf ( "<div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='%d' aria-valuemin='0' aria-valuemax='100' style='width: %d%%;'></div>", $percentRating, $percentRating );
+	printf ( "</div>" );
+	printf ( "</div>" );
+	printf ( "<div class='col-lg-2 col-md-2 col-sm-2'><small>%d%%</small></div>", $percentRating );
+	printf ( "</div>" );
+	printf ( "</div>" );
 }
 
 function PopulateProductSpecifications() {
@@ -301,10 +327,11 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 					<hr />
 					<div class="row">
 						<div class="col-lg-9 col-md-9 col-sm-9">
-							<button class="btn btn-info col-lg-3 col-md-3 col-sm-3" onclick="OnAddToCart();">
+							<button class="btn btn-info col-lg-3 col-md-3 col-sm-3"
+								onclick="OnAddToCart();">
 								Add to cart <i class="fa fa-shopping-cart" aria-hidden="true"></i>
 							</button>
-							<button onclick="OnBuyNow();" 
+							<button onclick="OnBuyNow();"
 								class="btn btn-success col-lg-3 col-md-3 col-sm-3 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
 								Buy Now <i class="fa fa-credit-card" aria-hidden="true"></i>
 							</button>
@@ -505,6 +532,20 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 	        //alert(request.responseText);
 	        $(".modal1").hide();
 	    }
+
+		<?php
+		if ($bCopiedLink && ! $bProperURL) 
+		{
+		?>
+		    $.Notify({
+				 caption: "Wrong Product URL",
+				 content: "Please check the URL, we don't have any product that can be identified by <?php echo($_GET['ln']);?>!",
+				 style: {background: 'green', color: '#fff'}, 
+				 timeout: 5000
+				 });
+		<?php
+		}
+		?>
 	</script>
 </body>
 </html>

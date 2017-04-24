@@ -1798,8 +1798,8 @@
 				echo "<td><input type='button' class='btn btn-sm btn-primary' onclick='OnTestDetails(".$row['test_id'].");' value='Test Details'/></td>";
 				$isChecked = ($row['is_published'] == 1)?"checked='checked'":"";
 				$isHidden = ($row['is_published'] == 0)?"style=display:none;":"";
-				$keywords  = !empty($row['keywords'])?$row['keywords']:"";
-				$description  = !empty($row['description'])?$row['description']:"";
+				$keywords  = !empty($aryProductDetails['keywords'])?$aryProductDetails['keywords']:"";
+				$description  = !empty($aryProductDetails['description'])?$aryProductDetails['description']:"";
 				echo "<td style='text-align: center;'>";
 				echo "<div class='row'>";
 				echo "<div class='col-lg-3 col-md-3 col-sm-3 col-lg-offset-2 col-md-offset-2 col-sm-offset-2'>";
@@ -5240,6 +5240,23 @@
 			}
 			
 			return $result;
+		}
+		
+		function IsUserKYCDone($user_id)
+		{
+			$retVal = 0;
+			
+			$query = sprintf("select * from seller_billing where user_id='%s'", $user_id);
+			
+			$result = mysql_query($query, $this->db_link) or die('Is User KYC Done : ' . mysql_error());
+			
+			if(mysql_num_rows($result) > 0)
+			{
+				$row = mysql_fetch_array($result);
+				$retVal = $row['kyc_done'];
+			}
+			
+			return $retVal;
 		}
 	}
 ?>
