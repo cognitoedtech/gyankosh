@@ -160,7 +160,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 											<div class="h3">
 												<a href="{{item.product_page}}">{{ item.product_name }}</a>
 												<img src="images/search-results/free-sm.jpg" alt="free"
-													style="visibility: {{!item.inr_cost||   'hidden'" />
+													style="visibility: {{!item.inr_cost || 'hidden'}}" />
 											</div>
 										</div>
 										<div class="row">
@@ -173,7 +173,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 											<div class="col-lg-4 col-md-4 col-sm-4">
 												<span is_rated="false" name='{{item.product_id}}_star'
 													data-score='{{item.rating}}' id='{{item.product_id}}_star'
-													class="star"></span></span> <a href="#"
+													class="star"></span> <a href="#"
 													id="product-rating-details" class="btn btn-xs"
 													data-toggle="popover" data-trigger="hover"
 													data-placement="bottom"><i class="fa fa-sort-desc"

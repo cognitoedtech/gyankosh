@@ -24,7 +24,7 @@ $bProperURL = true;
 // http://localhost/QuizUS/63-1-23-ef
 // http://localhost/QuizUS/product-details.php?product=Aptitude&product-id=63-1-23-ef
 // 63 - Product ID
-// 1  - Product type 0 for test and 1 for package
+// 1  - Product type 0 for test and 1 for set
 // 23 - Date
 // ef - first two letters of owner-id
 // -------------------------------------------

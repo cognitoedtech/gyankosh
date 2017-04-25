@@ -10,21 +10,17 @@ $objProductQueries = new CProductQuery ();
 
 $aryCategories = $objProductQueries->GetProductCategories ();
 
-function PopulateCategory()
-{
-	foreach($GLOBALS['aryCategories'] as $strCategory => $aryValues)
-	{
-		printf("<option value='%s'>%s</option>", $strCategory, $strCategory);
+function PopulateCategory() {
+	foreach ( $GLOBALS ['aryCategories'] as $strCategory => $aryValues ) {
+		if (count ( $aryValues ) > 0)
+			printf ( "<option value='%s'>%s</option>", $strCategory, $strCategory );
 	}
 }
 
-function PopulateSubCategory()
-{
-	foreach($GLOBALS['aryCategories'] as $strCategory => $aryValues)
-	{
-		foreach($aryValues as $subCategory)
-		{
-			printf("<option value='%s'>%s</option>", $subCategory, $subCategory);
+function PopulateSubCategory() {
+	foreach ( $GLOBALS ['aryCategories'] as $strCategory => $aryValues ) {
+		foreach ( $aryValues as $subCategory ) {
+			printf ( "<option value='%s'>%s</option>", $subCategory, $subCategory );
 		}
 		break;
 	}
@@ -40,7 +36,7 @@ $objDB = new CMcatDB ();
 $user_id = CSessionManager::Get ( CSessionManager::STR_USER_ID );
 $time_zone = CSessionManager::Get ( CSessionManager::FLOAT_TIME_ZONE );
 
-$bKYCDone = $objDB->IsUserKYCDone($user_id);
+$bKYCDone = $objDB->IsUserKYCDone ( $user_id );
 
 $objIncludeJsCSS = new IncludeJSCSS ();
 
@@ -167,7 +163,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 	min-height: 100%;
 	font-size: 100px;
 	text-align: right;
-	filter: alpha(opacity = 0);
+	filter: alpha(opacity =     0);
 	opacity: 0;
 	outline: none;
 	background: white;
@@ -320,7 +316,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 													<label for="publish_test_desc"
 														class="col-lg-4 control-label">Description :</label>
 													<div class="col-lg-8">
-														<textarea class="form-control" rows="3"
+														<textarea class="form-control" rows="2"
 															id="publish_test_desc" name="publish_test_desc"></textarea>
 													</div>
 												</div>
@@ -328,8 +324,8 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 													<label for="publish_test_category"
 														class="col-lg-4 control-label">Category :</label>
 													<div class="col-lg-8">
-														<select class="form-control"
-															id="publish_test_category" name="publish_test_category">
+														<select class="form-control" id="publish_test_category"
+															name="publish_test_category">
 															<?php PopulateCategory();?>
 														</select>
 													</div>
@@ -339,9 +335,16 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 														class="col-lg-4 control-label">Sub-Category :</label>
 													<div class="col-lg-8">
 														<select class="form-control"
-															id="publish_test_sub_category" name="publish_test_sub_category">
+															id="publish_test_sub_category"
+															name="publish_test_sub_category">
 															<?php PopulateSubCategory();?>
-														</select>
+														</select> <br /> <small style="color: maroon;"> If your
+															choice of Category &#47; Sub-Category is not listed here
+															then, <a style="cursor: pointer; cursor: hand;"
+															onclick="OnAddCategory();">place an add request</a>. We
+															will validate the request in next 24 hours and honor it
+															if found legitimate.
+														</small>
 													</div>
 												</div>
 											</div>
@@ -380,8 +383,9 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 													</div>
 													<div class="col-lg-2">
 														<div class="checkbox">
-															<label> <input type="checkbox" id="free_cost" onclick="OnFreeCheck(this);"
-																checked /> Free <label>
+															<label> <input type="checkbox" id="free_cost"
+																onclick="OnFreeCheck(this);" checked /> Free <label>
+														
 														</div>
 													</div>
 													<div class="col-lg-3">
@@ -404,10 +408,9 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 												<div class="form-group">
 													<div class="col-lg-offset-4">
 														<div class="col-lg-12 col-md-12 col-sm-12">
-															<?php 
-															if(!$bKYCDone)
-															{
-																echo("<b><i>You can't publish <span style='color:red;'>paid tests</span>.</i></b><br/><br/>Your account doesn't have <b><span style='color:red;'>K</span>now <span style='color:red;'>Y</span>our <span style='color:red;'>C</span>lient</b> check done, please fill <a href='../account/kyc-form.php'>this form</a> to sell paid tests at ".CConfig::SNC_SITE_NAME.".");
+															<?php
+															if (! $bKYCDone) {
+																echo ("<b><i>You can't publish <span style='color:red;'>paid tests</span>.</i></b><br/><br/>Your account doesn't have <b><span style='color:red;'>K</span>now <span style='color:red;'>Y</span>our <span style='color:red;'>C</span>lient</b> check done, please fill <a href='../account/kyc-form.php'>this form</a> to sell paid tests at " . CConfig::SNC_SITE_NAME . ".");
 															}
 															?>
 														</div>
@@ -426,7 +429,8 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 																	class="input-group-btn"> <span
 																	class="btn btn-default btn-file"> Browse <i
 																		class="fa fa-file-image-o" aria-hidden="true"></i> <input
-																		type="file" accept="image/gif, image/jpeg, image/png" id="product_img" name="product_img">
+																		type="file" accept="image/gif, image/jpeg, image/png"
+																		id="product_img" name="product_img">
 																</span>
 																</span>
 															</div>
@@ -443,15 +447,17 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 													</div>
 													<div class="col-lg-3">
 														<div class="checkbox">
-															<label> <input type="checkbox" onclick="OnStartDateCheck(this);" id="schedule_start_check"
-																/> Launch now! <label>
+															<label> <input type="checkbox"
+																onclick="OnStartDateCheck(this);"
+																id="schedule_start_check" /> Launch now! <label>
 														
 														</div>
 													</div>
 													<div class="col-lg-4">
 														<div class="metro">
 															<div class="input-control text" id="datepicker1">
-																<input id="schedule_start" name="schedule_start" type="text">
+																<input id="schedule_start" name="schedule_start"
+																	type="text">
 																<button class="btn-date" onclick="return false;"></button>
 															</div>
 														</div>
@@ -464,8 +470,9 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 													</div>
 													<div class="col-lg-3">
 														<div class="checkbox">
-															<label> <input type="checkbox" onclick="OnEndDateCheck(this);" id="schedule_end_check"
-																/> Never! <label>
+															<label> <input type="checkbox"
+																onclick="OnEndDateCheck(this);" id="schedule_end_check" />
+																Never! <label>
 														
 														</div>
 													</div>
@@ -479,8 +486,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 													</div>
 												</div>
 											</div>
-											<div id="error_callback">
-											</div>
+											<div id="error_callback"></div>
 											<ul class="pager wizard">
 												<li class="previous"><a href="#">Previous</a></li>
 												<li class="next"><a href="#">Next</a></li>
@@ -493,6 +499,44 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 								<button class="btn btn-default" id="cancel1"
 									data-dismiss="modal" aria-hidden="true">Close</button>
 								<button type="submit" class="btn btn-primary" id="btn_publish">Publish</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div id="add_category_box" class="modal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form class='form-horizontal' id="form_add_category"
+							name="form_add_category" onsubmit="return false;">
+							<div class="modal-header">
+								<button type="button" class="close" id="add_category_cancel"
+									data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h3>Submit Add Category Request</h3>
+							</div>
+							<div class="modal-body" id="request_modal_body">
+								<div class="form-group">
+									<label for="submit_category" class="col-lg-4 control-label">Category
+										:</label>
+									<div class="col-lg-6">
+										<input class="form-control" id="submit_category"
+											name="category" type="text" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="submit_sub_category" class="col-lg-4 control-label">Sub-Category
+										:</label>
+									<div class="col-lg-6">
+										<input class="form-control" id="submit_sub_category"
+											name="sub_category" type="text" />
+									</div>
+								</div>
+								<div id="category_error_callback"></div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-default" id="cancel2"
+									data-dismiss="modal" aria-hidden="true">Close</button>
+								<button type="submit" class="btn btn-primary" id="btn_publish">Submit</button>
 							</div>
 						</form>
 					</div>
@@ -735,6 +779,51 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 	    				$('#publish_test_box').modal('hide');
 	    			}
 	    		});
+				
+			    $("#form_add_category").validate({
+					errorPlacement: function(error, element) {
+						$('#category_error_callback').append(error);
+					},
+	        		rules: {
+	        			category: {
+	                		required:true,
+	                		maxlength: 250
+	            		},
+	            		sub_category: {
+	                		required:true,
+	                		maxlength: 250
+	                	}
+	        		},
+	        		messages: {
+	        			category:{
+	        				required:	"<div style='color:red'>* Please enter category</div>",
+	        				maxlength:	"<div style='color:red'>* Maximum letters for category should be 250</div>"
+	    				},
+	    				sub_category:{
+	    					required:	"<div style='color:red'>* Please enter sub-category</div>",
+	    					maxlength:	"<div style='color:red'>* Maximum letters for category should be 250</div>"
+		    			}
+	    	    	},
+	    	    	submitHandler: function(form) {
+		    	    	$(".modal1").show();
+	    				$('#form_add_category').ajaxSubmit({success:addCategorySuccess,
+		    					url: 'ajax/ajax_add_category_request.php', 
+		    					type:'POST', data: {user_id : '<?php echo($user_id);?>'}, clearForm: true});
+	    				$('#add_category_box').modal('hide');
+	    			}
+	    		});
+
+	    		function addCategorySuccess(data)
+	    		{
+		    		$(".modal1").hide();
+
+    				$.Notify({
+						 caption: "Add Category Request Success",
+						 content: "We have received your request for adding new category and sub-category!",
+						 style: {background: 'green', color: '#fff'}, 
+						 timeout: 5000
+						 });
+	    		}
 
 				$(document).ready(function() {  	
 					$('#rootwizard').bootstrapWizard({withVisible:false, onNext:OnNextStep, 
@@ -1039,7 +1128,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 
 				$("#btn_publish").prop("disabled", true);
 				$('#rootwizard a:first').tab('show');
-				$('#publish_test_box').modal('show'); 		
+				$('#publish_test_box').modal('show');
 			}
 			else{
 
@@ -1199,6 +1288,8 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 
 			$("#publish_test").validate().resetForm();
 			$("#publish_test_id").val($(obj).attr('test_id')+'');
+			$("#publish_test_category").val($("#"+test_id+"_test_category").text()).change();
+			$("#publish_test_sub_category").val($("#"+test_id+"_test_sub_category").text()).change();
 			$("#header_test_name").text('Publish "'+$(obj).attr('test_name')+'"');
 			$("#publish_keywords").val($("#"+test_id+"_keywords").html()+'');
 			$("#publish_test_desc").val($("#"+test_id+"_description").html()+'');
@@ -1244,6 +1335,10 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 				objDate = new Date(valDate);
 				$("#schedule_start_check").prop("checked", false);
 			}
+			else
+			{
+				$("#schedule_start_check").prop("checked", true);
+			}
 			$("#datepicker1").datepicker({
 				format: "dd mmmm, yyyy",
 				date : objDate
@@ -1281,6 +1376,11 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 			$('#publish_test_box').modal('show');
 
 			check_box_id = test_id+"_checkbox";
+		}
+
+		function OnAddCategory()
+		{
+			$('#add_category_box').modal('show');
 		}
 	</script>
 </body>

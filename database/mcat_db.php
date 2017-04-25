@@ -1811,7 +1811,7 @@
 				echo "</div><br/>";
 				echo "<div class='row'>";
 				echo "<div class='col-lg-12 col-md-12 col-sm-12'>";
-				echo "<input type='button' test_name='".$row['test_name']."' data-clipboard-text='".CSiteConfig::FREE_ROOT_URL."/".$row['test_id']."-".date("d")."-".substr($owner_id, 0, 2)."' class='btn btn-sm btn-success' id='".$row['test_id']."_copy' value='Copy Test Link' ".$isHidden."/>";
+				echo "<input type='button' test_name='".$row['test_name']."' data-clipboard-text='".CSiteConfig::FREE_ROOT_URL."/product-details.php?product=".urlencode($row['test_name'])."&product-id=".$row['test_id']."-".CConfig::PT_TEST."-".date("j")."-".substr($owner_id, 0, 2)."' class='btn btn-sm btn-success' id='".$row['test_id']."_copy' value='Copy Test Link' ".$isHidden."/>";
 				echo "</div>";
 				echo "</div>";
 				echo "<div style='display:none;'>";
@@ -1824,6 +1824,14 @@
 				echo "<span id='".$row['test_id']."_usd_cost'>".$aryPublishedInfo["cost"]["usd"]."</span>";
 				echo "<span id='".$row['test_id']."_schedule_start'>".$pub_start_date."</span>";
 				echo "<span id='".$row['test_id']."_schedule_end'>".$pub_end_date."</span>";
+				
+				$aryCategory = $this->GetCategoryInfoByID($aryProductDetails['category_id']);
+				if(is_array($aryCategory) && count($aryCategory))
+				{
+					echo "<span id='".$row['test_id']."_test_category'>".$aryCategory['category']."</span>";
+					echo "<span id='".$row['test_id']."_test_sub_category'>".$aryCategory['sub_category']."</span>";
+				}
+				
 				echo "<span id='".$row['test_id']."_product_image'>".CSiteConfig::ROOT_URL."/lib/fetch_base64_image.php?product_id=".$row['test_id']."&product_type=".CCOnfig::PT_TEST."&random=0</span>";
 				echo "</div></td>";
 				echo "</tr>";
@@ -4934,7 +4942,7 @@
         	return $retAry;
         }
         
-        public function PublishProduct($keywords, $description, $product_image, $schedule_start, $schedule_end, $aryPublishedInfo, $product_id, $product_type)
+        public function PublishProduct($keywords, $description, $product_image, $schedule_start, $schedule_end, $aryPublishedInfo, $product_id, $product_type, $category_id)
         {
         	$published_info = json_encode($aryPublishedInfo);
         	
@@ -4952,13 +4960,14 @@
         		$schedule_end	 = date('Y-m-d H:i:s', strtotime($schedule_end));
         		
         		$test_name = $this->GetTestName($product_id);
-        		$query_inner = sprintf("insert into published_products (product_id, product_type, product_name, org_name, keywords, description, product_image, published_info, pub_start_date, pub_end_date) values(%d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s', pub_end_date='%s'",
-        				$product_id, $product_type, mysql_real_escape_string($test_name), 
+        		$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date, pub_end_date) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s', pub_end_date='%s'",
+        				$product_id, $product_type, $category_id, mysql_real_escape_string($test_name), 
         				mysql_real_escape_string($aryPublishedInfo["org_name"]), 
         				mysql_real_escape_string($keywords), 
         				mysql_real_escape_string($description), 
         				base64_encode($product_image), 
-        				$published_info, $schedule_start, $schedule_end, 
+        				$published_info, $schedule_start, $schedule_end,
+        				$category_id,
         				mysql_real_escape_string($test_name), 
         				mysql_real_escape_string($aryPublishedInfo["org_name"]), 
         				mysql_real_escape_string($keywords), 
@@ -5257,6 +5266,49 @@
 			}
 			
 			return $retVal;
+		}
+		
+		function GetCategoryID($publish_test_category, $publish_test_sub_category)
+		{
+			$retVal = 0;
+				
+			$query = sprintf("select category_id from test_category where category='%s' and sub_category='%s'", 
+					$publish_test_category, $publish_test_sub_category);
+				
+			$result = mysql_query($query, $this->db_link) or die('Get Category ID Error : ' . mysql_error());
+				
+			if(mysql_num_rows($result) > 0)
+			{
+				$row = mysql_fetch_array($result);
+				$retVal = $row['category_id'];
+			}
+				
+			return $retVal;
+		}
+		
+		function GetCategoryInfoByID($category_id)
+		{
+			$retVal = 0;
+		
+			$query = sprintf("select * from test_category where category_id=%d", $category_id);
+		
+			$result = mysql_query($query, $this->db_link) or die('Get Category Info By ID Error : ' . mysql_error());
+		
+			if(mysql_num_rows($result) > 0)
+			{
+				$retVal = mysql_fetch_array($result);
+			}
+		
+			return $retVal;
+		}
+		
+		function AddCategoryRequest($user_id, $category, $sub_category)
+		{
+			$query = sprintf("insert into product_category_requests(user_id, category, sub_category) values('%s','%s','%s')", $user_id, $category, $sub_category);
+			
+			$result = mysql_query($query, $this->db_link) or die('Add Category Request Error : ' . mysql_error());
+			
+			return $result;
 		}
 	}
 ?>

@@ -27,11 +27,15 @@
 		$what_will_you_acheive 	= trim($_POST['what_will_you_acheive']);
 		$product_id				= trim($_POST['pub_test_id']);
 		
+		$publish_test_category  	= trim($_POST['publish_test_category']);
+		$publish_test_sub_category  = trim($_POST['publish_test_sub_category']);
+		
 		$inr_cost			= trim($_POST['inr_cost']);
 		$usd_cost			= trim($_POST['usd_cost']);
 		
 		$org_id			= $objDB->GetOrgIdByUserId($user_id);
 		$org_name 		= $objDB->GetOrganizationName($org_id);
+		$category_id	= $objDB->GetCategoryID($publish_test_category, $publish_test_sub_category);
 		$product_image 	= null;
 		
 		if($_FILES['product_img']['size'] > 0)
@@ -49,7 +53,9 @@
 							"cost"=>array("inr"=>$inr_cost, "usd"=>$usd_cost),
 							);
 		
-		$objDB->PublishProduct($keywords, $description, $product_image, $schedule_start, $schedule_end, $aryPublishedInfo, $product_id, 0);
+		$objDB->PublishProduct($keywords, $description, $product_image, 
+						$schedule_start, $schedule_end, $aryPublishedInfo, 
+						$product_id, CConfig::PT_TEST, $category_id);
 	}
 	else if($_POST['unpublish']==0)
 	{	

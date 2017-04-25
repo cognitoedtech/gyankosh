@@ -37,6 +37,7 @@
 			
 			$objMsg->setFrom($this->from_address);
 			$objMsg->addTo($to);
+			$objMsg->addBCC(CConfig::OEI_SUPPORT);
 			$objMsg->setSubject($subject);
 			$objMsg->setMessageFromString($msg, $msg);
 			
@@ -437,6 +438,19 @@
         	$msg_for_candidate = "Dear Candidate,<br/><br/>Test administrator <b>".$user_name."</b> ( ".$user_email." ) has registered you to take ability test <b>".$test_name."</b> designed for you. To confirm the registration, please click on following link <a href='".CSiteConfig::ROOT_URL."/reg-email/".$tschd_id."'>".CSiteConfig::ROOT_URL."/reg-email/".$tschd_id."</a> or copy and paste above link to your browser.<br/><br/><br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
         		
         	$this->Send($email, $sub_for_candidate, $msg_for_candidate) ;
+        }
+        
+        public function AckAddCategoryRequest($user_email, $user_name, $category, $sub_category)
+        {
+        	$subject = "We have received your add category request!";
+        	
+        	$body    = "Hi ".$user_name.",<br /><br />";
+        	
+        	$body 	.= "We have received your add category request for <b>Category: ".$category."</b> and <b>Sub-Category: ".$sub_category."</b>, we shall get back to you with-in 24 hours to share status of your request.<br /><br />";
+        	
+        	$body	.= "You Matter,<br />".CConfig::SNC_SITE_NAME." Technical Support<br />".CSiteConfig::ROOT_URL."<br />".CConfig::SNC_PUNCH_LINE;
+        	
+        	$this->Send($user_email, $subject, $body);
         }
     }
 ?>
