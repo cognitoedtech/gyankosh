@@ -1334,10 +1334,13 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 			{
 				objDate = new Date(valDate);
 				$("#schedule_start_check").prop("checked", false);
+				$("#datepicker1").css("pointer-events","auto");
+				$("#schedule_start").css("background-color","#fff");
 			}
 			else
 			{
-				$("#schedule_start_check").prop("checked", true);
+				$("#datepicker1").css("pointer-events","none");
+				$("#schedule_start").css("background-color","#ddd");
 			}
 			$("#datepicker1").datepicker({
 				format: "dd mmmm, yyyy",

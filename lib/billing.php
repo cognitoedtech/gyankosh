@@ -61,6 +61,17 @@
 			return $zone;
 		}
 		
+		public function GetUserName($user_id)
+		{
+			$query = sprintf("select firstname, lastname from users where user_id='%s'", $user_id);
+				
+			$result = mysql_query($query, $this->db_link) or die('Get UserName error : ' . mysql_error());
+				
+			$row = mysql_fetch_array($result);
+				
+			return $row['firstname']." ".$row['lastname'];
+		}
+		
 		private function GetOrganizationName($org_id)
 		{
 			$query = sprintf("select organization_name from organization where organization_id='%s'",$org_id);
@@ -1180,16 +1191,167 @@
        	
        	function GetFromCustomerBilling($user_id)
        	{
-       		$retVal = 0;
+       		$aryCustomerBilling = array();
        		$query 		= sprintf("select * from customer_billing where user_id='%s'",$user_id);
        		
        		$result 	= mysql_query($query, $this->db_link) or die('Get From Customer Billing error : '. mysql_error());
        		 
-       		if(mysql_num_rows($result) >0)
+       		while($row = mysql_fetch_array($result))
        		{
-       			$retVal	= mysql_fetch_assoc($result);
+       			array_push($aryCustomerBilling, $row);
        		}
        		
+       		return $aryCustomerBilling;
+       	}
+       	
+       	private function GetSoldProductInfo($publisher_id, &$accountUsageAry)
+       	{
+       		$i = count($accountUsageAry);
+       		
+       		$query		=	sprintf("select test.test_id, test.test_name, test_schedule.schedule_type, test_schedule.scheduled_on , test_schedule.schedule_type, test_schedule.create_date,test_schedule.schd_id ,test_schedule.user_list FROM test Join test_schedule ON test_schedule.test_id =test.test_id where scheduler_id='%s'", $publisher_id);
+       	
+       		$result 	= 	mysql_query($query, $this->db_link) or die('Get Sold Product Info error : '. mysql_error());
+       	
+       		while($row = mysql_fetch_array($result))
+       		{
+       			$ques_source		= $this->GetQuesSource($row['test_id']);
+       			$cand_ary			= explode(";",$row['user_list']);
+       			$aryCustomerBilling = $this->GetFromCustomerBilling($cand_ary[0]);
+       			
+       			$aryProduct = array();
+       			foreach($aryCustomerBilling as $customerBilling)
+       			{
+       				$aryProductsSold = json_decode($customerBilling['products_purchased'], TRUE);
+       				
+       				/* ----------------------------------------------------
+       				 * {"products": {
+					 * "tests": [
+					 * {"id": 123, "scheduled_id": 5, "amount_base": 100, "taxes": 15, "seller_share": 50, "quizus_share": 50}
+					 * {"id": 234, "scheduled_id": 4, "amount_base": 150, "taxes": 30, "seller_share": 75, "quizus_share": 75} ]
+					 * "packages": [
+					 * {"id": 345, "scheduled_id": 54, "amount_base": 500, "taxes": 75, "seller_share": 250, "quizus_share": 250}
+					 * {"id": 456, "scheduled_id": 19, "amount_base": 400, "taxes": 60, "seller_share": 200, "quizus_share": 200} ]
+					 * ----------------------------------------------------
+					 */
+       				foreach($aryProductsSold['products']['tests'] as $testSold)
+       				{
+       					if ( $testSold['id'] == $row['test_id'] && $testSold['scheduled_id'] == $row['schd_id'])
+       					{
+       						$aryProduct = $testSold;
+       						break;
+       					}
+       				}
+       			}
+       			
+       			$buyer_name	= $this->GetUserName($cand_ary[0]);
+       			
+       			$accountUsageAry[$i]['date']			= strtotime($row['create_date']);
+       			$accountUsageAry[$i]['description']		= sprintf("Test/Set <b>%s</b> was sold on <b>%s</b> to <b>%s</b> with <b>(xID:%s)</b>.", $row['test_name'], date("F d,Y [H:i:s]", strtotime($row['scheduled_on'])) , $buyer_name, $row['schd_id']);
+       			$accountUsageAry[$i]['billed_amount'] 	= isset($aryProduct['amount_base']) ? $aryProduct['amount_base'] : 0;
+       			$accountUsageAry[$i]['taxes'] 			= isset($aryProduct['taxes']) ? $aryProduct['taxes'] : 0;
+       			$accountUsageAry[$i]['org_revenue']		= isset($aryProduct['seller_share']) ? $aryProduct['taxes'] : 0;
+       			
+       			$i++;
+       		}
+       	}
+       	
+       	public function PopulateCustomerBilling($user_id, $time_zone, $from_date="", $to_date="")
+       	{
+       		$aryCustomerBilling = array();
+       		$this->GetSoldProductInfo($user_id, $aryCustomerBilling);
+       		
+       		$sort_date_ary = array();
+       		foreach($aryCustomerBilling as $index)
+       		{
+       			array_push($sort_date_ary, $index['date']);
+       		}
+       		 
+       		array_multisort($sort_date_ary, SORT_DESC, $aryCustomerBilling);
+       		
+       		$dtzone = new DateTimeZone($this->tzOffsetToName($time_zone));
+       		
+       		foreach($aryCustomerBilling as $key => $transaction)
+       		{
+       			$dtTime  = new DateTime();
+       			
+       			$dtTime->setTimestamp($transaction['date']);
+       			$dtTime->setTimezone($dtzone);
+       			
+       			if(!empty($from_date))
+       			{
+       				if(strtotime($from_date) <= strtotime($dtTime->format("d F Y")) && strtotime($to_date) >= strtotime($dtTime->format("d F Y")))
+       				{
+       					print "<tr>";
+       					print "<td>".$dtTime->getTimestamp()."</td>";
+       					print "<td>".$dtTime->format("F d, Y")."</td>";
+       					print "<td>".$transaction['description']."</td>";
+       					print "<td>".$transaction['billed_amount']."</td>";
+       					print "<td>".$transaction['taxes']."</td>";
+       					print "<td>".$transaction['org_revenue']."</td>";
+       					print "</tr>";
+       				}
+       			}
+       			else
+       			{
+       				if($key >= 9)
+       				{
+       					continue;
+       				}
+       				print "<tr>";
+       				print "<td>".$dtTime->getTimestamp()."</td>";
+       				print "<td>".$dtTime->format("F d, Y")."</td>";
+       				print "<td>".$transaction['description']."</td>";
+       				print "<td>".$transaction['billed_amount']."</td>";
+       				print "<td>".$transaction['taxes']."</td>";
+       				print "<td>".$transaction['org_revenue']."</td>";
+       				print "</tr>";
+       			}
+       		}
+       	}
+       	
+       	public function GetTotalEarning($user_id)
+       	{
+       		$retVal = 0;
+       		
+       		$aryCustomerBilling = array();
+       		$this->GetSoldProductInfo($user_id, $aryCustomerBilling);
+       		
+       		foreach($aryCustomerBilling as $settlement)
+       		{
+       			$retVal += $settlement['org_revenue'];
+       		}
+       		
+       		return $retVal;
+       	}
+       	
+       	public function GetLastWeekEarning($user_id, $time_zone)
+       	{
+       		$retVal = 0;
+       		
+       		$aryCustomerBilling = array();
+       		$this->GetSoldProductInfo($user_id, $aryCustomerBilling);
+       		
+       		$dtzone = new DateTimeZone($this->tzOffsetToName($time_zone));
+       		
+       		$from_date  = new DateTime();
+       		$from_date->setTimestamp(date("Y-m-d", strtotime("+1 week")));
+       		$from_date->setTimezone($dtzone);
+       		
+       		$to_date	= new DateTime();
+       		$to_date->setTimezone($dtzone);
+       		
+       		foreach($aryCustomerBilling as $settlement)
+       		{
+       			$dtTime  = new DateTime();
+       			
+       			$dtTime->setTimestamp($settlement['date']);
+       			$dtTime->setTimezone($dtzone);
+       			
+       			if(strtotime($from_date) <= strtotime($dtTime->format("d F Y")) && strtotime($to_date) >= strtotime($dtTime->format("d F Y")))
+       			{
+       				$retVal += $settlement['org_revenue'];
+       			}
+       		}
        		return $retVal;
        	}
 	}

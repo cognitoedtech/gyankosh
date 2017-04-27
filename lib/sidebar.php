@@ -100,10 +100,9 @@
 										{
 										?>
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_ABOUT_ORGANIZATION]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/account/about.php"><i class="icon-arrow-right-4"></i>About Organization</a></li>
-										<!-- 
-										<li <?php echo($pages_class_ary[CSiteConfig::UAP_BILLING_INFORMATION]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/account/billing.php"><i class="icon-arrow-right-4"></i>Billing Information</a></li>
-										<li <?php echo($pages_class_ary[CSiteConfig::UAP_ACOOUNT_RECHARGE]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/account/recharge.php"><i class="icon-arrow-right-4"></i>Account Recharge</a></li>
-										<li <?php echo($pages_class_ary[CSiteConfig::UAP_ACCOUONT_USAGE]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/account/usage.php"><i class="icon-arrow-right-4"></i>Account Usage</a></li> -->
+										<li <?php echo($pages_class_ary[CSiteConfig::UAP_BILLING_INFORMATION]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/account/billing.php"><i class="icon-arrow-right-4"></i>Settlement Information</a></li>
+										<li <?php echo($pages_class_ary[CSiteConfig::UAP_ACCOUONT_USAGE]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/account/usage.php"><i class="icon-arrow-right-4"></i>Account Usage</a></li>
+										<li <?php echo($pages_class_ary[CSiteConfig::UAP_ACOOUNT_KYC_FORM]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/account/kyc-form.php"><i class="icon-arrow-right-4"></i>KYC Form</a></li>
 										<?php 
 										}
 										?>

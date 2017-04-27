@@ -14,6 +14,6 @@
 	if(isset($_POST['from_date']))
 	{
 		$objBilling = new CBilling();
-		$objBilling->PopulateAccountUsage($user_id, $time_zone, $_POST['from_date'], $_POST['to_date']);
+		$objBilling->PopulateCustomerBilling($user_id, $time_zone, $_POST['from_date'], $_POST['to_date']);
 	}
 ?>

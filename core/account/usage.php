@@ -114,10 +114,10 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS("../../");
 	    		</div>
     		</div>
     		<div style="float: right;">
-    			<b>Available Balance	: <?php echo($currencyPrefix." ".$objBilling->GetBalance($user_id));?></b>
+    			<b>Total Earning	: <?php echo($currencyPrefix." ".$objBilling->GetTotalEarning($user_id));?></b>
     		</div><br />
     		<div style="float: right;">
-    			<b>Projected Balance	: <?php echo $currencyPrefix." ".$objBilling->GetProjectedBalance($user_id);?></b>
+    			<b>Last Week's Earning	: <?php echo $currencyPrefix." ".$objBilling->GetLastWeekEarning($user_id, $time_zone);?></b>
     		</div>
 			<br /><br />
 			<div id='TableToolsPlacement'>
@@ -129,15 +129,14 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS("../../");
 							<th><font color="#000000">Timestamp</font></th>
 							<th data-class="expand"><font color="#000000">Date</font></th>
 							<th><font color="#000000">Description</font></th>
-							<th data-hide="phone"><font color="#000000">Credit Amount(<?php echo($currencyPrefix);?>)</font></th>
-							<th data-hide="phone"><font color="#000000">Debit Amount(<?php echo($currencyPrefix);?>)</font></th>
-							<th data-hide="phone,tablet"><font color="#000000">Projected Balance(<?php echo($currencyPrefix);?>)</font></th>
-							<th data-hide="phone,tablet"><font color="#000000">Balance(<?php echo($currencyPrefix);?>)</font></th>
+							<th data-hide="phone"><font color="#000000">Billed Amount (<?php echo($currencyPrefix);?>)</font></th>
+							<th data-hide="phone"><font color="#000000">Taxes (<?php echo($currencyPrefix);?>)</font></th>
+							<th data-hide="phone,tablet"><font color="#000000">Your Earnings* (<?php echo($currencyPrefix);?>)</font></th>
 						</tr>
 					</thead>
 					<tbody id="usage_tbody">
 					<?php 
-						   $objBilling->PopulateAccountUsage($user_id, $time_zone);
+						   $objBilling->PopulateCustomerBilling($user_id, $time_zone);
 					?>
 					</tbody>
 					<tfoot>
@@ -145,10 +144,9 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS("../../");
 							<th><font color="#000000">Timestamp</font></th>
 							<th data-class="expand"><font color="#000000">Date</font></th>
 							<th><font color="#000000">Description</font></th>
-							<th data-hide="phone"><font color="#000000">Credit Amount(<?php echo($currencyPrefix);?>)</font></th>
-							<th data-hide="phone"><font color="#000000">Debit Amount(<?php echo($currencyPrefix);?>)</font></th>
-							<th data-hide="phone,tablet"><font color="#000000">Projected Balance(<?php echo($currencyPrefix);?>)</font></th>
-							<th data-hide="phone,tablet"><font color="#000000">Balance(<?php echo($currencyPrefix);?>)</font></th>
+							<th data-hide="phone"><font color="#000000">Billed Amount (<?php echo($currencyPrefix);?>)</font></th>
+							<th data-hide="phone"><font color="#000000">Taxes (<?php echo($currencyPrefix);?>)</font></th>
+							<th data-hide="phone,tablet"><font color="#000000">Your Earnings* (<?php echo($currencyPrefix);?>)</font></th>
 						</tr>
 					</tfoot>
 		        </table>
@@ -183,18 +181,17 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS("../../");
 				null,
 				null,
 				null,
-				null,
 				null
 			],
 	    	"oTableTools": {
 	            "aButtons": [
 	                {
 					    "sExtends": "csv",
-					    "mColumns": [ 1, 2, 3, 4, 5, 6 ]
+					    "mColumns": [ 1, 2, 3, 4, 5 ]
 					},
 					{
 					    "sExtends": "pdf",
-					    "mColumns": [ 1, 2, 3, 4]
+					    "mColumns": [ 1, 2, 3, 4, 5 ]
 					}
 	            ]
 	        },
@@ -279,18 +276,17 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS("../../");
 						null,
 						null,
 						null,
-						null,
 						null
 					],
 			    	"oTableTools": {
 			            "aButtons": [
 			                {
 							    "sExtends": "csv",
-							    "mColumns": [ 1, 2, 3, 4, 5, 6 ]
+							    "mColumns": [ 1, 2, 3, 4, 5 ]
 							},
 							{
 							    "sExtends": "pdf",
-							    "mColumns": [ 1, 2, 3, 4, 5, 6 ]
+							    "mColumns": [ 1, 2, 3, 4, 5 ]
 							}
 			            ]
 			        },

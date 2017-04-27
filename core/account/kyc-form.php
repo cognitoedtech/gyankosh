@@ -35,7 +35,7 @@
 	
 	
 	$menu_id = CSiteConfig::UAMM_MY_ACCOUNT;
-	$page_id = CSiteConfig::UAP_ABOUT_ORGANIZATION;
+	$page_id = CSiteConfig::UAP_ACOOUNT_KYC_FORM;
 ?>
 <html lang="en">
 	<head>
