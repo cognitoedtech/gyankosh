@@ -1354,5 +1354,59 @@
        		}
        		return $retVal;
        	}
+       	
+       	public function PopulateSettlementHistory($user_id, $time_zone)
+       	{
+       		$query = sprintf("select * from user_billing_history where user_id='%s' and void_reason IS NULL", $user_id);
+       		 
+       		$result = mysql_query($query, $this->db_link) or die('Populate Settlement History error : ' . mysql_error());
+       		 
+       		if(mysql_num_rows($result) > 0)
+       		{
+       			$dtzone = new DateTimeZone($this->tzOffsetToName($time_zone));
+       			while($row = mysql_fetch_array($result))
+       			{
+       				echo "<tr>";
+       				echo "<td>".$row['transaction_id']."</td>";
+       				echo "<td>".$row['recharge_amount']."</td>";
+       				echo "<td>".CConfig::$PAYMENT_MODE_TEXT_ARY[$row['payment_mode']]."</td>";
+       				echo "<td>".$row['payment_agent']."</td>";
+       				echo "<td>".$row['payment_ordinal']."</td>";
+       				$paymentDtime  = new DateTime($row['payment_date']);
+       				$paymentDtime->setTimezone($dtzone);
+       				echo "<td>".$paymentDtime->format("F d, Y")."</td>";
+       				echo "<td> Payment done for period from ".$row['period_start']." to ".$row['period_end'].".</td>";
+       				
+       				echo "</tr>";
+       			}
+       		}
+       	}
+       	
+       	public function AddToSellerBilling($user_id, $market_percentage_sharing, $pan_number, $bank_account_number,
+       			$bank_ifsc_code, $bank_name, $bank_user_name)
+       	{
+       		$query  = sprintf("insert into seller_billing(user_id, market_percentage_sharing, pan_number, bank_account_number, bank_ifsc_code, bank_name, bank_user_name) values('%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update bank_account_number='%s', bank_ifsc_code='%s', bank_name='%s', bank_user_name='%s'", 
+       				$user_id, $market_percentage_sharing, $pan_number, $bank_account_number, $bank_ifsc_code, $bank_name, $bank_user_name,
+       				$bank_account_number, $bank_ifsc_code, $bank_name, $bank_user_name);
+       		
+       		$result	= mysql_query($query, $this->db_link) or die('Add Seller Billing error : '. mysql_error());
+       		 
+       		return $result;
+       	}
+       	
+       	public function GetSellerBilling($user_id)
+       	{
+       		$retVal = null;
+       		$query = sprintf("select * from seller_billing where user_id='%s'", $user_id);
+       		
+       		$result = mysql_query($query, $this->db_link) or die('Get Seller Billing error : ' . mysql_error());
+       		
+       		if(mysql_num_rows($result) > 0)
+       		{
+       			$retVal = mysql_fetch_array($result);
+       		}
+       		
+       		return $retVal;
+       	}
 	}
 ?>

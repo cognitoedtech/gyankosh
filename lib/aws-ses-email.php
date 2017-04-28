@@ -452,5 +452,22 @@
         	
         	$this->Send($user_email, $subject, $body);
         }
+        
+        public function OnKYCFormFilled($user_email, $user_name, $body_table)
+        {
+        	$subject = "We have received your KYC form!";
+        	 
+        	$body  = "Hi ".$user_name.",<br /><br />";
+        	 
+        	$body .= "We have received your KYC form with details mentioned below, one of our executive will contact you with-in 24 hours to complete the formalities.<br /><br />";
+        	
+        	$body .= $body_table."<br /><br />";
+        	
+        	$body .= "If you think you had typo while submitting form, please reply to this email.<br /><br />";
+        	 
+        	$body .= "You Matter,<br />".CConfig::SNC_SITE_NAME." Operations Team<br />".CSiteConfig::ROOT_URL."<br />".CConfig::SNC_PUNCH_LINE;
+        	 
+        	$this->Send($user_email, $subject, $body);
+        }
     }
 ?>

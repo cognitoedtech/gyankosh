@@ -146,7 +146,7 @@ $objIncludeJsCSS->IncludeDatatablesResponsiveJS ( "../../" );
 						</tr>
 					</thead>
 						<?php
-						$objBilling->PopulateBillingHistory ( $user_id, $time_zone );
+						$objBilling->PopulateSettlementHistory ( $user_id, $time_zone );
 						?>
 						<tfoot>
 						<tr>
