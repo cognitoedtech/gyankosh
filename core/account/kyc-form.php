@@ -149,7 +149,7 @@ $page_id = CSiteConfig::UAP_ACOOUNT_KYC_FORM;
 							<label> <input type="checkbox" onclick="OnTerms(this);"> I am agreed to the <a href="#">terms of revenue
 								sharing</a> and confirms that all of the details provided by me
 								above are true. If any issues are found in aforementioned
-								information, I will be completely responsible.
+								information, I will be responsible.
 							</label>
 						</div>
 					</div>

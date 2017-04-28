@@ -1385,7 +1385,7 @@
        	public function AddToSellerBilling($user_id, $market_percentage_sharing, $pan_number, $bank_account_number,
        			$bank_ifsc_code, $bank_name, $bank_user_name)
        	{
-       		$query  = sprintf("insert into seller_billing(user_id, market_percentage_sharing, pan_number, bank_account_number, bank_ifsc_code, bank_name, bank_user_name) values('%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update bank_account_number='%s', bank_ifsc_code='%s', bank_name='%s', bank_user_name='%s'", 
+       		$query  = sprintf("insert into seller_billing(user_id, market_percentage_sharing, pan_number, bank_account_number, bank_ifsc_code, bank_name, bank_user_name) values('%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update kyc_done=0, bank_account_number='%s', bank_ifsc_code='%s', bank_name='%s', bank_user_name='%s'", 
        				$user_id, $market_percentage_sharing, $pan_number, $bank_account_number, $bank_ifsc_code, $bank_name, $bank_user_name,
        				$bank_account_number, $bank_ifsc_code, $bank_name, $bank_user_name);
        		
