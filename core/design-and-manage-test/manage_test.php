@@ -698,15 +698,13 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 	                	},
 	                	what_will_you_acheive: {
 	                		required:true,
-	                		maxlength: 160
+	                		maxlength: 512
 	                	},
 	                	inr_cost: {
-	                		required:true,
-	                		maxlength: 160
+	                		required:true
 	                	},
 	                	usd_cost: {
-	                		required:true,
-	                		maxlength: 160
+	                		required:true
 	                	},
 	                	product_img: {
 	                		'ValidateImageExt':true,
@@ -890,7 +888,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 				
 				jQuery.validator.addMethod("logo_image_dim", function(val, elem) {
 
-					if(image_width == 300 && image_height == 400)
+					if(image_width == 300 && image_height == 300)
 					{
 						return true;
 					}

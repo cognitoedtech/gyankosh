@@ -89,38 +89,61 @@
 				break;
 			case 3:
 				{
-					$org_id		= clean($_POST['ORG_ID']);
-					$org_name	= clean($_POST['ORG']);
-					$org_size	= clean($_POST['ORGSIZE']);
-					$org_url	= clean($_POST['ORGURL']);
-					$logo_type  = clean($_POST['logo_type']);
-					$logo_name	= clean($_POST['LOGONAME']);
-					$punch_line	= clean($_POST['PUNCHLINE']);
-					$login_name	= clean($_POST['LOGINNAME']);
+					$org_id			= clean($_POST['organization_id']);
+					$org_address 	= clean($_POST['organization_address']);
+					$org_phone		= clean($_POST['organization_phone']);
+					$org_email		= clean($_POST['organization_email']);
+					$org_city 		= clean($_POST['organization_city']);
+					$org_state		= clean($_POST['organization_state']);
+					$org_country	= clean($_POST['organization_country']);
+					$org_zip		= clean($_POST['zip_code']);
 					
-					$logo_image = "";
+					$org_name 		= clean($_POST['organization_name']);
+					$org_url 		= clean($_POST['organization_url']);
+					$youtube_videos = clean($_POST['youtube_videos']);
+					$org_desc		= clean($_POST['description']);
+					$logo_name  	= "";
+					$punch_line 	= "";
+					$org_size		= 0;
 					
-					if($logo_type == "image")
+					$aryCourses = array();
+					foreach($_POST['course_name'] as $key => $sCourseName)
 					{
-						if($_FILES['ORGLOGOIMG']['size'] > 0)
-						{
-							$handle = fopen($_FILES['ORGLOGOIMG']['tmp_name'], "rb");
-							$logo_image  = fread($handle, $_FILES['ORGLOGOIMG']['size']);
-							fclose($handle);
-						}
-						
-						$logo_name  = "";
-						$punch_line = "";
+						$aryCourses[$sCourseName] = $_POST['course_desc'][$key];
+					}
+					$courses = json_encode($aryCourses);
+					
+					/*echo "<pre>";
+					print_r($aryCourses);
+					echo "</pre>";
+					exit();*/
+					
+					$logo_image	= null;
+					if($_FILES['organization_img']['size'] > 0)
+					{
+						$handle = fopen($_FILES['organization_img']['tmp_name'], "rb");
+						$logo_image  = fread($handle, $_FILES['organization_img']['size']);
+						fclose($handle);
 					}
 					
-					$org_data = array(CUser::FIELD_ORGANIZATION_NAME => $org_name,
+					$org_data = array(CUser::FIELD_ORGANIZATION_ADDRESS => $org_address,
+									  CUser::FIELD_ORGANIZATION_PHONE => $org_phone,
+									  CUser::FIELD_ORGANIZATION_EMAIL => $org_email,
+									  CUser::FIELD_ORGANIZATION_CITY => $org_city,
+									  CUser::FIELD_ORGANIZATION_STATE => $org_state,
+									  CUser::FIELD_ORGANIZATION_COUNTRY => $org_country,
+									  CUser::FIELD_ORGANIZATION_ZIPCODE => $org_zip,
+									  CUser::FIELD_ORGANIZATION_NAME => $org_name,
 									  CUser::FIELD_ORGANIZATION_SIZE => $org_size,
 									  CUser::FIELD_ORGANIZATION_URL => $org_url,
+									  CUser::FIELD_ORGANIZATION_YOUTUBE => $youtube_videos,
+									  CUser::FIELD_ORGANIZATION_DESC => $org_desc,
+									  CUser::FIELD_ORGANIZATION_COURSES => $courses,
 									  CUser::FIELD_LOGO_IMAGE => $logo_image,
 									  CUser::FIELD_LOGO_NAME => $logo_name,
 									  CUser::FIELD_PUNCH_LINE => $punch_line);
 					
-					$objUM->UpdateOrg($user_id, $org_id, $org_data, $login_name);
+					$objUM->UpdateOrg($user_id, $org_id, $org_data);
 					
 					$sRedirectURL = "../about.php";
 				}

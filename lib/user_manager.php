@@ -744,25 +744,94 @@
 				3). After insertion update org id in user table.
 			*/
 			$bRet = false;
-			$query = "select * from organization where organization_id='".$org_id."' AND organization_name='".$user_data[CUser::FIELD_ORGANIZATION_NAME]."'";
+			$query = sprintf("select * from organization where organization_id='%s'",$org_id);
 			
 			$result = mysql_query($query,$this->db_link_id) or die ("Error getting org details :".mysql_error($this->db_link_id));
 			if(mysql_num_rows($result) > 0)
 			{
-				$query = sprintf("update organization set organization_url='%s', organization_size='%s', logo_image='%s', logo_name='%s', punch_line='%s' where organization_id='%s'", $user_data[CUser::FIELD_ORGANIZATION_URL], $user_data[CUser::FIELD_ORGANIZATION_SIZE], base64_encode($user_data[CUser::FIELD_LOGO_IMAGE]), $user_data[CUser::FIELD_LOGO_NAME], $user_data[CUser::FIELD_PUNCH_LINE], $org_id);
-					
-				$bRet = mysql_query($query,$this->db_link_id) or die ("Error setting org details :".mysql_error($this->db_link_id));
+				$row = mysql_fetch_array($result);
+				
+				$query = sprintf("update organization set %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s', %s='%s' where organization_id='%s'", 
+						CUser::FIELD_ORGANIZATION_ADDRESS,
+						$user_data[CUser::FIELD_ORGANIZATION_ADDRESS],
+						CUser::FIELD_ORGANIZATION_PHONE,
+						$user_data[CUser::FIELD_ORGANIZATION_PHONE],
+						CUser::FIELD_ORGANIZATION_EMAIL,
+						$user_data[CUser::FIELD_ORGANIZATION_EMAIL],
+						CUser::FIELD_ORGANIZATION_CITY,
+						$user_data[CUser::FIELD_ORGANIZATION_CITY],
+						CUser::FIELD_ORGANIZATION_STATE,
+						$user_data[CUser::FIELD_ORGANIZATION_STATE],
+						CUser::FIELD_ORGANIZATION_COUNTRY,
+						$user_data[CUser::FIELD_ORGANIZATION_COUNTRY],
+						CUser::FIELD_ORGANIZATION_ZIPCODE,
+						$user_data[CUser::FIELD_ORGANIZATION_ZIPCODE],
+						CUser::FIELD_ORGANIZATION_NAME,
+						$user_data[CUser::FIELD_ORGANIZATION_NAME],
+						CUser::FIELD_ORGANIZATION_SIZE,
+						$user_data[CUser::FIELD_ORGANIZATION_SIZE],
+						CUser::FIELD_ORGANIZATION_URL,
+						$user_data[CUser::FIELD_ORGANIZATION_URL],
+						CUser::FIELD_ORGANIZATION_YOUTUBE,
+						$user_data[CUser::FIELD_ORGANIZATION_YOUTUBE],
+						CUser::FIELD_ORGANIZATION_DESC,
+						$user_data[CUser::FIELD_ORGANIZATION_DESC],
+						CUser::FIELD_ORGANIZATION_COURSES,
+						$user_data[CUser::FIELD_ORGANIZATION_COURSES],
+						CUser::FIELD_LOGO_IMAGE,
+						is_null($user_data[CUser::FIELD_LOGO_IMAGE]) ? $row[CUser::FIELD_LOGO_IMAGE] : base64_encode($user_data[CUser::FIELD_LOGO_IMAGE]),
+						CUser::FIELD_LOGO_NAME,
+						$user_data[CUser::FIELD_LOGO_NAME],
+						CUser::FIELD_PUNCH_LINE,
+						$user_data[CUser::FIELD_PUNCH_LINE],
+						$org_id);
+				
+				$bRet = mysql_query($query,$this->db_link_id) or die ("Error updating org details : ".$query." - ".mysql_error($this->db_link_id));
 			}
 			else 
 			{
 				$new_org_id = CUtils::uuid() ;
-				$query = sprintf("insert into organization (organization_id, organization_name, organization_url, organization_size, logo_image, logo_name, punch_line) values('%s','%s','%s','%s','%s','%s','%s')", $new_org_id, $user_data[CUser::FIELD_ORGANIZATION_NAME], $user_data[CUser::FIELD_ORGANIZATION_URL], $user_data[CUser::FIELD_ORGANIZATION_SIZE], base64_encode($user_data[CUser::FIELD_LOGO_IMAGE]), $user_data[CUser::FIELD_LOGO_NAME], $user_data[CUser::FIELD_PUNCH_LINE]);
+				$query = sprintf("insert into organization (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')", 
+						CUser::FIELD_ORGANIZATION_ID,
+						CUser::FIELD_ORGANIZATION_ADDRESS,
+						CUser::FIELD_ORGANIZATION_PHONE,
+						CUser::FIELD_ORGANIZATION_EMAIL,
+						CUser::FIELD_ORGANIZATION_CITY,
+						CUser::FIELD_ORGANIZATION_STATE,
+						CUser::FIELD_ORGANIZATION_COUNTRY,
+						CUser::FIELD_ORGANIZATION_ZIPCODE,
+						CUser::FIELD_ORGANIZATION_NAME,
+						CUser::FIELD_ORGANIZATION_SIZE,
+						CUser::FIELD_ORGANIZATION_URL,
+						CUser::FIELD_ORGANIZATION_YOUTUBE,
+						CUser::FIELD_ORGANIZATION_DESC,
+						CUser::FIELD_ORGANIZATION_COURSES,
+						CUser::FIELD_LOGO_IMAGE,
+						CUser::FIELD_LOGO_NAME,
+						CUser::FIELD_PUNCH_LINE,
+						$new_org_id,
+						$user_data[CUser::FIELD_ORGANIZATION_ADDRESS],
+						$user_data[CUser::FIELD_ORGANIZATION_PHONE],
+						$user_data[CUser::FIELD_ORGANIZATION_EMAIL],
+						$user_data[CUser::FIELD_ORGANIZATION_CITY],
+						$user_data[CUser::FIELD_ORGANIZATION_STATE],
+						$user_data[CUser::FIELD_ORGANIZATION_COUNTRY],
+						$user_data[CUser::FIELD_ORGANIZATION_ZIPCODE],
+						$user_data[CUser::FIELD_ORGANIZATION_NAME],
+						$user_data[CUser::FIELD_ORGANIZATION_SIZE],
+						$user_data[CUser::FIELD_ORGANIZATION_URL],
+						$user_data[CUser::FIELD_ORGANIZATION_YOUTUBE],
+						$user_data[CUser::FIELD_ORGANIZATION_DESC],
+						$user_data[CUser::FIELD_ORGANIZATION_COURSES],
+						base64_encode($user_data[CUser::FIELD_LOGO_IMAGE]),
+						$user_data[CUser::FIELD_LOGO_NAME],
+						$user_data[CUser::FIELD_PUNCH_LINE]);
 				
-				$bRet = mysql_query($query,$this->db_link_id) or die ("Error setting org details :".mysql_error($this->db_link_id));
+				$bRet = mysql_query($query,$this->db_link_id) or die ("Error instering org details :".mysql_error($this->db_link_id));
 				if($bRet)
 				{
 					$query = "update users set organization_id='".$new_org_id."' where user_id='".$user_id."'";
-					$bRet = mysql_query($query,$this->db_link_id) or die ("Error setting org details :".mysql_error($this->db_link_id));
+					$bRet = mysql_query($query,$this->db_link_id) or die ("Error setting user's org details :".mysql_error($this->db_link_id));
 				}
 			}
 			

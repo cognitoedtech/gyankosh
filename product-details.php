@@ -295,8 +295,10 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 				<div class="col-lg-8 col-md-8 col-sm-8">
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12">
-							by <a
-								href="search-results.php?company-name=<?php echo(urldecode($aryPublishedProduct['org_name']));?>&id=<?php echo($aryPublishedInfo['org_id']);?>"><?php echo($aryPublishedProduct['org_name']);?></a>
+							<a
+								href="search-results.php?company-name=<?php echo(urldecode($aryPublishedProduct['org_name']));?>">More Tests/Sets</a> 
+								by <a
+								href="about-publisher.php?pub=<?php echo(urldecode($aryPublishedProduct['org_name']));?>&pub-enct=<?php echo($aryPublishedInfo['org_id']);?>"><?php echo($aryPublishedProduct['org_name']);?></a>
 						</div>
 					</div>
 					<div class="row">

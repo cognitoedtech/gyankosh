@@ -153,7 +153,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 										style="border-left: 1px solid #eee; border-top: 1px solid #eee; padding-left: 30px;">
 										<div class="row">
 											<div class="h5">
-												<br />by <a href="{{item.org_url}}">{{item.org_name}}</a>
+												<br /><a href="{{item.org_search}}">More Tests/Sets</a> by <a href="{{item.org_url}}">{{item.org_name}}</a>
 											</div>
 										</div>
 										<div class="row">
@@ -260,7 +260,8 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 								description: value['description'].substring(0, 128),
 								keywords: value['keywords'],
 								org_name: value['org_name'],
-								org_url: '<?php echo(CSiteConfig::ROOT_URL);?>/search-results.php?company-name='+encodeURIComponent(value['org_name']),
+								org_search: '<?php echo(CSiteConfig::ROOT_URL);?>/search-results.php?company-name='+encodeURIComponent(value['org_name']),
+								org_url: '<?php echo(CSiteConfig::ROOT_URL);?>/about-publisher.php?pub='+encodeURIComponent(value['org_name'])+"&pub-enct="+value['org_id'],
 								org_id: value['org_id'],
 								product_id: value['product_id'],
 								product_type: value['product_type'],

@@ -83,7 +83,7 @@ $page_id = CSiteConfig::UAP_ACOOUNT_KYC_FORM;
 					class="col-lg-6 col-sm-6 col-md-6 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
 					<div class="row">
 						<div class="input-group">
-							<span class="input-group-addon" id="bank_account_number">Account
+							<span class="input-group-addon" id="bank_account_number">Bank Account
 								#</span> <input type="text" id="bank_account_number" 
 								value="<?php echo($bSellerKYCEntryPresent ? $arySellerBilling['bank_account_number'] : '');?>"
 								name="bank_account_number" class="form-control"
@@ -136,7 +136,7 @@ $page_id = CSiteConfig::UAP_ACOOUNT_KYC_FORM;
 					<div class="row">
 						<div class="input-group">
 							<span class="input-group-addon" id="market_percentage_sharing">Your
-								Share (in %)</span> <input readonly type="text"
+								Revenue Share on Market Place (in %)</span> <input readonly type="text"
 								id="market_percentage_sharing" name="market_percentage_sharing" 
 								value="<?php echo($bSellerKYCEntryPresent ? $arySellerBilling['market_percentage_sharing'] : '');?>"
 								class="form-control" placeholder="Bank Branch IFSC Code"
@@ -146,7 +146,7 @@ $page_id = CSiteConfig::UAP_ACOOUNT_KYC_FORM;
 					<br />
 					<div class="row">
 						<div class="checkbox">
-							<label> <input type="checkbox" onclick="OnTerms(this);"> I am agreed to the <a href="#">terms of revenue
+							<label> <input type="checkbox" onclick="OnTerms(this);"> I agree to the <a href="#">terms of revenue
 								sharing</a> and confirms that all of the details provided by me
 								above are true. If any issues are found in aforementioned
 								information, I will be responsible.
@@ -163,12 +163,15 @@ $page_id = CSiteConfig::UAP_ACOOUNT_KYC_FORM;
 				<div
 					class="col-lg-4 col-sm-4 col-md-4 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
 					<div class="row">
-						<p style="color: purple;"><?php echo(CConfig::SNC_SITE_NAME);?> is commited to have budget for 
-						effective marketing to sell publisher's tests/sets via our various channel partner. We assume 
-						you will give your best to create best tests/sets. We fairly share commission with every channel 
-						partners and offer discount coupons to end users. We cover all of these expenses from our share.
+						<p style="color: purple;">We understand that you will be creating best tests/sets at 
+						<?php echo(CConfig::SNC_SITE_NAME);?>. <?php echo(CConfig::SNC_SITE_NAME);?> is also commited 
+						to have budget for effective marketing to sell publisher's tests/sets via our various channel 
+						partner.  We fairly share commission with every channel partners and offer discount coupons 
+						to end users. We cover all of these expenses from our share.
 						<br />
-						<br /> We would want to assure you that you are the highest earner form your efforts!
+						<br /> We would want to assure you that you are the highest revenue earner from your efforts!
+						<br />
+						<br /> <b>Note:</b> As per government norms, taxes will be charged extra to test/set buyer.
 						</p>
 						<hr />
 						<p>Get in touch with us if you have any questions or concerns, we

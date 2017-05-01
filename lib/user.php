@@ -59,6 +59,17 @@
 		const FIELD_ORGANIZATION_TYPE		= "organization_type";
 		const FIELD_ORGANIZATION_SIZE 		= "organization_size";
 		const FIELD_ORGANIZATION_URL		= "organization_url";
+		const FIELD_ORGANIZATION_ADDRESS	= "organization_address";
+		const FIELD_ORGANIZATION_PHONE		= "organization_phone";
+		const FIELD_ORGANIZATION_EMAIL		= "organization_email";
+		const FIELD_ORGANIZATION_CITY		= "organization_city";
+		const FIELD_ORGANIZATION_STATE		= "organization_state";
+		const FIELD_ORGANIZATION_COUNTRY	= "organization_country";
+		const FIELD_ORGANIZATION_ZIPCODE	= "zip_code";
+		const FIELD_ORGANIZATION_YOUTUBE	= "youtube_videos";
+		const FIELD_ORGANIZATION_DESC		= "description";
+		const FIELD_ORGANIZATION_COURSES	= "courses";
+		
 		const FIELD_LOGO_IMAGE				= "logo_image";
 		const FIELD_LOGO_NAME				= "logo_name";
 		const FIELD_PUNCH_LINE				= "punch_line";
