@@ -2,6 +2,29 @@
 	include_once(dirname(__FILE__)."/../database/config.php");
 	include_once(dirname(__FILE__)."/site_config.php");
 	include_once(dirname(__FILE__)."/session_manager.php");
+	include_once (dirname ( __FILE__ ) . "/../database/product_queries.php");
+	
+	$objProductQueries = new CProductQuery ();
+	
+	$aryCategories = $objProductQueries->GetProductCategories ();
+	
+	$aryIcons = array ("Banking & Insurance" => "<i class='fa fa-money fa-lg'></i>",
+			"Government Jobs" => "<i class='fa fa-globe fa-lg'></i>",
+			"Engineering Entrance" => "<i class='fa fa-gears fa-lg'></i>",
+			"Medical Entrance" => "<i class='fa fa-user-md fa-lg'></i>",
+			"MBA Entrance" => "<i class='fa fa-mortar-board fa-lg'></i>",
+			"Campus Preparation" => "<i class='fa fa-university fa-lg'></i>",
+			"Diploma Preparation" => "<i class='fa fa-certificate fa-lg'></i>",
+			"Misc Preparation" => "<i class='fa fa-navicon fa-lg'></i>" );
+	
+	$jsonCartItems = CSessionManager::Get(CSessionManager::JSON_CART_ITEMS);
+	
+	$aryCartItems = json_decode($jsonCartItems, TRUE);
+	
+	if(empty($aryCartItems))
+		$iItemsInCart = 0;
+	else
+		$iItemsInCart = count($aryCartItems) - 1; // Remove status item
 	
 	// - - - - - - - - - - - - - - - - -
 	// On Session Expire Load ROOT_URL
@@ -56,6 +79,15 @@
 								if($user_type != CConfig::UT_INDIVIDAL)
 								{
 								?>
+								<li><a href="<?php echo(CSiteConfig::ROOT_URL);?>/search-results.php"><i class="icon-list fg-steel"></i>Store Front</a></li>
+								<?php 
+								}
+								?>
+								<li <?php echo($menu_class_ary[CSiteConfig::UAMM_PURCHASED_PRODUCTS]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/purchased-products.php"><i class="icon-credit-card fg-red"></i>Purchased Products</a></li>
+								<?php 
+								if($user_type != CConfig::UT_INDIVIDAL)
+								{
+								?>
 								<li><a class="dropdown-toggle" href="#"><i class="icon-github-6 fg-steel"></i>Sneak Peek</a>
 									<ul class="dropdown-menu <?php echo($menu_class_ary[CSiteConfig::UAMM_SNEAK_PEEK]);?>" data-role="dropdown">
 										<?php 
@@ -69,7 +101,29 @@
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_SNEAK_PEEK_PERSONAL]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/sneak-peek/sneak_peek_personal.php"><i class="icon-arrow-right-4"></i> Personal Knowledge Base</a></li>
 									</ul></li>
 								<?php
-								} 
+								}
+								if($user_type == CConfig::UT_INDIVIDAL)
+								{
+									foreach ( $aryCategories as $strCategory => $aryValues )
+									{
+										// Remove whitespace from name to form html id.
+										$element_id = preg_replace ( "/[^a-zA-Z]+/", "", $strCategory );
+											
+										if(count($aryValues) > 0)
+										{
+											printf ( "<li class='stick bg-blue'><a class='dropdown-toggle' href='#'>%s %s</a>", $aryIcons [$strCategory], $strCategory );
+											printf ( "<ul class='dropdown-menu' data-role='dropdown' id='%s'>", $element_id );
+									
+											foreach ( $aryValues as $subCategory ) {
+												//class='active'
+												printf ( "<li><a href='%s/search-results.php?ci=%d'><i class='icon-arrow-right-4'></i> %s</a></li>", CSiteConfig::ROOT_URL, $subCategory[0], $subCategory[1] );
+											}
+									
+											printf ( "</ul></li>" );
+										}
+									}
+								}
+								
 								if($user_type == CConfig::UT_SUPER_ADMIN)
 								{
 								?>
@@ -208,6 +262,17 @@
 										}
 										?>
 									</ul></li>
+									<?php 
+									if($user_type == CConfig::UT_INDIVIDAL)
+									{
+									?>
+									<li class="stick bg-green sr-sidebar-checkout"><a href="<?php echo(CSiteConfig::ROOT_URL);?>/checkout.php"> Checkout <i
+										class="fa fa-shopping-cart fa-lg"></i> <span
+										class="badge badge-warning" id="checkout_badge" style="margin-top: -5px;"><?php echo($iItemsInCart);?></span>
+									</a></li>
+									<?php 
+									}
+									?>
 							</ul>
 						</nav>
 					</div>

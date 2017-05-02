@@ -185,7 +185,7 @@ else
 				<div class="metro">
 					<div class="accordion with-marker col-lg-4 col-md-4 col-sm-4" id="accordion" data-role="accordion">
 						<div class="accordion-frame">
-							<a class="heading bg-lightBlue fg-white active" style='font-size: 15px;' href='#'><b>Scheduled Tests</b></a>
+							<a class="heading bg-lightBlue fg-white active" style='font-size: 15px;' href='#'><b>Purchased Tests</b></a>
 							<div class="content">
 								<?php 
 								$objDB->PopultateScheduledTest($user_id);

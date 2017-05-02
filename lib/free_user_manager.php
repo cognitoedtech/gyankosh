@@ -73,7 +73,7 @@ class CFreeUserManager
 	}
 	
 	//PopulateFreeTests
-	public function PopulateProducts($searchText, $searchCategory, $limit_start_value = 0)
+	public function PopulateProducts($searchText, $searchCategory, $limit_start_value = 0, $product_category = -1)
 	{
 		$searchText = trim($searchText);
 		$searchCategory = trim($searchCategory);
@@ -81,7 +81,11 @@ class CFreeUserManager
 		
 		$locateCond = "";
 		
-		if($searchCategory == "keywords")
+		if($product_category > 0)
+		{
+			$locateCond = sprintf("category_id=%d", $product_category);
+		}
+		else if($searchCategory == "keywords")
 		{
 			$searchAry = explode(" ", $searchText);
 			

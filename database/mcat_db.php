@@ -3072,11 +3072,11 @@
 			{
 				if($user_type == CConfig::UT_INDIVIDAL)
 				{
-					printf("No tests has been scheduled for you.");
+					printf("No tests has been bought by you.");
 				}
 				else
 				{
-					printf("No tests has been scheduled by you.");
+					printf("No tests has been sold by you.");
 				}
 			}
 		}

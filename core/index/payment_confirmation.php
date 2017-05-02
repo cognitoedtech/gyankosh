@@ -16,11 +16,9 @@
 	$expire_minutes = 0;
 	$candidate_list = 0;
 	$time_zone = 0;
-	$schd_type = 0; 
-	$schd_id = 0;
 	
 	$objDB = new CMcatDB();
-	$test_name = $objDB->InsertIntoTestSchedule($test_id, $user_id, $scheduled_on, $hours, $minutes, $expire_on, $expire_hours, $expire_minutes, $candidate_list, $time_zone, $schd_type, $schd_id);
+	$schd_id = $objDB->InsertIntoTestSchedule($test_id, $user_id, $scheduled_on, $hours, $minutes, $expire_on, $expire_hours, $expire_minutes, $candidate_list, $time_zone, TRUE);
 	
 	$objBilling = new CBilling();
 	$products_purchased = 0;

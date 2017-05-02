@@ -18,6 +18,12 @@ if (isset( $_GET ['company-name'] ) && ! empty ( $_GET ['company-name'] )) {
 	$_POST['search_category'] = "inst_name";
 }
 
+$prod_category_id = -1;
+if(isset($_GET ['ci']))
+{
+	$prod_category_id = $_GET ['ci'];
+}
+
 $from_free = 1;
 ?>
 <html lang="en">
@@ -244,7 +250,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 		    $.ajax({
 				url: '<?php echo(CSiteConfig::ROOT_URL);?>/core/index/ajax/ajax_get_search_results.php',
 				type: 'POST',
-				data: {'search_text' : '<?php echo(trim($_POST['search_text']));?>', 'search_category' : '<?php echo($_POST['search_category']);?>', 'limit_start_value' : limit_start_value},
+				data: {'search_text' : '<?php echo(trim($_POST['search_text']));?>', 'search_category' : '<?php echo($_POST['search_category']);?>', 'limit_start_value' : limit_start_value, 'product_category' : <?php echo($prod_category_id);?>},
 				dataType: 'json',
 				async: false,
 				success: function(data) {

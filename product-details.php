@@ -37,7 +37,7 @@ if (isset ( $_GET ['product-id'] ) && ! empty ( $_GET ['product-id'] )) {
 	$bCopiedLink = true;
 	$testInfoAry = explode ( "-", $_GET ['product-id'] );
 	
-	if (preg_match ( '/^\d+$/', $testInfoAry [0] ) != 0 && $testInfoAry [0] > 0 && count ( $testInfoAry ) == 4 && ($testInfoAry [1] == 0 || $testInfoAry [1] == 1) && strlen ( $testInfoAry [2] ) == 2 && $testInfoAry [2] >= 1 && $testInfoAry [2] <= 31) {
+	if (preg_match ( '/^\d+$/', $testInfoAry [0] ) != 0 && $testInfoAry [0] > 0 && count ( $testInfoAry ) == 4 && ($testInfoAry [1] == 0 || $testInfoAry [1] == 1) && strlen ( $testInfoAry [3] ) == 2 && $testInfoAry [2] >= 1 && $testInfoAry [2] <= 31) {
 		$product_id = $testInfoAry [0];
 		$product_type = $testInfoAry [1];
 		$owner_id_hint = $testInfoAry [3];
@@ -56,7 +56,7 @@ if (isset ( $_GET ['product-id'] ) && ! empty ( $_GET ['product-id'] )) {
 }
 
 $objUtils = new CUtils ();
-// print_r($qry);
+
 if ( !$bCopiedLink && !$bProperURL ) {
 	// echo("\nTest - 1");
 	$objUtils->Redirect ( "search-results.php" );

@@ -38,7 +38,7 @@
 				
 				if(!empty($row["sub_category"]))
 				{
-					array_push($aryCategories[$row["category"]], $row["sub_category"]);
+					array_push($aryCategories[$row["category"]], array($row["category_id"], $row["sub_category"]));
 				}
 			}
 				

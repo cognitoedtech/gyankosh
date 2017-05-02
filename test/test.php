@@ -189,13 +189,21 @@
 ?>
 <html>
 	<head>
-		<title> EZeeAssess: Assessment </title>
+		<meta charset="UTF-8">
+		<meta name="Generator" content="">
+		<meta name="Author" content="">
+		<meta name="Keywords" content="">
+		<meta name="Description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title> <?php echo(CConfig::SNC_SITE_NAME);?> </title>
 		<?php 
-			$objIncludeJsCSS->CommonIncludeCSS ( "../../" );
-			$objIncludeJsCSS->CommonIncludeJS ( "../../" );
+			$objIncludeJsCSS->CommonIncludeCSS ( "../" );
+			$objIncludeJsCSS->CommonIncludeJS ( "../" );
+			$objIncludeJsCSS->IncludeJqueryFormJS ( "../" );
+			$objIncludeJsCSS->IncludeJqueryValidateMinJS ( "../", "1.16.0" );
 		?>
 		<style type="text/css" title="currentStyle">
-			@import "../core/media/css/ui-lightness/jquery-ui-1.8.21.custom.css";
+			/*@import "../core/media/css/ui-lightness/jquery-ui-1.8.21.custom.css";*/
 			#dlg_test_end_confirm {
 			
 			    /* overlay is hidden before loading */
@@ -291,14 +299,7 @@
 			    display: block;
 			}
 		</style>
-		<!-- <link rel="stylesheet" type="text/css" href="../css/mipcat.css" />
-		<link rel="stylesheet" type="text/css" href="../3rd_party/bootstrap/css/bootstrap.css" />
-		<script type="text/javascript" src="../3rd_party/wizard/js/jquery.min.js"></script>
-		<script type="text/javascript" charset="utf-8" src="../core/media/js/jquery-ui-1.8.21.custom.min.js"></script>
-		<script type="text/javascript" charset="utf-8" src="../core/media/js/jquery.tools.min.js"></script>
-		<script type="text/javascript" src="../3rd_party/raty/lib/jquery.raty.js"></script>
-		<script type="text/javascript" charset="utf-8" src="../3rd_party/wizard/js/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="../3rd_party/bootstrap/js/bootstrap.js"></script> -->
+		
 		<script type="text/javascript">
 			if(!bIsFree)
 			{
@@ -327,8 +328,11 @@
 	<body>
 		<div class="container">
 		<div class="modal_overlapped"></div>
-		<div style="color:white;font-weight:bold;background-color:CornflowerBlue;padding:10px 10px;" id="header">
-			<button id="btn_end_exam" class="btn btn-mini btn-danger" style="font-weight:bold;position:absolute; right:20px;top:12px">Close (X)</button><span>Test: <?php echo $test_name; ?></span>
+		<div style="color:white;font-weight:bold;background-color:CornflowerBlue;padding:10px;" id="header">
+			<span>Test: <?php echo $test_name; ?></span>
+			<span class="pull-right" style="margin-top:-5px">
+			<button id="btn_end_exam" class="btn btn-sm btn-danger">Close <i class="fa fa-window-close" aria-hidden="true"></i>
+			</button></span>
 		</div>
 		
 		<div id="pre_restore_log" style="margin-left: 25%;height:100px;<?php echo( $bShowPreRestoreForm == false ? "display:none;": "");?>">
@@ -406,7 +410,7 @@
 			<?php 
 			}
 			?>
-			<ul>
+			<ol>
 				<li>This is a <?php echo($nTime);?> minutes test consisting <?php echo($nQuestion);?> questions distributed in <?php echo($nSection);?> sections (as listed on top) with <?php echo(ucwords($objMCPAParams['pref_lang']));?> as its base language.<br/><br/></li>
 				<?php 
 				if($test_type == CConfig::TT_DEFAULT)
@@ -425,7 +429,7 @@
 				{
 				?>
 				<li>This test has adapted Mastishka Cheating Prevention Algorithm (MCPA), which states 
-					<ul style="color:red">
+					<ol style="color:red">
 						<?php
 						if($bFlash)
 						{
@@ -442,7 +446,7 @@
 						<?php
 						}
 						?>
-					</ul><br/>
+					</ol><br/>
 				</li>
 				<?php
 				}
@@ -458,7 +462,7 @@
 				<?php 
 				}
 				?>
-			</ul>
+			</ol>
 			<?php 
 			if($bTranslation)
 			{
@@ -502,7 +506,7 @@
 			<?php
 			}
 			?>
-			<div style="text-align:center"><input style="font: 100% 'Trebuchet MS', sans-serif; font-weight:bold; margin: 5px;" id="btn_start_test" type="button" value="<?php echo($btnText);?>"></div><hr/>
+			<div style="text-align:center"><input class="btn btn-success" id="btn_start_test" type="button" value="<?php echo($btnText);?>"></div><hr/>
 			<H3 style="text-align:center"><FONT COLOR="#990000">This evaluation test is designed with <acronym title="Organization Crafted Mechanism For Empirical Natural Selection [ &copy; Mastishka Intellisys Private Limited ]">OCMAFENS</acronym> method adapted by <?php echo(CConfig::SNC_SITE_NAME);?>.</FONT></H3>
 			<?php 
 			if(!empty($customInstrAry))

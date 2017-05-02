@@ -39,17 +39,18 @@
 		// User Account Main Menu 
 		/*----------------------------------------------*/
 		const UAMM_DASHBOARD 			= 0;
-		const UAMM_SNEAK_PEEK			= 1;
-		const UAMM_SUPER_ADMIN			= 2;
-		const UAMM_MY_ACCOUNT			= 3;
-		const UAMM_MY_COORDINATORS		= 4;
-		const UAMM_MANAGE_QUESTIONS		= 5;
-		const UAMM_DESIGN_MANAGE_TEST 	= 6;
-		const UAMM_BATCH_MANAGEMENT		= 7; 
-		const UAMM_REGISTER_CANDITATES	= 8;
-		const UAMM_SCHEDULE_TEST		= 9;
-		const UAMM_TRADE_TEST_PACKGES	= 10;
-		const UAMM_RESULT_ANALYTICS		= 11;
+		const UAMM_PURCHASED_PRODUCTS	= 1;
+		const UAMM_SNEAK_PEEK			= 2;
+		const UAMM_SUPER_ADMIN			= 3;
+		const UAMM_MY_ACCOUNT			= 4;
+		const UAMM_MY_COORDINATORS		= 5;
+		const UAMM_MANAGE_QUESTIONS		= 6;
+		const UAMM_DESIGN_MANAGE_TEST 	= 7;
+		const UAMM_BATCH_MANAGEMENT		= 8; 
+		const UAMM_REGISTER_CANDITATES	= 9;
+		const UAMM_SCHEDULE_TEST		= 10;
+		const UAMM_TRADE_TEST_PACKGES	= 11;
+		const UAMM_RESULT_ANALYTICS		= 12;
 		
 		
 		
