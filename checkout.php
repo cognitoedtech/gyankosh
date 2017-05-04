@@ -19,12 +19,13 @@ $jsonCartItems = CSessionManager::Get ( CSessionManager::JSON_CART_ITEMS );
 $aryCartItems = json_decode ( $jsonCartItems, TRUE );
 
 $parsAry = parse_url ( CUtils::curPageURL () );
-$qry = split ( "[=&]", $parsAry ["query"] );
+$qry =  isset( $parsAry ["query"])? split ( "[=&]", $parsAry ["query"] ):"";
 
 $email 			= CSessionManager::Get(CSessionManager::STR_EMAIL_ID);
 $contact 		= CSessionManager::Get(CSessionManager::STR_CONTACT_NO);
 $bValidateCode 	= CSessionManager::Get(CSessionManager::BOOL_VALIDATE_CODE) || CSessionManager::Get(CSessionManager::BOOL_LOGIN);
 $bVerified		= CSessionManager::Get(CSessionManager::BOOL_VERIFIED) || CSessionManager::Get(CSessionManager::BOOL_LOGIN);
+$username = CSessionManager::Get(CSessionManager::STR_USER_NAME);
 
 /*
  * if($login) { CUtils::Redirect("core/dashboard.php"); } else
@@ -33,7 +34,7 @@ $bVerified		= CSessionManager::Get(CSessionManager::BOOL_VERIFIED) || CSessionMa
  * && $qry[1] != "639") { CUtils::Redirect(CSiteConfig::ROOT_URL, true); } }
  */
 
-$login_name = $_GET ['ln'];
+$login_name = isset($_GET ['ln']) ? $_GET ['ln']:"";
 if (! empty ( $login_name )) {
 	CSessionManager::Set ( CSessionManager::STR_LOGIN_NAME, $login_name );
 } else if (! $login) {
@@ -539,26 +540,178 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 					</div>
 					<div id="collapseThree" class="panel-collapse collapse <?php echo($bVerified?'in':'');?>"
 						role="tabpanel" aria-labelledby="headingThree">
-						<div class="panel-body">Anim pariatur cliche reprehenderit, enim
-							eiusmod high life accusamus terry richardson ad squid. 3 wolf
-							moon officia aute, non cupidatat skateboard dolor brunch. Food
-							truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-							sunt aliqua put a bird on it squid single-origin coffee nulla
-							assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-							beer labore wes anderson cred nesciunt sapiente ea proident. Ad
-							vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-							farm-to-table, raw denim aesthetic synth nesciunt you probably
-							haven't heard of them accusamus labore sustainable VHS.
+						<div class="panel-body">
+							<?php 
+						$MERCHANT_KEY = "rKJ6g8";
+						// Merchant Salt as provided by Payu
+						$SALT = "pL8cVtF7";
+						// Change to https://secure.payu.in for LIVE mode
+						$PAYU_BASE_URL = "https://secure.payu.in"; // "https://test.payu.in";
+						$action = '';
+						$posted = array();
+if(!empty($_POST)) {
+foreach($_POST as $key => $value) {
+$posted[$key] = $value;
+}
+}
+$formError = 0;
+if(empty($posted['txnid'])) {
+// Generate random transaction id
+$txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
+} else {
+$txnid = $posted['txnid'];
+}
+$hash = '';
+// Hash Sequence
+$hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+
+//$posted['productinfo'] = json_encode(json_decode('[{"name":"tutionfee","description":"","value":"500","isRequired":"false"},{"name":"developmentfee","description":"monthly tution fee","value":"1500","isRequired":"false"}]'));
+$hashVarsSeq = explode('|', $hashSequence);
+$hash_string = '';
+
+$amount = $fSumCost + $fTax;
+
+
+foreach($hashVarsSeq as $hash_var) {
+switch($hash_var)
+{	
+	case "key";
+	$hash_string .= $MERCHANT_KEY.'|' ;
+	break;
+	case "txnid":
+		$hash_string .= $txnid .'|';
+		break;
+	case "amount":
+		$hash_string .= "0.50" .'|'; // for testing now. Need to change
+		break;
+	case "productinfo";
+	$hash_string .= $jsonCartItems.'|'; // for testing only
+	break;
+	
+	case "firstname":
+		$hash_string .= $username .'|';
+		break;
+	
+	case "email":
+		$hash_string .= $email .'|';
+		break;
+	case "udf1":
+	case "udf2":
+	case "udf3":
+	case "udf4":
+	case "udf5":
+	case "udf6":
+	case "udf7":
+	case "udf8":
+	case "udf9":
+	case "udf10":		
+	$hash_string .= '|'; 
+	break;
+}
+}
+$hash_string .= $SALT;
+
+
+$hash = strtolower(hash('sha512', $hash_string));
+$action = $PAYU_BASE_URL . '/_payment';
+
+						
+							?>
 							
-							<div
-								class="col-lg-4 col-md-4 col-sm-4 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-								<button class="btn btn-info" data-toggle="collapse"
+							<script>
+								var hash = '<?php echo $hash ?>';
+								
+											function submitForm() {
+									
+												if(hash == '') {
+													return false;
+												}
+											 
+											 var url =  "core/ajax/ajax_payu_transaction.php";
+											 $.post(url, $( "#payuForm" ).serialize()).done(
+														function( data ) {
+															if(data == 'error')
+															{
+																	alert(data);
+																	alert('Some issue in data. Please try again');
+																return false
+															}
+															else
+															{
+																var payuForm = document.forms.payuForm;
+																payuForm.submit();
+																
+															
+															}														
+														    
+														  });
+				
+												
+												
+											return false;
+											}
+							</script>
+								
+							<form action="<?php echo $action; ?>" method="post" name="payuForm" id = "payuForm">
+							<input type="hidden" name="key" value="<?php echo $MERCHANT_KEY ?>" />
+							<input type="hidden" id="hash" name="hash" value="<?php echo $hash ?>"/>
+							<input type="hidden" id = "hash_string" name="hash_string" value='<?php echo $hash_string ?>'/>
+							<input type="hidden" id = "txnid" name="txnid" value="<?php echo $txnid ?>" />							
+							<input type="hidden" id = "amount" name="amount" value="0.50" />
+							<input type="hidden" id ="productinfo" name="productinfo" value='<?php echo $jsonCartItems ?>' />
+							<input type="hidden" name="surl" value="http://localhost/quizus-integration/core/index/payment_confirmation.php" />
+							<input type="hidden" name="furl" value="http://localhost/quizus-integration/core/index/payment_confirmation.php" />													
+							<input type="hidden" name="service_provider" value="payu_paisa" size="64" />
+							<input type="hidden" name="pg" value="CC" size="64" />
+							
+							<div class="row">
+							
+							 <p><code>Pay using following details:</code></p>
+												<div
+													class="col-lg-1 col-md-1 col-sm-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<label style="padding-top: 5px;" for="datepicker_dob"
+														class="control-label">Name:</label>
+												</div>
+												<div class="col-lg-4 col-md-4 col-sm-4">
+													<input type="text" id ="firstname" class ="form-control" name = "firstname" value ="<?php echo $username ?>"/>
+												</div>
+												
+												<div
+													class="col-lg-1 col-md-1 col-sm-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+													<label style="padding-top: 5px;" for="datepicker_dob"
+														class="control-label">Email:</label>
+												</div>
+												<div class="col-lg-4 col-md-4 col-sm-4">
+													<input type="text" id = "email" name = "email" class="form-control" value ="<?php echo $email ?>" readonly/>
+												</div>
+												
+												
+												<div
+													class="col-lg-1 col-md-1 col-sm-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1" style="margin-top:20px"  >
+													<label style="padding-top: 5px;" for="datepicker_dob"
+														class="control-label">Phone:</label>
+												</div>
+												<div class="col-lg-4 col-md-4 col-sm-4" style="margin-top:20px">
+													<input type="text" id = "phone" name="phone" class="form-control" value="<?php echo $contact ?>" readonly />
+												</div>
+												
+												
+											</div>
+							
+							<div 	class="col-lg-4 col-md-4 col-sm-4 col-sm-offset-1 col-md-offset-1 col-lg-offset-8">
+								<button class="btn btn-success" data-toggle="collapse"
 									data-parent="#accordion" href="#collapseOne"
 									aria-expanded="false" aria-controls="collapseOne">
 									<i class="fa fa-backward" aria-hidden="true"></i>&nbsp;&nbsp;
 									Back to Cart
 								</button>
+								
+								<button class="btn btn-info" onclick="return submitForm()">									
+									Pay &nbsp;&nbsp; <i class="fa fa-forward" aria-hidden="true"></i>
+								</button>
+								
 							</div>
+							</form>
 						</div>
 					</div>
 				</div>
