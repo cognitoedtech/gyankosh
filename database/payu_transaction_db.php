@@ -40,9 +40,17 @@ class PayuTransaction
 		return $result;
 	}
 	
-	public function getTransaction()	
+	public function getPayuTransaction($transaction_id)	
 	{
-		
+		$query = "select * from payu_transactions where transaction_id ='".  $transaction_id . "'" ;
+		//echo $query;
+		$result = mysql_query($query, $this->db_link) or die('Get payu transaction error : ' . mysql_error());
+		if(mysql_num_rows($result) > 0)
+			{
+				$row = mysql_fetch_array($result);
+				return $row;
+				
+			}
 		
 	}
 }

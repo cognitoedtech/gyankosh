@@ -28,27 +28,27 @@
 	{
 		foreach($GLOBALS['aryCustomerBilling'] as $billingEntry)
 		{
-			$aryProducts 	= json_decode($billingEntry['products_purchased']);
-			$aryPaymentInfo	= json_decode($billingEntry['payment_info']);
+			$aryProducts 	= json_decode($billingEntry['products_purchased'],true);
+			$aryPaymentInfo	= json_decode($billingEntry['payment_info'],true);
 			
-			if(isset($aryProducts['tests']) && is_array($aryProducts['tests']))
+			if(isset($aryProducts['products']['tests']) && is_array($aryProducts['products']['tests']))
 			{
-				foreach($aryProducts['tests'] as $aryTests)
+				foreach($aryProducts['products']['tests'] as $aryTests)
 				{
 					printf("<tr>");
 					printf("<td>%s</td>", $billingEntry['xaction_id']);
 					printf("<td>%s</td>", $GLOBALS['objDB']->GetTestName($aryTests['id']));
 					printf("<td>%s</td>", $billingEntry['timestamp']);
 					printf("<td>%.2f</td>", $aryTests['amount_base']+$aryTests['taxes']);
-					printf("<td>--</td>");
+					printf("<td>%s</td>", $aryPaymentInfo['payment_info']['transaction_id']);
 					printf("<td><a href='javascript;' onclick='ShowOverlay('http://localhost/QuizUS/test/test.php?test_id=%d&tschd_id=%d','st_x');' class='btn btn-info'>Start Test</a></td>", $aryTests['id'], $aryTests['scheduled_id']);
 					printf("</tr>");
 				}
 			}
 			
-			if(isset($aryProducts['packages']) && is_array($aryProducts['packages']))
+			if(isset($aryProducts['products']['packages']) && is_array($aryProducts['products']['packages']))
 			{
-				foreach($aryProducts['packages'] as $aryPkgs)
+				foreach($aryProducts['products']['packages'] as $aryPkgs)
 				{
 					/*
 					 * Add code here once packages are launched
