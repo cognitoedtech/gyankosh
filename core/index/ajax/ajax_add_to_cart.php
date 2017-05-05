@@ -23,9 +23,9 @@
 	$bProductExistsInCart = false;
 	foreach($aryCartItems as $key => $cartItem)
 	{
-		$fp = fopen("add_to_cart.txt", "a");
+		/*$fp = fopen("add_to_cart.txt", "a");
 		fwrite($fp, print_r($cartItem, TRUE)."\r\n");
-		fclose($fp);
+		fclose($fp);*/
 		
 		if(is_int($key) && $cartItem['id'] == $product_id)
 		{

@@ -383,8 +383,11 @@
 			}
 		</style>
 		<?php 
-			$objIncludeJsCSS->CommonIncludeCSS ( "../../" );
-			$objIncludeJsCSS->CommonIncludeJS ( "../../" );
+			$objIncludeJsCSS->CommonIncludeCSS ( "../" );
+			$objIncludeJsCSS->IncludeJquerySnippetCSS( "../" );
+			
+			$objIncludeJsCSS->CommonIncludeJS ( "../" );
+			$objIncludeJsCSS->IncludeJquerySnippetJS( "../" );
 		?>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
@@ -398,9 +401,6 @@
 		  })();
 		</script>
 		<script type="text/javascript" src="../js/mipcat/utils.js"></script>
-		<?php 
-			$objIncludeJsCSS->IncludeMetroMinJS("../");
-		?>
 		<style type="text/css">
 		
 		.selected_sec_name {
@@ -474,7 +474,12 @@
 	<body>
 		<div class="container">
 		<div style="color:white;font-weight:bold;background-color:CornflowerBlue;padding:10px 10px;" id="header">
-			<input type="button" id="btn_end_exam" class="btn btn-mini btn-danger" value="End Exam (X)" style="font-weight:bold;float: right;"/><span>Test: <?php echo $test_name; ?></span>
+		<span>Test: <?php echo $test_name; ?></span>
+		<span class="pull-right" style="margin-top: -5px">
+			<button id="btn_end_exam" class="btn btn-sm btn-danger">
+				End Exam <i class="fa fa-window-close" aria-hidden="true"></i>
+			</button>
+		</span>
 		</div>
 		
 		<div class="container-fluid">
@@ -720,31 +725,50 @@
 			?>
 		</form>
 		
-		<div class="modal hide fade in" id="dlg_test_end_confirm" role="dialog" tabindex="-1">
-		   	<div class="modal-header">
-		   		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		  		<h3>End Exam Confirmation</h3>
+		<div class="modal fade" id="dlg_test_end_confirm" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">End Exam Confirmation</h4>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure to end the exam? After confirmation your test
+							progress will be submited for result and you will no longer be
+							able to attempt this test again.</p>
+						<p style="color: #666">To cancel, click the No button or hit the
+							ESC key.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+						<button type="button" onclick="OnEndExam()" class="btn btn-primary">Yes</button>
+					</div>
+				</div>
 			</div>
-		   	<div class="modal-body">
-		   		<p>Are you sure to end the exam? After confirmation your test progress will be submited for result and you will no longer be able to attempt this test again.</p>
-		   	</div>
-		   	<div class="modal-footer">
-		   		<a href="#" class="btn btn-success" onclick="OnEndExam()">Yes</a>
-		   		<a href="#" class="btn" data-dismiss="modal">No</a>
-		   	</div>
 		</div>
 		
-		<div id="MessageModal" role="dialog" tabindex="-1" class="modal hide fade in">
-		  <div class="modal-header">
-		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		    <h3><?php echo(CConfig::SNC_SITE_NAME);?> - Closing Test</h3>
-		  </div>
-		  <div id="ModalMsgStr" class="modal-body">
-		  	
-		  </div>
-		  <div class="modal-footer">
-		    <a href="#" onclick="HideOL(); $('#MessageModal').modal('hide');" class="btn">Close</a>
-		  </div>
+		<div class="modal fade" id="MessageModal" tabindex="-1"
+			role="dialog" aria-labelledby="MessageModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="MessageModalLabel"><?php echo(CConfig::SNC_SITE_NAME);?> - Closing Test</h4>
+					</div>
+					<div id="ModalMsgStr" class="modal-body">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
 		</div>
 		</div>
 		<script  language="JavaScript" type="text/javascript">
