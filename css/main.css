@@ -350,3 +350,23 @@ footer p {
   margin-top: 10px;
   margin-bottom: 0;
 }
+#ckeditor_modal {
+    position:fixed;
+    bottom:0px;
+    right:0px;
+    margin:0px;
+    z-index: 9999;
+}
+#minimized_ckeditor_panel {
+	position:fixed;
+    bottom:0px;
+    left:0px;
+    margin:0px;
+    z-index: 9999;
+}
+.minimized-hidden{
+    visibility: hidden;
+}
+.minimized-shown{
+    visibility: visible;
+}
