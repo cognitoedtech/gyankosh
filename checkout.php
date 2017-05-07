@@ -203,6 +203,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 
 	<?php
 	include_once (dirname ( __FILE__ ) . "/lib/header.php");
+	$bShowCKEditor = FALSE;
 	?>
 	
 	<!-- ************************* -->

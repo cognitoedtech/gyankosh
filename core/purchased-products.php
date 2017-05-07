@@ -41,7 +41,7 @@
 					printf("<td>%s</td>", $billingEntry['timestamp']);
 					printf("<td>%.2f</td>", $aryTests['amount_base']+$aryTests['taxes']);
 					printf("<td>%s</td>", $aryPaymentInfo['payment_info']['transaction_id']);
-					printf("<td><a href='javascript;' onclick='ShowOverlay('http://localhost/QuizUS/test/test.php?test_id=%d&tschd_id=%d','st_x');' class='btn btn-info'>Start Test</a></td>", $aryTests['id'], $aryTests['scheduled_id']);
+					printf("<td><a href='javascript;' onclick='ShowOverlay('%s/test/test.php?test_id=%d&tschd_id=%d','st_x');' class='btn btn-info'>Start Test</a></td>", CSiteConfig::ROOT_URL, $aryTests['id'], $aryTests['scheduled_id']);
 					printf("</tr>");
 				}
 			}
@@ -149,7 +149,7 @@ $objIncludeJsCSS->IncludeDatatablesResponsiveJS("../");
 		        </table>
 		    </div><br /><br />
 		    <?php
-			include_once (dirname ( __FILE__ ) . "/../../lib/footer.php");
+			include_once (dirname ( __FILE__ ) . "/../lib/footer.php");
 			?>
 		</div>
 	</div>

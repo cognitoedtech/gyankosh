@@ -1,5 +1,5 @@
 <?php
-if ($user_type != CConfig::UT_INDIVIDAL) {
+if ($user_type != CConfig::UT_INDIVIDAL && $bShowCKEditor == TRUE) {
 ?>
 <div class="modal hide" id="ckeditor_modal_wrapper" tabindex="-1" role="dialog" aria-labelledby="ckeditor_modal_label">
 	<div class="modal-dialog modal-lg" role="document" id="ckeditor_modal">
@@ -37,7 +37,7 @@ if ($user_type != CConfig::UT_INDIVIDAL) {
 	<div class="panel panel-default">
 		<div class="panel-heading">
 	    	<b style="color:teal;">Universal <?php echo(CConfig::SNC_SITE_NAME);?> Editor <i class="fa fa-hand-o-right" aria-hidden="true"></i></b>
-	    	<button type="button" class="btn btn-primary btn-sm pull-right" id="minimized_ckeditor_panel_button">
+	    	<button type="button" class="btn btn-primary btn-sm pull-right" id="minimized_ckeditor_panel_button" style="margin:-5px;">
 				<i class="fa fa-clone" aria-hidden="true"></i>
 			</button>
 	  	</div>
@@ -53,7 +53,7 @@ if ($user_type != CConfig::UT_INDIVIDAL) {
 	</div>
 </div>
 <?php
-if ($user_type != CConfig::UT_INDIVIDAL) {
+if ($user_type != CConfig::UT_INDIVIDAL && $bShowCKEditor == TRUE) {
 ?>
 <script type="text/javascript">
 	$(document).ready(function() {

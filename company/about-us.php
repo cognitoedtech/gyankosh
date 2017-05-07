@@ -5,6 +5,7 @@ include_once (dirname ( __FILE__ ) . "/../lib/include_js_css.php");
 include_once (dirname ( __FILE__ ) . "/../lib/site_config.php");
 include_once (dirname ( __FILE__ ) . "/../lib/utils.php");
 include_once (dirname ( __FILE__ ) . "/../database/config.php");
+
 $page_id = CSiteConfig::HF_FAQ;
 $login = CSessionManager::Get ( CSessionManager::BOOL_LOGIN );
 
@@ -29,6 +30,7 @@ $objIncludeJsCSS->IncludeNivoSliderJS ( "../" );
 	<!-- Header -->
 		<?php
 		include (dirname ( __FILE__ ) . "/../lib/header.php");
+		$bShowCKEditor = FALSE;
 		?>
 		<br />
 	<br />

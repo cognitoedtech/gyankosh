@@ -12,20 +12,22 @@
 	include_once (dirname ( __FILE__ ) . "/../../lib/include_js_css.php");
 	include_once (dirname ( __FILE__ ) . "/../../lib/header.php");
 	
-$objIncludeJsCSS = new IncludeJSCSS ();
-
-if(!isset ( $_POST['search_text'] ) && !isset( $_POST['search_category'] )) {
-	$_POST['search_text'] = "";
-	$_POST['search_category'] = "keywords";
-}
-
-$test_id = NULL;
-if (isset( $_GET ['company-name'] ) && ! empty ( $_GET ['company-name'] )) {
-	$_POST['search_text'] = $_GET ['company-name'];
-	$_POST['search_category'] = "inst_name";
-}
-
-$from_free = 1;
+	$bShowCKEditor = FALSE;
+	
+	$objIncludeJsCSS = new IncludeJSCSS ();
+	
+	if(!isset ( $_POST['search_text'] ) && !isset( $_POST['search_category'] )) {
+		$_POST['search_text'] = "";
+		$_POST['search_category'] = "keywords";
+	}
+	
+	$test_id = NULL;
+	if (isset( $_GET ['company-name'] ) && ! empty ( $_GET ['company-name'] )) {
+		$_POST['search_text'] = $_GET ['company-name'];
+		$_POST['search_category'] = "inst_name";
+	}
+	
+	$from_free = 1;
 ?>
 <html lang="en">
 <head>

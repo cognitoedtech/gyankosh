@@ -9,6 +9,7 @@
 	// - - - - - - - - - - - - - - - - -
 	CSessionManager::OnSessionExpire();
 	// - - - - - - - - - - - - - - - - -
+	//$topic = preg_replace('#<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>#gi', '', $para_info_ary[1]);
 	
 	$user_id = CSessionManager::Get(CSessionManager::STR_USER_ID);
 	

@@ -70,6 +70,7 @@
 		const JQUERY_RATY_JS					= "3rd_party/raty/lib/jquery.raty.js";
 		const ZERO_CLIPBOARD_JS					= "3rd_party/zeroclipboard-master/dist/ZeroClipboard.js";
 		const CK_EDITOR_JS						= "3rd_party/ckeditor_4.6.2_00314f970ab3/ckeditor/ckeditor.js";//"3rd_party/ckeditor_4.6.2_7883c55d92b3/ckeditor/ckeditor.js";
+		const MATH_JAX_JS						= "3rd_party/MathJax-2.7/MathJax.js?config=TeX-AMS_HTML";
 		
 		//---------------------------------
 		// Nivo-slider-theams CSS
@@ -434,6 +435,11 @@
 		public function IncludeCKEditorJS($include_base_path)
 		{
 			printf("<script type='text/javascript' src='%s'></script>\n", $include_base_path.self::CK_EDITOR_JS);
+		}
+		
+		public function IncludeMathJAXJS($include_base_path)
+		{
+			printf("<script type='text/javascript' src='%s'></script>\n", $include_base_path.self::MATH_JAX_JS);
 		}
 		
 		public function CommonIncludeCSS($include_base_path)

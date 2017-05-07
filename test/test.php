@@ -177,6 +177,7 @@ $test_type = $objDB->GetTestType ( $test_id );
 	$objIncludeJsCSS->CommonIncludeJS ( "../" );
 	$objIncludeJsCSS->IncludeJqueryFormJS ( "../" );
 	$objIncludeJsCSS->IncludeJqueryValidateMinJS ( "../", "1.16.0" );
+	$objIncludeJsCSS->IncludeMathJAXJS( "../" );
 	?>
 	<style type="text/css" title="currentStyle">
 		.modal_overlapped {
@@ -520,53 +521,54 @@ $test_type = $objDB->GetTestType ( $test_id );
 		</div>
 		
 		<script type="text/javascript">
-			if(bIsFree)
-			{
-				if(bIsTestRated)
+			$(document).ready(function() {
+				if(bIsFree)
 				{
-					 $("#test_rating_heading").html("You have already rated following");
-					 $("#rate_test_close").removeAttr('disabled');
-					 $('#test_ratings').raty({ 
-						 readOnly: true, 
-						 score: <?php echo($test_rating_score);?>,
-						 half      : true,
-						 size      : 24,
-						 starHalf  : '../3rd_party/raty/demo/img/star-half-big.png',
-						 starOff   : '../3rd_party/raty/demo/img/star-off-big.png',
-						 starOn    : '../3rd_party/raty/demo/img/star-on-big.png' 
-					 });
+					if(bIsTestRated)
+					{
+						 $("#test_rating_heading").html("You have already rated following");
+						 $("#rate_test_close").removeAttr('disabled');
+						 $('#test_ratings').raty({ 
+							 readOnly: true, 
+							 score: <?php echo($test_rating_score);?>,
+							 half      : true,
+							 size      : 24,
+							 starHalf  : '../3rd_party/raty/demo/img/star-half-big.png',
+							 starOff   : '../3rd_party/raty/demo/img/star-off-big.png',
+							 starOn    : '../3rd_party/raty/demo/img/star-on-big.png' 
+						 });
+					}
+					else
+					{
+						$("#test_ratings").raty({
+						    half      : true,
+						    size      : 24,
+						    starHalf  : '../3rd_party/raty/demo/img/star-half-big.png',
+						    starOff   : '../3rd_party/raty/demo/img/star-off-big.png',
+						    starOn    : '../3rd_party/raty/demo/img/star-on-big.png',
+						    click: function(score) {
+						        $("#rate_test_close").removeAttr('disabled');
+						        bIsTestRated = true;
+						        $(this).find('img').unbind();
+						        $.post("ajax/ajax_rate_test.php",{'test_id':'<?php echo($_GET["test_id"]);?>', 'score': score}, function(){
+							        
+							    });
+						    }
+						});	
+					}
+				}
+	
+				if(!bIsFree)
+				{
+					$("table").height($(parent.window).height() - $("#header").height() - 30 );
+					$("iframe").height($(parent.window).height() - $("#header").height() - 30 );
 				}
 				else
 				{
-					$("#test_ratings").raty({
-					    half      : true,
-					    size      : 24,
-					    starHalf  : '../3rd_party/raty/demo/img/star-half-big.png',
-					    starOff   : '../3rd_party/raty/demo/img/star-off-big.png',
-					    starOn    : '../3rd_party/raty/demo/img/star-on-big.png',
-					    click: function(score) {
-					        $("#rate_test_close").removeAttr('disabled');
-					        bIsTestRated = true;
-					        $(this).find('img').unbind();
-					        $.post("ajax/ajax_rate_test.php",{'test_id':'<?php echo($_GET["test_id"]);?>', 'score': score}, function(){
-						        
-						    });
-					    }
-					});	
+					$("table").height(<?php echo($_GET['height']);?> - $("#header").height() - 30 );
+					$("iframe").height(<?php echo($_GET['height']);?> - $("#header").height() - 30 );
 				}
-			}
-
-			if(!bIsFree)
-			{
-				$("table").height($(parent.window).height() - $("#header").height() - 30 );
-				$("iframe").height($(parent.window).height() - $("#header").height() - 30 );
-			}
-			else
-			{
-				$("table").height(<?php echo($_GET['height']);?> - $("#header").height() - 30 );
-				$("iframe").height(<?php echo($_GET['height']);?> - $("#header").height() - 30 );
-			}
-			//$( "#btn_end_exam", "#header" ).button();
+			});
 			
 			function CloseTestWithMsg(mgs, bClose)
 			{
@@ -819,6 +821,11 @@ $test_type = $objDB->GetTestType ( $test_id );
 			}
 			?>
 			
+		</script>
+		<script type="text/x-mathjax-config">
+  			MathJax.Hub.Config({
+    			tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+ 			});
 		</script>
 	</div>
 </body>

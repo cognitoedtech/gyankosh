@@ -4,6 +4,7 @@
 	include_once(dirname(__FILE__)."/../lib/include_js_css.php");
 	include_once(dirname(__FILE__)."/../lib/site_config.php");
 	include_once(dirname(__FILE__)."/../lib/utils.php");
+	
 	$page_id = CSiteConfig::HF_FAQ;
 	$login = CSessionManager::Get(CSessionManager::BOOL_LOGIN);
 	
@@ -23,6 +24,7 @@
 		<!-- Header -->
 		<?php
 			include(dirname(__FILE__)."/../lib/header.php");
+			$bShowCKEditor = FALSE;
 		?>
 		<div class="container">
 			<h3 style="text-align:center;color:steelblue;">Contact Us</h3><br/>

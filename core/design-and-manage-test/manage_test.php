@@ -1000,6 +1000,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 		{
 			$("#sidebar").hide();
 			$("#header").hide();
+			$("#minimized_ckeditor_panel").removeClass( "minimized-shown" ).addClass( "minimized-hidden" );
 			
 			var current_date = new Date();
 		    var time_zone = -current_date.getTimezoneOffset() / 60;
@@ -1016,6 +1017,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 		function HideOverlay()
 		{
 			$("#overlay").hide(500);
+			$("#minimized_ckeditor_panel").removeClass( "minimized-hidden" ).addClass( "minimized-shown" );
 			$("#sidebar").show();
 			$("#header").show();
 			$("body").css("overflow", "auto");

@@ -388,6 +388,7 @@
 			
 			$objIncludeJsCSS->CommonIncludeJS ( "../" );
 			$objIncludeJsCSS->IncludeJquerySnippetJS( "../" );
+			$objIncludeJsCSS->IncludeMathJAXJS( "../" );
 		?>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
@@ -774,8 +775,8 @@
 		<script  language="JavaScript" type="text/javascript">
 		//parent.ShowLeftMenu();
 		OnTransChoiceChange();
-		
-		window.onload = function() {
+
+		$(document).ready(function() {
 			TestTimer();
 			HeartBeat();
 			$("div.mipcat_code_ques").snippet("c",{style:"vim"});
@@ -796,7 +797,7 @@
 			?>
 
 			ToggleSections();
-		}
+		});
 
 		$("#btn_end_exam").click(function(){
 			if(OnEndExam.bExamEnded == false)
@@ -1211,6 +1212,11 @@
 		<?php 
 		}
 		?>
+		</script>
+		<script type="text/x-mathjax-config">
+  			MathJax.Hub.Config({
+    			tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+ 			});
 		</script>
 		</div>
 	</body>

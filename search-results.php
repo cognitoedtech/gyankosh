@@ -81,6 +81,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 <body ng-app="QuizUS" style="overflow-x: hidden;" ng-cloak>
 	<?php
 	include_once (dirname ( __FILE__ ) . "/lib/header.php");
+	$bShowCKEditor = FALSE;
 	?>
 	<div id="overlay" style="display: none;">
 		<iframe id="overlay_frame" src="#" width="100%" height="100%"></iframe>
