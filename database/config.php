@@ -94,9 +94,9 @@
 		
 		// -----------------------------------------
 		// Purchase Types 
-		const PAYU_MONEY = "Payu_Money";
-		const ZERO_CART = "Zero_Cart";
-		const PAYPAL = "Paypal";
+		const PAYU_MONEY = 0;
+		const ZERO_CART = 1;
+		const PAYPAL = 2;
 		
 		// ---------------------------------------
 		
