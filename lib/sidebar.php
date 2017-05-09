@@ -53,7 +53,7 @@
 	
 	$plan_ary = array(CConfig::SPT_BASIC=>"Basic SaaS", CConfig::SPT_PROFESSIONAL=>"Professional SaaS", CConfig::SPT_ENTERPRISE=>"Enterprise SaaS");
 ?>
-	<div id='sidebar'>
+	<div id='sidebar' style="padding-bottom: 100px;">
 		<div class="metro">
 			<div class="grid fluid">
 				<div class="row">
@@ -232,35 +232,17 @@
 								<li><a class="dropdown-toggle" href="#"><i class="icon-stats-up fg-steel"></i>Result Analytics</a>
 									<ul class="dropdown-menu <?php echo($menu_class_ary[CSiteConfig::UAMM_RESULT_ANALYTICS]);?>" data-role="dropdown">
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_BRIEF_RESULT]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/result-analytics/dt_brief_result.php"><i class="icon-arrow-right-4"></i>Brief Result</a></li>
+										<li <?php echo($pages_class_ary[CSiteConfig::UAP_BENCHMARK]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/result-analytics/benchmark.php"><i class="icon-arrow-right-4"></i>Bench-marking</a></li>
 										<?php
-										//if($user_type != CConfig::UT_INDIVIDAL && ($plan_type == CConfig::SPT_ENTERPRISE || $plan_type == CConfig::SPT_PROFESSIONAL || $user_type == CConfig::UT_SUPER_ADMIN))
-										if(false)
+										if(false) //$user_type != CConfig::UT_INDIVIDAL)
 										{
 										?>
-										<li <?php echo($pages_class_ary[CSiteConfig::UAP_PRODUCE_CUSTOM_RESULT]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/result-analytics/dt_custom_result.php"><i class="icon-arrow-right-4"></i>Collate Test Results</a></li>
+										<li <?php echo($pages_class_ary[CSiteConfig::UAP_ANALYZE_QUESTION]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/result-analytics/analyze_questions.php"><i class="icon-arrow-right-4"></i>Analyze Question Usage</a></li>
 										<?php 
 										}
-										
-										if($plan_type == CConfig::SPT_ENTERPRISE || $plan_type == CConfig::SPT_PROFESSIONAL || $user_type == CConfig::UT_SUPER_ADMIN || $user_type == CConfig::UT_INDIVIDAL)
-										{
 										?>
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_TEST_DNA_ANALYSIS]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/result-analytics/detailed_result_analytics.php"><i class="icon-arrow-right-4"></i>Result Data Analysis</a></li>
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_RESULT_INSPECTION]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/result-analytics/inspection_result_analytics.php"><i class="icon-arrow-right-4"></i>Attempted Tests</a></li>
-										<?php 
-										}
-										if($user_type != CConfig::UT_INDIVIDAL && ($plan_type == CConfig::SPT_BASIC || $plan_type == CConfig::SPT_ENTERPRISE || $plan_type == CConfig::SPT_PROFESSIONAL || $user_type == CConfig::UT_SUPER_ADMIN))
-										{
-										?>
-										<li <?php echo($pages_class_ary[CSiteConfig::UAP_FREE_USER_RESULTS]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/result-analytics/dt_free_user_results.php"><i class="icon-arrow-right-4"></i>Practice Test Results</a></li>
-										<?php 
-										}
-										if($user_type == CConfig::UT_SUPER_ADMIN)
-										{
-										?>
-										<li <?php echo($pages_class_ary[CSiteConfig::UAP_IMPORT_OFFLINE_RESULTS]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/result-analytics/import_offline_results.php"><i class="icon-arrow-right-4"></i>Offline Test Results</a></li>
-										<?php 
-										}
-										?>
 									</ul></li>
 									<?php 
 									if($user_type == CConfig::UT_INDIVIDAL)

@@ -109,9 +109,10 @@
 		// --------------------------------
 		// Highcharts JS
 		// --------------------------------
-		const HIGHCHARTS_JS				= "3rd_party/highcharts/js/highcharts.js";
-		const HIGHCHARTS_MORE_JS		= "3rd_party/highcharts/js/highcharts-more.js";
-		const SOLID_GUAGE_SRC_JS		= "3rd_party/highcharts/js/modules/solid-gauge.src.js";
+		const HIGHCHARTS_JS						= "3rd_party/highcharts/js/highcharts.js";
+		const HIGHCHARTS_MORE_JS				= "3rd_party/highcharts/js/highcharts-more.js";
+		const SOLID_GUAGE_SRC_JS				= "3rd_party/highcharts/js/modules/solid-gauge.src.js";
+		const HIGHCHARTS_EXPORTING_MODULE_JS	= "3rd_party/highcharts/js/modules/exporting.js";
 		// --------------------------------
 		
 		public function IncludeDatatablesCopy_CSV_XLS_PDF($include_base_path)
@@ -505,6 +506,7 @@
 			printf("<script type='text/javascript' src='%s'></script>\n", $include_base_path.self::HIGHCHARTS_JS);
 			printf("<script type='text/javascript' src='%s'></script>\n", $include_base_path.self::HIGHCHARTS_MORE_JS);
 			printf("<script type='text/javascript' src='%s'></script>\n", $include_base_path.self::SOLID_GUAGE_SRC_JS);
+			printf("<script type='text/javascript' src='%s'></script>\n", $include_base_path.self::HIGHCHARTS_EXPORTING_MODULE_JS);
 		}
 	}
 ?>

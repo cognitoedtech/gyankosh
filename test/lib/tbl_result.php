@@ -517,6 +517,23 @@
 			return $objRet;
 		}
 		
+		public function GetMarksFromPNR($test_pnr)
+		{
+			$objRet = null;
+			$query = sprintf("select marks from result where test_pnr='%s'", $test_pnr);
+				
+			$result = mysql_query($query, $this->objDBLink) or die('Get Marks From PNR error : ' . mysql_error());
+				
+			if(mysql_num_rows($result) > 0)
+			{
+				$row = mysql_fetch_array($result);
+		
+				$objRet = $row['marks'];
+			}
+				
+			return $objRet;
+		}
+		
 		public function GetUnpreparedResultFromPNR($test_pnr)
 		{
 			$objRet = null;
@@ -1468,6 +1485,95 @@
         	$AnsStatus = array(1, 0, -1);
         	
         	return $objHTML;
+        }
+        
+        public function PopulateTestsForBenchmark($user_id, $user_type)
+        {
+        	$retAry = array();
+        	
+        	$query = "";
+        	if($user_type != CConfig::UT_INDIVIDAL) {
+        		$query = sprintf("select distinct test.test_id, test.test_name from test left join result on test.test_id = result.test_id where test.owner_id = '%s' and result.tschd_id > 0 order by test.test_name", $user_id);
+        	}
+        	else {
+        		$query = sprintf("select distinct result.test_pnr, test.test_id, test.test_name, result.test_date from test left join result ON test.test_id = result.test_id where result.user_id = '%s' order by test.test_name", $user_id);
+        	}
+        	$result = mysql_query($query, $this->objDBLink) or die('Populate Tests For Benchmark Error : ' . mysql_error());
+        	 
+        	while($row = mysql_fetch_array($result))
+        	{
+        		array_push($retAry, $row);
+        		if($user_type != CConfig::UT_INDIVIDAL) {
+        			printf("<option value='%d'>%s</option>", $row['test_id'], $row['test_name']);
+        		}
+        		else {
+        			$date = new DateTime($row['test_date']);
+        			
+        			printf("<option pnr='%s' value='%d'>%s on (%s)</option>", $row['test_pnr'], $row['test_id'], $row['test_name'], $date->format('M d, Y - H:i:s'));
+        		}
+        	}
+        	
+        	return $retAry;
+        }
+        
+        public function GetTestStats($test_id, $test_pnr, $user_id, $user_type)
+        {
+        	$retAry = array();
+        	
+        	$query = sprintf("SELECT * FROM result a inner join (SELECT test_id, test_pnr,user_id, MAX(test_date) FROM result where test_id=%d group by user_id) b ON a.test_pnr = b.test_pnr", $test_id);
+        	$result = mysql_query($query, $this->objDBLink) or die('Get Test Stats : ' . mysql_error());
+        	
+        	$objTD = new CTestDynamic($this->objDBLink);
+        	$aryTD = $objTD->GetTestParams($test_id);
+        	
+        	$nTotalMarks = $aryTD['marks_for_correct'] * $aryTD['max_question'];
+        	
+        	$retAry['meta']['total_marks'] = $nTotalMarks;
+        	$retAry['meta']['test_pnr'] = $test_pnr;
+        	$retAry['meta']['percent_obtained'] = round (($this->GetMarksFromPNR($test_pnr) / $nTotalMarks) * 100, 2);
+        	$retAry['score'] = array();
+        	
+        	$retAry['meta']['rank'] = 0;
+        	while($row = mysql_fetch_array($result))
+        	{
+        		$percent = ($row['marks']/$nTotalMarks) * 100;
+        		array_push($retAry['score'], array('marks_scored'=>$row['marks'], 
+        								'percent' => round($percent, 2), 
+        								'pnr' => $row['test_pnr']));
+        		if($retAry['meta']['marks_obtained'] > $row['marks'])
+        		{
+        			$retAry['meta']['rank']++;
+        		}
+        	}
+        	$retAry['meta']['rank'] = count($retAry['score']) - $retAry['meta']['rank'];
+        	
+        	$aryNormalized = array();
+        	$aryNormalized[0] = 0;
+        	$aryNormalized[1] = 0;
+        	$aryNormalized[2] = 0;
+        	$aryNormalized[3] = 0;
+        	$aryNormalized[4] = 0;
+        	$aryNormalized[5] = 0;
+        	$aryNormalized[6] = 0;
+        	$aryNormalized[7] = 0;
+        	$aryNormalized[8] = 0;
+        	$aryNormalized[9] = 0;
+        	foreach ($retAry['score'] as $key => $aryValue)
+        	{
+        		$aryNormalized[0] 	= ($aryValue['percent'] > 0 && $aryValue['percent'] <= 10) ? ($aryNormalized[0] + 1) : $aryNormalized[0];
+        		$aryNormalized[1] 	= ($aryValue['percent'] > 10 && $aryValue['percent'] <= 20) ? ($aryNormalized[1] + 1) : $aryNormalized[1];
+        		$aryNormalized[2] 	= ($aryValue['percent'] > 20 && $aryValue['percent'] <= 30) ? ($aryNormalized[2] + 1) : $aryNormalized[2];
+        		$aryNormalized[3] 	= ($aryValue['percent'] > 30 && $aryValue['percent'] <= 40) ? ($aryNormalized[3] + 1) : $aryNormalized[3];
+        		$aryNormalized[4] 	= ($aryValue['percent'] > 40 && $aryValue['percent'] <= 50) ? ($aryNormalized[4] + 1) : $aryNormalized[4];
+        		$aryNormalized[5] 	= ($aryValue['percent'] > 50 && $aryValue['percent'] <= 60) ? ($aryNormalized[5] + 1) : $aryNormalized[5];
+        		$aryNormalized[6] 	= ($aryValue['percent'] > 60 && $aryValue['percent'] <= 70) ? ($aryNormalized[6] + 1) : $aryNormalized[6];
+        		$aryNormalized[7] 	= ($aryValue['percent'] > 70 && $aryValue['percent'] <= 80) ? ($aryNormalized[7] + 1) : $aryNormalized[7];
+        		$aryNormalized[8] 	= ($aryValue['percent'] > 80 && $aryValue['percent'] <= 90) ? ($aryNormalized[8] + 1) : $aryNormalized[8];
+        		$aryNormalized[9] 	= ($aryValue['percent'] > 90 && $aryValue['percent'] <= 100) ? ($aryNormalized[9] + 1) : $aryNormalized[9];
+        	}
+        	$retAry['normalized'] = $aryNormalized;
+        	
+        	return $retAry;
         }
 	}
 ?>

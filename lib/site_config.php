@@ -51,8 +51,7 @@
 		const UAMM_SCHEDULE_TEST		= 10;
 		const UAMM_TRADE_TEST_PACKGES	= 11;
 		const UAMM_RESULT_ANALYTICS		= 12;
-		
-		
+			
 		
 		/*----------------------------------------------*/
 		// User Account Pages
@@ -96,10 +95,12 @@
 		const UAP_TRADE_TEST_PACKGE					= 37;
 		const UAP_VIEW_SOLD_TEST_PACKGES			= 38;
 		const UAP_BRIEF_RESULT						= 39;
-		const UAP_PRODUCE_CUSTOM_RESULT				= 40;
-		const UAP_TEST_DNA_ANALYSIS 				= 41;
-		const UAP_RESULT_INSPECTION					= 42;
-		const UAP_FREE_USER_RESULTS					= 43;
-		const UAP_IMPORT_OFFLINE_RESULTS			= 44;
+		const UAP_BENCHMARK							= 40;
+		const UAP_ANALYZE_QUESTION					= 41;
+		const UAP_PRODUCE_CUSTOM_RESULT				= 42;
+		const UAP_TEST_DNA_ANALYSIS 				= 43;
+		const UAP_RESULT_INSPECTION					= 44;
+		const UAP_FREE_USER_RESULTS					= 45;
+		const UAP_IMPORT_OFFLINE_RESULTS			= 46;
 	}
 ?>
