@@ -21,7 +21,7 @@
 	$objIncludeJsCSS = new IncludeJSCSS();
 	
 	$menu_id = CSiteConfig::UAMM_RESULT_ANALYTICS;
-	$page_id = CSiteConfig::UAP_TEST_DNA_ANALYSIS;
+	$page_id = CSiteConfig::UAP_ANALYZE_QUESTION;
 ?>
 <html lang="en">
 <head>
