@@ -92,6 +92,15 @@
 		const PT_TEST_PKG			= 1;
 		// - - - - - - - - - - - - - - - - - -
 		
+		// -----------------------------------------
+		// Purchase Types 
+		const PAYU_MONEY = "Payu_Money";
+		const ZERO_CART = "Zero_Cart";
+		const PAYPAL = "Paypal";
+		
+		// ---------------------------------------
+		
+		
 		// - - - - - - - - - - - - - - - - - -
 		// User Types
 		// - - - - - - - - - - - - - - - - - -

@@ -222,7 +222,8 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 							<!-- data-toggle="collapse" -->
 							<span role="button" data-parent="#accordion" href="#collapseOne"
 								aria-expanded="true" aria-controls="collapseOne"> Shopping Cart
-							</span>
+							</span> <span class="badge badge-info"><?php echo count ( $GLOBALS ['aryCartItems'] ) - 1  ?></span>
+							
 						</h4>
 					</div>
 					<div id="collapseOne" class="panel-collapse collapse <?php echo(($bValidateCode || CSessionManager::IsError())?'':'in');?>"
@@ -234,10 +235,10 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 							?>
 							<div class="row">
 								<div class="col-sm-offset-7 col-md-offset-7 col-lg-offset-7">
-									<button class="btn btn-success" type="button" onclick="">
+									<a class="btn btn-success"  href="search-results.php">
 										Continue Shopping &nbsp;&nbsp; <i class="fa fa-shopping-cart"
 											aria-hidden="true"></i>
-									</button>
+									</a>
 									<button class="btn btn-info" data-toggle="collapse"
 										data-parent="#accordion" href="#<?php echo($bVerified?'collapseThree':'collapsePersonalInfo');?>"
 										aria-expanded="false" aria-controls="<?php echo($bVerified?'collapseThree':'collapsePersonalInfo');?>"
@@ -653,6 +654,14 @@ $action = $PAYU_BASE_URL . '/_payment';
 											}
 							</script>
 								
+							<?php if (count ( $GLOBALS ['aryCartItems'] ) >= 1) {
+							
+								if($fSumCost > 0 ) 
+								{
+								
+									?>	
+								
+								
 							<form action="<?php echo $action; ?>" method="post" name="payuForm" id = "payuForm">
 							<input type="hidden" name="key" value="<?php echo $MERCHANT_KEY ?>" />
 							<input type="hidden" id="hash" name="hash" value="<?php echo $hash ?>"/>
@@ -713,6 +722,41 @@ $action = $PAYU_BASE_URL . '/_payment';
 								
 							</div>
 							</form>
+							<?php } else 
+							{ ?>
+							<form  action="core/index/free_test_purchase.php" method="post" >
+							<input type="hidden" name="free" value="1" />
+							<input type="hidden" id ="productinfo" name="productinfo" value='<?php echo $jsonCartItems ?>' />
+							<input type="hidden" id = "txnid" name="txnid" value="<?php echo $txnid ?>" />
+							<div> 
+							<h5> You have choosen all free tests. Click on Complete Purchase to have it in your account. </h5>
+							</div>
+							
+							
+							<div 	class="col-lg-8 col-md-8 col-sm-8 col-sm-offset-6 col-md-offset-6 col-lg-offset-6"">
+								<button class="btn btn-success" data-toggle="collapse"
+									data-parent="#accordion" href="#collapseOne"
+									aria-expanded="false" aria-controls="collapseOne">
+									<i class="fa fa-backward" aria-hidden="true"></i>&nbsp;&nbsp;
+									Back to Cart
+								</button>
+								
+								<button class="btn btn-info">									
+									Complete Your Purchase &nbsp;&nbsp; <i class="fa fa-forward" aria-hidden="true"></i>
+								</button>
+								
+							</div>
+							
+							
+							</form>
+							
+							
+							
+							<?php }
+							 }?>
+							
+							
+							
 						</div>
 					</div>
 				</div>
