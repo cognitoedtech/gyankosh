@@ -552,7 +552,7 @@
 			return $tsession_id;
 		}
 		
-		public function StartTestSession($user_id, $test_id, $tschd_id, $objIterator, $cur_chronological_time)
+		public function StartTestSession($user_id, $test_id, $tschd_id, $objIterator, $cur_chronological_time = 0)
 		{
 			return $this->CreateTestSession($user_id, $test_id, $tschd_id, $objIterator, $cur_chronological_time);
 		}

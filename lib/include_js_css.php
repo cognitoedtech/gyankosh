@@ -25,6 +25,7 @@
 		const JQUERY_JQPLOT_CSS					= "3rd_party/jquery.jqplot/jqplot/data/css/jquery.jqplot.min.css";
 		const JQUERY_STEPY_CSS					= "3rd_party/wizard/css/jquery.stepy.css";
 		const JQUERY_NOUISLIDER_CSS				= "3rd_party/nouislider/jquery.nouislider.css";
+		const JQUERY_UI_1_12_1_CSS				= "3rd_party/jquery-ui-1.12.1.custom/jquery-ui.min.css";
 		const FUELUX_CSS						= "3rd_party/fuelux-master/fuelux-master/dist/css/fuelux.css";
 		const BOOTSTRAP_DOCS_CSS				= "3rd_party/bootstrap/css/bootstrap-docs.css";
 		const BOOTSTRAP_RESPONSIVE_CSS 			= "3rd_party/bootstrap/css/bootstrap-responsive.css";
@@ -39,6 +40,7 @@
 		const JQUERY_SNIPPET_JS					= "js/jquery.snippet.js";
 		const UTILS_JS							= "js/mipcat/utils.js";
 		const RESULT_ANALYTICS_JS				= "js/mipcat/result_analytics.js";
+		const JQUERY_UI_1_12_1_JS				= "3rd_party/jquery-ui-1.12.1.custom/jquery-ui.js";
 		const MONEY_JS							= "3rd_party/money.js/money.min.js";
 		const TWITTER_BOOTSTRAP_WIZARD_JS		= "3rd_party/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js";
 		const JQUERY_WIDGET_MIN_JS				= "3rd_party/Metro-UI-CSS-master/Metro-UI-CSS-master/jquery.widget.min.js";
@@ -220,6 +222,11 @@
 			printf("<link rel='stylesheet' type='text/css' href='%s' />\n", $include_base_path.self::JQUERY_NOUISLIDER_CSS);
 		}
 		
+		public function IncludeJqueryUI_1_12_1_CSS($include_base_path)
+		{
+			printf("<link rel='stylesheet' type='text/css' href='%s' />\n", $include_base_path.self::JQUERY_UI_1_12_1_CSS);
+		}
+		
 		public function IncludeFuelUXCSS($include_base_path)
 		{
 			printf("<link rel='stylesheet' type='text/css' href='%s' />\n", $include_base_path.self::FUELUX_CSS);
@@ -336,6 +343,11 @@
 		public function IncludeMetroMinJS($include_base_path)
 		{
 			printf("<script type='text/javascript' src='%s'></script>\n", $include_base_path.self::METRO_MIN_JS);
+		}
+		
+		public function IncludeJqueryUI_1_12_1_JS($include_base_path)
+		{
+			printf("<script type='text/javascript' src='%s'></script>\n", $include_base_path.self::JQUERY_UI_1_12_1_JS);
 		}
 		
 		public function IncludeMetroDropdownJS($include_base_path)
