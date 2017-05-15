@@ -92,11 +92,20 @@
 		const PT_TEST_PKG			= 1;
 		// - - - - - - - - - - - - - - - - - -
 		
+		// -----------------------------------------
+		// Purchase Types 
+		const PAYU_MONEY = 0;
+		const ZERO_CART = 1;
+		const PAYPAL = 2;
+		
+		// ---------------------------------------
+		
+		
 		// - - - - - - - - - - - - - - - - - -
 		// User Types
 		// - - - - - - - - - - - - - - - - - -
 		const UT_SUPER_ADMIN		= 0;
-		const UT_INSTITUTE			= 2;
+		const UT_INSTITUTE			= 1;
 		const UT_CORPORATE			= 2;
 		const UT_INDIVIDAL			= 3;
 		const UT_CONTRIBUTOR		= 4;

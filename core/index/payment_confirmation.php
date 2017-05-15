@@ -212,14 +212,14 @@ function printThis()
 		  $prod_name = $aryProdDetails ['product_name'];
 		  $prod_cost =  $aryProdInfo ['cost'] ['inr'] ;
 
-		  $test_array = array("id"=>$prodItem->id, "scheduled_id"=>$schd_id, "amount_base"=>$prod_cost, "taxes"=>$prod_array*$fTax,"seller_share"=>$sellerBilling["market_percentage_sharing"],"quizus_share"=>100 - $sellerBilling["market_percentage_sharing"]);
+		  $test_array = array("id"=>$prodItem->id, "scheduled_id"=>$schd_id, "amount_base"=>$prod_cost, "taxes"=>$prod_cost*$fTax,"seller_share"=>$sellerBilling["market_percentage_sharing"],"quizus_share"=>100 - $sellerBilling["market_percentage_sharing"]);
 		  array_push($productPurchasedarray["products"]["tests"] , $test_array);		 
 				  
 		 }
 		 
 		 $objDB->EmailTestScheduleNotification($user_id, $test_name, $user_id, $scheduled_on, $hours, $minutes,"","","",$time_zone);		  
 		 }
-		 $payment_info_arr["payment_info"] = array("transaction_id"=>$transaction_id, "bank_ref_num"=>$bank_reference_number,"bank_code"=>$bankcode, "paymentgw" =>$pg_type,"payumoney_id"=>$payuMoneyId,"total_amount" => $amount);
+		 $payment_info_arr["payment_info"] = array("transaction_id"=>$transaction_id, "purchase_type" =>CConfig::PAYU_MONEY, "bank_ref_num"=>$bank_reference_number,"bank_code"=>$bankcode, "paymentgw" =>$pg_type,"payumoney_id"=>$payuMoneyId,"total_amount" => $amount);
 		 $objBilling->AddToCustomerBilling($user_id, json_encode($productPurchasedarray), json_encode($payment_info_arr));
 	}
 	
