@@ -669,8 +669,8 @@ $action = $PAYU_BASE_URL . '/_payment';
 							<input type="hidden" id = "txnid" name="txnid" value="<?php echo $txnid ?>" />							
 							<input type="hidden" id = "amount" name="amount" value="0.50" />
 							<input type="hidden" id ="productinfo" name="productinfo" value='<?php echo $jsonCartItems ?>' />
-							<input type="hidden" name="surl" value="http://localhost/quizus-integration/core/index/payment_confirmation.php" />
-							<input type="hidden" name="furl" value="http://localhost/quizus-integration/core/index/payment_confirmation.php" />													
+							<input type="hidden" name="surl" value="<?php echo CSiteConfig::ROOT_URL ?>/core/index/payment_confirmation.php" />
+							<input type="hidden" name="furl" value="<?php echo CSiteConfig::ROOT_URL ?>/core/index/payment_confirmation.php" />													
 							<input type="hidden" name="service_provider" value="payu_paisa" size="64" />
 							<input type="hidden" name="pg" value="CC" size="64" />
 							
