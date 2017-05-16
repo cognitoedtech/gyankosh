@@ -389,6 +389,7 @@
 			$objIncludeJsCSS->CommonIncludeJS ( "../" );
 			$objIncludeJsCSS->IncludeJquerySnippetJS( "../" );
 			$objIncludeJsCSS->IncludeMathJAXJS( "../" );
+			$objIncludeJsCSS->IncludeJqueryUI_1_12_1_JS("../");
 		?>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
