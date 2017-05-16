@@ -19,7 +19,7 @@
 	
 	$punch_line = CConfig::SNC_PUNCH_LINE;
 	
-	$logo_image = sprintf("<img src='%s/images/quizus-small-logo.png' style='width: %spx; height: %spx;'/>", CSiteConfig::ROOT_URL, CConfig::OL_WIDTH, CConfig::OL_HEIGHT);
+	$logo_image = sprintf("<img src='%s/images/quizus-beta-small-logo.png' style='width: %spx; height: %spx;'/>", CSiteConfig::ROOT_URL, CConfig::OL_WIDTH, CConfig::OL_HEIGHT);
 	
 	if($login_name != null)
 	{
@@ -136,8 +136,9 @@
 							?>
 						</ul></li>
 						<li>
-							<form class="navbar-form navbar-left">
-		      					<input type="text" class="form-control col-lg-8" placeholder="Search Tests">
+							<form class="navbar-form navbar-left" action="<?php echo CSiteConfig::ROOT_URL;?>/search-results.php" method="post">
+		      					<input type="text" name="search_text" class="form-control col-lg-8" placeholder="Search Tests"/>
+		      					<input type="hidden" name="search_category" value="keywords"/>
 		    				</form>
 	    				</li>
 						<li>

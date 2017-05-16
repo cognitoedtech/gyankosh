@@ -174,10 +174,12 @@ $test_type = $objDB->GetTestType ( $test_id );
 	<?php echo(CConfig::SNC_SITE_NAME);?> </title>
 	<?php
 	$objIncludeJsCSS->CommonIncludeCSS ( "../" );
+	
 	$objIncludeJsCSS->CommonIncludeJS ( "../" );
 	$objIncludeJsCSS->IncludeJqueryFormJS ( "../" );
 	$objIncludeJsCSS->IncludeJqueryValidateMinJS ( "../", "1.16.0" );
 	$objIncludeJsCSS->IncludeMathJAXJS( "../" );
+	$objIncludeJsCSS->IncludeJqueryUI_1_12_1_JS("../");
 	?>
 	<style type="text/css" title="currentStyle">
 		.modal_overlapped {
