@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!doctype html>
 <?php
 	include_once(dirname(__FILE__)."/lib/include_js_css.php");
 	include_once("lib/session_manager.php");
@@ -57,18 +57,16 @@
 			}
 		</style>
 		<?php 
-			//$objIncludeJsCSS->IncludeBootstrapCSS("");
-			$objIncludeJsCSS->IncludeBootstrap3_1_1Plus1CSS("");
-			$objIncludeJsCSS->IncludeBootswatch3_1_1Plus1LessCSS("");
-			$objIncludeJsCSS->IncludeMetroBootstrapCSS("");
-			$objIncludeJsCSS->IncludeMipcatCSS("");
-			$objIncludeJsCSS->IncludeFuelUXCSS("");
-			$objIncludeJsCSS->CommonIncludeJS("","1.8.2");
-			$objIncludeJsCSS->IncludeJqueryFormJS("");
-			$objIncludeJsCSS->IncludeJqueryValidateMinJS("");
+			$objIncludeJsCSS->CommonIncludeCSS(CSiteConfig::ROOT_URL . "/");
+			$objIncludeJsCSS->IncludeMipcatCSS ( CSiteConfig::ROOT_URL . "/" );
+			$objIncludeJsCSS->IncludeFuelUXCSS(CSiteConfig::ROOT_URL . "/");
+			
+			$objIncludeJsCSS->CommonIncludeJS(CSiteConfig::ROOT_URL . "/");
+			$objIncludeJsCSS->IncludeJqueryFormJS(CSiteConfig::ROOT_URL . "/");
+			$objIncludeJsCSS->IncludeJqueryValidateMinJS(CSiteConfig::ROOT_URL . "/");
 		?>
 	</head>
-	<body style="margin: 5px;">
+	<body>
 		<!--For Facebook Like Button-->
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
