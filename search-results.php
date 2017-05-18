@@ -42,7 +42,7 @@ var imageUpArrowIncludeBasePath = "<?php echo(CSiteConfig::ROOT_URL);?>";
 <?php
 $objIncludeJsCSS->CommonIncludeCSS ( CSiteConfig::ROOT_URL . "/" );
 $objIncludeJsCSS->IncludeMipcatCSS ( CSiteConfig::ROOT_URL . "/" );
-$objIncludeJsCSS->IncludeIconFontCSS ( "" );
+$objIncludeJsCSS->IncludeIconFontCSS ( CSiteConfig::ROOT_URL . "/" );
 $objIncludeJsCSS->Include3DCornerRibbonsCSS ( CSiteConfig::ROOT_URL . "/" );
 $objIncludeJsCSS->IncludeFuelUXCSS ( CSiteConfig::ROOT_URL . "/" );
 
@@ -180,11 +180,11 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 											<div class="col-lg-4 col-md-4 col-sm-4">
 												<span is_rated="false" name='{{item.product_id}}_star'
 													data-score='{{item.rating}}' id='{{item.product_id}}_star'
-													class="star"></span> <a href="#"
+													class="star"></span> <!-- <a href="#"
 													id="product-rating-details" class="btn btn-xs"
 													data-toggle="popover" data-trigger="hover"
 													data-placement="bottom"><i class="fa fa-sort-desc"
-													aria-hidden="true"></i> </a>
+													aria-hidden="true"></i> </a>  -->
 											</div>
 											<div class="col-lg-5 col-md-5 col-sm-5">
 												<a href="{{item.review_bookmark}}">{{item.total_reviews}} Customer Reviews</a>
@@ -229,9 +229,9 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 		var demo = angular.module('QuizUS', ['tagged.directives.infiniteScroll']);
 		var limit_start_value = 0;
 
-		$(document).ready(function(){
+		/*$(document).ready(function(){
 		    $('#product-rating-details').popover({ html:true, title:"<span style='width:300px'>4.5 stars out of 5.0</span>", content:"<div class='row'><div class='col-lg-12 col-md-12 col-sm-12'><div class='col-lg-2 col-md-2 col-sm-2'><small>5</small></div><div class='col-lg-8 col-md-8 col-sm-8'><div class='progress'><div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='90' aria-valuemin='0' aria-valuemax='100' style='width: 90%;'></div></div></div><div class='col-lg-2 col-md-2 col-sm-2'><small>100%</small></div></div></div><div class='row'><div class='col-lg-12 col-md-12 col-sm-12'><div class='col-lg-2 col-md-2 col-sm-2'><small>5</small></div><div class='col-lg-8 col-md-8 col-sm-8'><div class='progress'><div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='90' aria-valuemin='0' aria-valuemax='100' style='width: 90%;'></div></div></div><div class='col-lg-2 col-md-2 col-sm-2'><small>100%</small></div></div></div>"});
-		});
+		});*/
 		
 		function InfiniteScrollDemoController($scope, $timeout) {
 		  $scope.items = [];
