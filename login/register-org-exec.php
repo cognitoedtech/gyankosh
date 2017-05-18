@@ -6,7 +6,7 @@
 	
 	//Start session
 	include_once("../lib/session_manager.php");
-	include_once("../lib/new-email.php");
+	include_once("../lib/aws-ses-email.php");
 	include_once("../database/mcat_db.php");
 	include_once("../lib/user_manager.php");
 	include_once("../lib/utils.php");
