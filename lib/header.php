@@ -118,7 +118,13 @@
 						</ul></li>
 						<li>
 							<form class="navbar-form navbar-left" action="<?php echo CSiteConfig::ROOT_URL;?>/search-results.php" method="post">
-		      					<input type="text" name="search_text" class="form-control col-lg-8" placeholder="Search Tests"/>
+								<div class="input-group">
+									<input type="text" name="search_text" class="form-control col-lg-7" placeholder="Search Tests ..."/>
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+										</button>
+									</span>
+								</div>
 		      					<input type="hidden" name="search_category" value="keywords"/>
 		    				</form>
 	    				</li>
