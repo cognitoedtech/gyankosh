@@ -6,7 +6,7 @@
 		/*----------------------------------------------*/
 		//const ROOT_URL = "http://www.xnorch.com" ;
 		//const ROOT_URL = "http://mcat.mastishka.com" ;
-		const ROOT_URL = "http://localhost/quizus-integration" ;
+		const ROOT_URL = "http://localhost/quizus" ;
 		//const ROOT_URL = "http://localhost:8080/revamp-mip" ;
 
 		const HIGHCHART_SERVER_URL = "http://127.0.0.1:3003";

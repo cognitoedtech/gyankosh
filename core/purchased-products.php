@@ -41,7 +41,7 @@
 					printf("<td>%s</td>", $billingEntry['timestamp']);
 					printf("<td>%.2f</td>", $aryTests['amount_base']+$aryTests['taxes']);
 					printf("<td>%s</td>", $aryPaymentInfo['payment_info']['transaction_id']);
-					printf("<td><a href='javascript;' onclick=\"ShowOverlay('%s/test/test.php?test_id=%d&tschd_id=%d','st_x');\" class='btn btn-info btn-sm'>Start Test</a></td>", CSiteConfig::ROOT_URL, $aryTests['id'], $aryTests['scheduled_id']);
+					printf("<td><a onclick=\"ShowOverlay('%s/test/test.php?test_id=%d&tschd_id=%d','st_x');\" class='btn btn-info btn-sm'>Start Test</a></td>", CSiteConfig::ROOT_URL, $aryTests['id'], $aryTests['scheduled_id']);
 					printf("</tr>");
 				}
 			}
@@ -85,14 +85,74 @@ $objIncludeJsCSS->IncludeDatatablesResponsiveJS("../");
 	.modal, .modal.fade.in {
 	    top: 10%;
 	}
+	#overlay {
+		position: fixed;
+		left: 0px;
+		top: 0px;
+		width: 100%;
+		height: 100%;
+		z-index: 100;
+		background-color: white;
+	}
+	
+	.modal,.modal.fade.in {
+		top: 15%;
+	}
+	
+	.js-responsive-table thead {
+		font-weight: bold
+	}
+	
+	.js-responsive-table td {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 0px;
+	}
+	
+	.js-responsive-table td span {
+		display: none
+	}
+	
+	@media all and (max-width:767px) {
+		.js-responsive-table {
+			width: 100%;
+			max-width: 400px;
+		}
+		.js-responsive-table thead {
+			display: none
+		}
+		.js-responsive-table td {
+			width: 100%;
+			display: block
+		}
+		.js-responsive-table td span {
+			float: left;
+			font-weight: bold;
+			display: block
+		}
+		.js-responsive-table td span:after {
+			content: ' : '
+		}
+		.js-responsive-table td {
+			border: 0px;
+			border-bottom: 1px solid #ddd
+		}
+		.js-responsive-table tr:last-child td:last-child {
+			border: 0px
+		}
+	}
+	
 	.modal1 {
-		display:    none;
-		position:   fixed;
-		z-index:    1000;
-		top:        50%;
-		left:       60%;
-		height:     100%;
-		width:      100%;
+		display: none;
+		position: fixed;
+		z-index: 1000;
+		top: 50%;
+		left: 60%;
+		height: 100%;
+		width: 100%;
 	}
 </style>
 </head>
@@ -219,6 +279,7 @@ $objIncludeJsCSS->IncludeDatatablesResponsiveJS("../");
 		{
 			$("#sidebar").hide();
 			$("#header").hide();
+			$("#minimized_ckeditor_panel").removeClass( "minimized-shown" ).addClass( "minimized-hidden" );
 			
 			var current_date = new Date();
 		    var time_zone = -current_date.getTimezoneOffset() / 60;
@@ -235,9 +296,11 @@ $objIncludeJsCSS->IncludeDatatablesResponsiveJS("../");
 		function HideOverlay()
 		{
 			$("#overlay").hide(500);
+			$("#minimized_ckeditor_panel").removeClass( "minimized-hidden" ).addClass( "minimized-shown" );
 			$("#sidebar").show();
 			$("#header").show();
 			$("body").css("overflow", "auto");
+			window.location = window.location;
 		}
 	</script>
 </body>
