@@ -6,8 +6,8 @@
 
 	$objMail = new CEMail("quizus.co@gmail.com", "");
 
-	$retval = $objMail->PrepAndSendFreeUserResult("manish_mastishka@yahoo.co.in", "Manish Arora", "57d667f065979_test_dna.pdf", "57d667f065979_inspect_result.pdf");
-	//Send("manish.mastishka@gmail.com","Test","Hi");
+	//$retval = $objMail->PrepAndSendFreeUserResult("manish_mastishka@yahoo.co.in", "Manish Arora", "57d667f065979_test_dna.pdf", "57d667f065979_inspect_result.pdf");
+	Send("manish.mastishka@gmail.com","Test","Hi");
 
 	print_r($retval);
 ?>

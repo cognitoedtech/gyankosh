@@ -1989,6 +1989,7 @@
 			//$test_date  = date( 'D, d M Y 00:00:00', strtotime($scheduled_on))." GMT";
 			
 			$query = sprintf("insert into test_schedule (test_id, scheduler_id, scheduled_on, time_zone, user_list) values('%s', '%s', '%s', '%s', '%s')", $test_id, $user_id, $test_date, $time_zone, $candidate_list);
+			echo $query;
 			
 			$result = mysql_query($query, $this->db_link) or die('Insert into test schedule error : ' . mysql_error());
 			
