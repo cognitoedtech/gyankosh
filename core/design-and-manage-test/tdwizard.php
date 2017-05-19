@@ -50,7 +50,7 @@ $objIncludeJsCSS->IncludeIconFontCSS ( "../../" );
 $objIncludeJsCSS->IncludeBootStrapWYSIHTML5CSS( "../../" );
 $objIncludeJsCSS->IncludeJqueryStepyCSS("../../");
 $objIncludeJsCSS->IncludeFuelUXCSS ("../../");
-$objIncludeJsCSS->CommonIncludeJS("../../");
+$objIncludeJsCSS->CommonIncludeJS("../../", "");
 $objIncludeJsCSS->IncludeMetroNotificationJS("../../");
 $objIncludeJsCSS->IncludeMetroAccordionJS("../../");
 $objIncludeJsCSS->IncludeJqueryValidateMinJS("../../");
@@ -193,7 +193,7 @@ $objIncludeJsCSS->IncludeUtilsJS("../../");
 								<label>Marking Scheme : </label>
 								<input checked type="radio" name="marking_scheme" value="consistent" onChange="OnMarkingSchemeChange();" />Consistent 
 								<input type="radio" name="marking_scheme" value="section_wise" onChange="OnMarkingSchemeChange();" />Section Wise
-								<i class="icon-help mip-help" data-html="true" data-toggle="tooltip" trigger="click hover focus" data-placement="right" html="true" title="You may either select <b> Consistent or Section Wise</b> marking scheme through out all the sections."></i>
+								<i class="icon-help mip-help" data-html="true" data-toggle="tooltip" trigger="click hover focus" data-placement="right" html="true" title="You may either select Consistent or Section Wise marking scheme through out all the sections."></i>
 							</div>
 						</div>
 						<div id="scheme">
