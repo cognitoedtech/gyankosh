@@ -2200,6 +2200,8 @@
 				$query = sprintf("insert into test_schedule (test_id, scheduler_id, scheduled_on,expire_on, time_zone, user_list, schedule_type) values('%s', '%s', '%s', '%s', '%s', '%s', '%s')", $test_id, $user_id, $test_date, $test_end_date, $time_zone, $candidate_list, $schd_type);
 			}
 			
+			//echo $query;
+			
 			$result = mysql_query($query, $this->db_link) or die('Insert into test schedule error : ' . mysql_error());
 			
 			$schd_id = mysql_insert_id($this->db_link);

@@ -381,7 +381,7 @@ class SimpleEmailService
 		$action = !empty($sesMessage->attachments) || $use_raw_request ? 'SendRawEmail' : 'SendEmail';
 		$ses_request->setParameter('Action', $action);
 
-		echo ($action);
+		//echo ($action);
 
 		if($action == 'SendRawEmail') {
 			// echo $sesMessage->getRawMessage();return;

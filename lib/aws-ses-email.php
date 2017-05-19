@@ -51,6 +51,7 @@
 			$retVal = $this->objSes->sendEmail($objMsg, $rawRequest);
 			unset($this->aryAttach);
 			
+			//print_r($retVal);
 			return $retVal;
 		}
 		
