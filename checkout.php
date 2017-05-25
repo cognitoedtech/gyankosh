@@ -707,8 +707,9 @@ $action = $PAYU_BASE_URL . '/_payment';
 												
 												
 											</div>
+											<div class="row" style="margin-top:20px">
 							
-							<div 	class="col-lg-4 col-md-4 col-sm-4 col-sm-offset-1 col-md-offset-1 col-lg-offset-8">
+							<div 	class="col-lg-4 col-md-4 col-sm-4 col-lg-push-8">
 								<button class="btn btn-success" data-toggle="collapse"
 									data-parent="#accordion" href="#collapseOne"
 									aria-expanded="false" aria-controls="collapseOne">
@@ -717,11 +718,22 @@ $action = $PAYU_BASE_URL . '/_payment';
 								</button>
 								
 								<button class="btn btn-info" onclick="return submitForm()">									
-									Pay &nbsp;&nbsp; <i class="fa fa-forward" aria-hidden="true"></i>
-								</button>
+									Pay &nbsp;&nbsp; <i class="fa fa-forward" aria-hidden="true"></i>									
+								</button>								
 								
 							</div>
+							</div>							
+							<div class="row" style="margin-top:30px">
+							<div class="col-lg-4 col-md-4 col-sm-4 col-lg-push-4" >
+							<img src="images/payu_money.jpg" width="286" height="161"></img>
+							</div>
+							
+							</div>
+							
 							</form>
+								
+								
+								
 							<?php } else 
 							{ ?>
 							<form  action="core/index/free_test_purchase.php" method="post" >

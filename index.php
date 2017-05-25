@@ -82,56 +82,56 @@ $objIncludeJsCSS->CommonIncludeJS ( "" );
 	        <div class="row">
 	            <div class="col-lg-3 col-md-3 col-sm-3">
 	            	<div class="drop-shadow">
-	            		<a href="search-results.php?category-name=banking+insurance+sector+exams&category-id=8932900"><img class="app-img img-responsive" src="images/home/banking-mini.jpg" alt=""/>
+	            		<a href="search-results.php?category-name=banking+insurance+sector+exams&category-id=1"><img class="app-img img-responsive" src="images/home/banking-mini.jpg" alt=""/>
 	            		<br/>
 	            		<h5 class="text-center">Banking &amp; Insurance Exams</h5></a>
 	            	</div>
 	            </div>
 	            <div class="col-lg-3 col-md-3 col-sm-3">
 	            	<div class="drop-shadow">
-	            		<a href="search-results.php?category-name=government+sector+exams&category-id=8932900"><img class="app-img img-responsive" src="images/home/government-mini.jpg" alt=""/>
+	            		<a href="search-results.php?category-name=government+sector+exams&category-id=4"><img class="app-img img-responsive" src="images/home/government-mini.jpg" alt=""/>
 	            		<br/>
 	            		<h5 class="text-center">Government Sector Exams</h5></a>
 	            	</div>
 	            </div>
 	            <div class="col-lg-3 col-md-3 col-sm-3">
 	            	<div class="drop-shadow">
-	            		<a href="search-results.php?category-name=engineering+entrance+exams&category-id=8932900"><img class="app-img img-responsive" src="images/home/engineering-mini.jpg" alt=""/>
+	            		<a href="search-results.php?category-name=engineering+entrance+exams&category-id=5"><img class="app-img img-responsive" src="images/home/engineering-mini.jpg" alt=""/>
 	            		<br/>
 	            		<h5 class="text-center">Engineering Entrance Exams</h5></a>
 	            	</div>
 	            </div>
 	            <div class="col-lg-3 col-md-3 col-sm-3">
 	            	<div class="drop-shadow">
-	            		<a href="search-results.php?category-name=medical+entrance+exams&category-id=8932900"><img class="app-img img-responsive" src="images/home/medical-mini.jpg" alt=""/>
+	            		<a href="search-results.php?category-name=medical+entrance+exams&category-id=6"><img class="app-img img-responsive" src="images/home/medical-mini.jpg" alt=""/>
 	            		<br/>
 	            		<h5 class="text-center">Medical Entrance Exams</h5></a>
 	            	</div>
 	            </div>
 	            <div class="col-lg-3 col-md-3 col-sm-3">
 	            	<div class="drop-shadow">
-	            		<a href="search-results.php?category-name=mba+entrance+exams&category-id=8932900"><img class="app-img img-responsive" src="images/home/mba-mini.jpg" alt=""/>
+	            		<a href="search-results.php?category-name=mba+entrance+exams&category-id=7"><img class="app-img img-responsive" src="images/home/mba-mini.jpg" alt=""/>
 	            		<br/>
 	            		<h5 class="text-center">MBA Entrance Exams</h5></a>
 	            	</div>
 	            </div>
 	            <div class="col-lg-3 col-md-3 col-sm-3">
 	            	<div class="drop-shadow">
-	            		<a href="search-results.php?category-name=campus+recruitment+preparation+exams&category-id=8932900"><img class="app-img img-responsive" src="images/home/campus-mini.jpg" alt=""/>
+	            		<a href="search-results.php?category-name=campus+recruitment+preparation+exams&category-id=8"><img class="app-img img-responsive" src="images/home/campus-mini.jpg" alt=""/>
 	            		<br/>
 	            		<h5 class="text-center">Campus Preparation</h5></a>
 	            	</div>
 	            </div>
 	            <div class="col-lg-3 col-md-3 col-sm-3">
 	            	<div class="drop-shadow">
-	            		<a href="search-results.php?category-name=diploma+preparation+exams&category-id=8932900"><img class="app-img img-responsive" src="images/home/diploma-mini.jpg" alt=""/>
+	            		<a href="search-results.php?category-name=diploma+preparation+exams&category-id=9"><img class="app-img img-responsive" src="images/home/diploma-mini.jpg" alt=""/>
 	            		<br/>
 	            		<h5 class="text-center">Diploma Preparation</h5></a>
 	            	</div>
 	            </div>
 	            <div class="col-lg-3 col-md-3 col-sm-3">
 	            	<div class="drop-shadow">
-	            		<a href="search-results.php?category-name=miscellaneous+exam+preparation+exams&category-id=8932900"><img class="app-img img-responsive" src="images/home/misc-mini.jpg" alt=""/>
+	            		<a href="search-results.php?category-name=miscellaneous+exam+preparation+exams&category-id=10"><img class="app-img img-responsive" src="images/home/misc-mini.jpg" alt=""/>
 	            		<br/>
 	            		<h5 class="text-center">Misc Preparation</h5></a>
 	            	</div>

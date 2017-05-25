@@ -115,11 +115,17 @@ class CFreeUserManager
 			$locateCond = sprintf("locate('%s', org_name)", $searchText);
 		}
 		
-		$query = sprintf("select * from published_products where %s order by rating desc limit %d, 10 ", $locateCond, $limit_start_value);
+		$query = sprintf("select * from published_products where %s  and ((DATE(pub_start_date) <= CURDATE() or pub_start_date = '0000-00-00') and (DATE(pub_end_date) >= CURDATE() or pub_end_date = '0000-00-00')) order by rating desc limit %d, 10 ", $locateCond, $limit_start_value);
+		
+		
 		
 		/*$fp = fopen("get-search-results.txt", "w");
 		fwrite($fp, $query."\r\n");
 		fclose($fp);*/
+		
+		//file_put_contents("test.txt", $query);
+		
+		//echo $query;
 		
 		$result = mysql_query($query, $this->db_link_id) or die("Populate Products: ".mysql_error($this->db_link_id)) ;
 		

@@ -22,7 +22,13 @@ $prod_category_id = -1;
 if(isset($_GET ['ci']))
 {
 	$prod_category_id = $_GET ['ci'];
+} 
+
+else if(isset($_GET ['category-id'])) 
+{
+	$prod_category_id = $_GET ['category-id'];
 }
+
 
 $from_free = 1;
 ?>
