@@ -299,8 +299,10 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 														<li class="wizard-tab-button"><a href="#tab2"
 															data-toggle="tab">SEO Helper</a></li>
 														<li class="wizard-tab-button"><a href="#tab3"
-															data-toggle="tab">Product Essentials</a></li>
+															data-toggle="tab">Gather Data</a></li>
 														<li class="wizard-tab-button"><a href="#tab4"
+															data-toggle="tab">Product Essentials</a></li>
+														<li class="wizard-tab-button"><a href="#tab5"
 															data-toggle="tab">Launch Test</a></li>
 													</ul>
 												</div>
@@ -382,6 +384,21 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 											</div>
 											<div class="tab-pane" id="tab3">
 												<div class="form-group">
+													<div class="checkbox">
+														<label>
+													    	<input type="checkbox"> University Name
+														</label>
+														<label>
+													    	<input type="checkbox"> Institute Name
+														</label>
+														<label>
+													    	<input type="checkbox"> Enrollment Number
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="tab-pane" id="tab4">
+												<div class="form-group">
 													<div class="col-lg-3 col-lg-offset-1">
 														<label for="inr_cost" class="control-label">Cost of test :</label>
 													</div>
@@ -443,7 +460,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 													</div>
 												</div>
 											</div>
-											<div class="tab-pane" id="tab4">
+											<div class="tab-pane" id="tab5">
 												<div class="form-group">
 													<div class="col-lg-3 col-lg-offset-1">
 														<label for="schedule_start" class="control-label">Launch
