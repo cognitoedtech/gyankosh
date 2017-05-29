@@ -10,6 +10,8 @@ $objProductQueries = new CProductQuery ();
 
 $aryCategories = $objProductQueries->GetProductCategories ();
 
+//print_r($aryCategories);
+
 function PopulateCategory() {
 	foreach ( $GLOBALS ['aryCategories'] as $strCategory => $aryValues ) {
 		if (count ( $aryValues ) > 0)
@@ -19,8 +21,10 @@ function PopulateCategory() {
 
 function PopulateSubCategory() {
 	foreach ( $GLOBALS ['aryCategories'] as $strCategory => $aryValues ) {
+		//print_r($aryValues);
 		foreach ( $aryValues as $subCategory ) {
-			printf ( "<option value='%s'>%s</option>", $subCategory, $subCategory );
+			//print_r($subCategory);
+			printf ( "<option value='%s'>%s</option>", $subCategory[1], $subCategory[1] );
 		}
 		break;
 	}
@@ -914,7 +918,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 
 					$('#publish_test_sub_category').html("");
 					$.each( jsonCategories[this.value], function( key, value ) {
-						$('#publish_test_sub_category').append("<option value='"+value+"'>"+value+"</option>");
+						$('#publish_test_sub_category').append("<option value='"+value[1]+"'>"+value[1]+"</option>");
 						$('#publish_test_sub_category').attr("disabled", false);
 					});
 
