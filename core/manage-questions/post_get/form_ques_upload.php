@@ -32,7 +32,7 @@
 		}
 		else 
 		{
-			$data_row[CConfig::$QUES_XLS_HEADING_ARY["Question"]] = str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("’", "'", trim($_POST['question_choice_text'])))))));
+			$data_row[CConfig::$QUES_XLS_HEADING_ARY["Question"]] = str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("ï¿½", "'", trim($_POST['question_choice_text'])))))));
 		}
 	}
 	else 
@@ -53,7 +53,7 @@
 			}
 			else 
 			{
-				$data_row[$opt_index] = str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("’", "'", trim($_POST['option'.$opt_count.'_choice_text'])))))));
+				$data_row[$opt_index] = str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("ï¿½", "'", trim($_POST['option'.$opt_count.'_choice_text'])))))));
 			}
 		}
 		else
@@ -78,7 +78,7 @@
 		}
 		else
 		{
-			$data_row[CConfig::$QUES_XLS_HEADING_ARY["Explanation"]] = str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("’", "'", trim($_POST['explanation_text'])))))));
+			$data_row[CConfig::$QUES_XLS_HEADING_ARY["Explanation"]] = str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("ï¿½", "'", trim($_POST['explanation_text'])))))));
 		}
 	}
 	else 
@@ -86,7 +86,7 @@
 		$data_row[CConfig::$QUES_XLS_HEADING_ARY["Explanation"]] = file_get_contents($_FILES['explanation_image']['tmp_name']);
 	}
 	
-	$linked_to = NULL;
+	$linked_to = 0;
 	$mca	   = 0;
 	if($ques_type == CConfig::QT_READ_COMP || $ques_type ==  CConfig::QT_DIRECTIONS)	
 	{
@@ -129,7 +129,7 @@
 					}
 					else if(empty($code_error))
 					{
-						$linked_to = $objDB->InsertReadComp(str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("’", "'", trim($_POST['para_text']))))))));
+						$linked_to = $objDB->InsertReadComp(str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("ï¿½", "'", trim($_POST['para_text']))))))));
 					}
 				}
 				else
@@ -147,7 +147,7 @@
 					}
 					else if(empty($code_error)) 
 					{
-						$linked_to = $objDB->InsertDirectionsPara(str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("’", "'", trim($_POST['para_text']))))))));
+						$linked_to = $objDB->InsertDirectionsPara(str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("ï¿½", "'", trim($_POST['para_text']))))))));
 					}
 				}
 				else
