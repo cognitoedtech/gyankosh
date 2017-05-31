@@ -667,7 +667,7 @@ $action = $PAYU_BASE_URL . '/_payment';
 							<input type="hidden" id="hash" name="hash" value="<?php echo $hash ?>"/>
 							<input type="hidden" id = "hash_string" name="hash_string" value='<?php echo $hash_string ?>'/>
 							<input type="hidden" id = "txnid" name="txnid" value="<?php echo $txnid ?>" />							
-							<input type="hidden" id = "amount" name="amount" value="0.50" />
+							<input type="hidden" id = "amount" name="amount" value="<?php echo $amount ?>" />
 							<input type="hidden" id ="productinfo" name="productinfo" value='<?php echo $jsonCartItems ?>' />
 							<input type="hidden" name="surl" value="<?php echo CSiteConfig::ROOT_URL ?>/core/index/payment_confirmation.php" />
 							<input type="hidden" name="furl" value="<?php echo CSiteConfig::ROOT_URL ?>/core/index/payment_confirmation.php" />													
