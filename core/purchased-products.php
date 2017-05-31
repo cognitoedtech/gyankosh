@@ -5,6 +5,7 @@
 	include_once(dirname(__FILE__)."/../lib/include_js_css.php");
 	include_once(dirname(__FILE__)."/../lib/site_config.php");
 	include_once(dirname(__FILE__)."/../lib/billing.php");
+	include_once(dirname(__FILE__)."/../test/lib/tbl_result.php");
 	
 	// - - - - - - - - - - - - - - - - -
 	// On Session Expire Load ROOT_URL
@@ -24,6 +25,7 @@
 	
 	$menu_id = CSiteConfig::UAMM_PURCHASED_PRODUCTS;
 	
+	$objResult = new CResult();
 	function PopulateCustomerBillingTBody()
 	{
 		foreach($GLOBALS['aryCustomerBilling'] as $billingEntry)
@@ -35,14 +37,17 @@
 			{
 				foreach($aryProducts['products']['tests'] as $aryTests)
 				{
-					printf("<tr>");
-					printf("<td>%s</td>", $billingEntry['xaction_id']);
-					printf("<td>%s</td>", $GLOBALS['objDB']->GetTestName($aryTests['id']));
-					printf("<td>%s</td>", $billingEntry['timestamp']);
-					printf("<td>%.2f</td>", $aryTests['amount_base']+$aryTests['taxes']);
-					printf("<td>%s</td>", $aryPaymentInfo['payment_info']['transaction_id']);
-					printf("<td><a onclick=\"ShowOverlay('%s/test/test.php?test_id=%d&tschd_id=%d','st_x');\" class='btn btn-info btn-sm'>Start Test</a></td>", CSiteConfig::ROOT_URL, $aryTests['id'], $aryTests['scheduled_id']);
-					printf("</tr>");
+					if($GLOBALS['objResult']->IsResultAlreadyExist($GLOBALS['user_id'], $aryTests['id'], $aryTests['scheduled_id']) != TRUE)
+					{
+						printf("<tr>");
+						printf("<td>%s</td>", $billingEntry['xaction_id']);
+						printf("<td>%s</td>", $GLOBALS['objDB']->GetTestName($aryTests['id']));
+						printf("<td>%s</td>", $billingEntry['timestamp']);
+						printf("<td>%.2f</td>", $aryTests['amount_base']+$aryTests['taxes']);
+						printf("<td>%s</td>", $aryPaymentInfo['payment_info']['transaction_id']);
+						printf("<td><a onclick=\"ShowOverlay('%s/test/test.php?test_id=%d&tschd_id=%d','st_x');\" class='btn btn-info btn-sm'>Start Test</a></td>", CSiteConfig::ROOT_URL, $aryTests['id'], $aryTests['scheduled_id']);
+						printf("</tr>");
+					}
 				}
 			}
 			
