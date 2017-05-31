@@ -16,7 +16,7 @@
 	$user_id = CSessionManager::Get(CSessionManager::STR_USER_ID);
 	$nUserType = CSessionManager::Get(CSessionManager::INT_USER_TYPE);
 	
-	$TNameAry = $objTR->GetCompletedTestNames($user_id, $nUserType, true);
+	//$TNameAry = $objTR->GetCompletedTestNames($user_id, $nUserType, true);
 	
 	$objIncludeJsCSS = new IncludeJSCSS();
 	
@@ -137,7 +137,7 @@ $objIncludeJsCSS->IncludeResultAnalyticsJS("../../");
 			if (typeof sPNR === typeof undefined && sPNR === false) {
 				sPNR = "";
 			}
-			//alert(sPNR);
+			
 
 			$(".modal1").show();
 			$.post("ajax/ajax_get_test_stats.php", { test_id: this.value, test_pnr: sPNR }).done(function( data ) {
