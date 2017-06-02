@@ -277,7 +277,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 			</div>
 
 			<div id="publish_test_box" class="modal">
-				<div class="modal-dialog">
+				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<form class='form-horizontal' id="publish_test"
 							name="form_publish_test" onsubmit="return false;">
@@ -383,17 +383,26 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 												</div>
 											</div>
 											<div class="tab-pane" id="tab3">
+												<div class="col-lg-offset-1">
+													<p>If you want to gather data pertaining to any of the following fields, select those fields.</p>
+												</div>
 												<div class="form-group">
-													<div class="checkbox">
-														<label>
-													    	<input type="checkbox"> University Name
-														</label>
-														<label>
-													    	<input type="checkbox"> Institute Name
-														</label>
-														<label>
-													    	<input type="checkbox"> Enrollment Number
-														</label>
+													<div class="checkbox col-lg-11 col-lg-offset-1">
+														<div class="row">
+															<label>
+														    	<input name="gd_univ_name" id="gd_univ_name" type="checkbox"> University Name
+															</label>
+														</div>
+														<div class="row">
+															<label>
+														    	<input name="gd_inst_name" id="gd_inst_name" type="checkbox"> Institute Name
+															</label>
+														</div>
+														<div class="row">
+															<label>
+														    	<input name="gd_enroll_num" id="gd_enroll_num" type="checkbox"> Enrollment Number
+															</label>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -785,6 +794,11 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 	    				$("#"+test_id+"_what_will_you_acheive").html($("#what_will_you_acheive").val());
 	    				$("#"+test_id+"_inr_cost").html($("#inr_cost").val());
 	    				$("#"+test_id+"_usd_cost").html($("#usd_cost").val());
+
+	    				$("#"+test_id+"_gd_univ_name").html($('#gd_univ_name').is(":checked") ? "1":"0");
+	    				$("#"+test_id+"_gd_inst_name").html($('#gd_inst_name').is(":checked") ? "1":"0");
+	    				$("#"+test_id+"_gd_enroll_num").html($('#gd_enroll_num').is(":checked") ? "1":"0");
+						
 	    				$("#"+test_id+"_schedule_start").html($("#schedule_start").val());
 	    				if($("#schedule_end").val())
 	    					$("#"+test_id+"_schedule_end").html($("#schedule_end").val());
@@ -951,7 +965,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 			var retVal = true;
 			var curIndex = $('#rootwizard').bootstrapWizard('currentIndex');
 			
-			if(curIndex == 3)
+			if(curIndex == 4)
 				$("#btn_publish").prop("disabled", false);
 			else
 				$("#btn_publish").prop("disabled", true);
@@ -976,12 +990,12 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 					retVal = retVal && $("#publish_test").validate().element("#who_should_buy");
 					retVal = retVal && $("#publish_test").validate().element("#what_will_you_acheive");
 					break;
-				case 2:
+				case 3:
 					retVal = retVal && $("#publish_test").validate().element("#inr_cost");
 					retVal = retVal && $("#publish_test").validate().element("#usd_cost");
 					retVal = retVal && $("#publish_test").validate().element("#product_img");
 					break;
-				case 3:
+				case 4:
 					retVal = retVal && $("#publish_test").validate().element("#schedule_start");
 					retVal = retVal && $("#publish_test").validate().element("#schedule_end");
 					
@@ -1083,6 +1097,24 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 				$("#inr_cost").val(inr_cost);
 				$("#usd_cost").val(usd_cost);
 
+				var gd_univ_name = $("#"+test_id+"_gd_univ_name").text();
+				if (gd_univ_name == 1)
+					$("#gd_univ_name").prop('checked', true);
+				else
+					$("#gd_univ_name").prop('checked', false);
+				
+				var gd_inst_name = $("#"+test_id+"_gd_inst_name").text();
+				if (gd_inst_name == 1)
+					$("#gd_inst_name").prop('checked', true);
+				else
+					$("#gd_inst_name").prop('checked', false);
+				
+				var gd_enroll_num = $("#"+test_id+"_gd_enroll_num").text();
+				if (gd_enroll_num == 1)
+					$("#gd_enroll_num").prop('checked', true);
+				else
+					$("#gd_enroll_num").prop('checked', false);
+				
 				if(inr_cost <= 0 && usd_cost <= 0)
 				{
 					$("#free_cost").prop("checked", true);
@@ -1322,6 +1354,24 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 			var usd_cost = $("#"+test_id+"_usd_cost").text();
 			$("#inr_cost").val(inr_cost);
 			$("#usd_cost").val(usd_cost);
+
+			var gd_univ_name = $("#"+test_id+"_gd_univ_name").text();
+			if (gd_univ_name == 1)
+				$("#gd_univ_name").prop('checked', true);
+			else
+				$("#gd_univ_name").prop('checked', false);
+			
+			var gd_inst_name = $("#"+test_id+"_gd_inst_name").text();
+			if (gd_inst_name == 1)
+				$("#gd_inst_name").prop('checked', true);
+			else
+				$("#gd_inst_name").prop('checked', false);
+			
+			var gd_enroll_num = $("#"+test_id+"_gd_enroll_num").text();
+			if (gd_enroll_num == 1)
+				$("#gd_enroll_num").prop('checked', true);
+			else
+				$("#gd_enroll_num").prop('checked', false);
 
 			if(inr_cost <= 0 && usd_cost <= 0)
 			{

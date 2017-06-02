@@ -974,5 +974,17 @@
             return $bResult;
            
         }
+        
+        public function InsertGatheredData($user_id, $test_id, $schd_id, $ga_univ_name, $ga_inst_name, $ga_enroll_num)
+        {
+        	$gathered_data = json_encode(array("ga_univ_name" => $ga_univ_name, "ga_inst_name" => $ga_inst_name, "ga_enroll_num" => $ga_enroll_num));
+        	
+        	$query = sprintf("INSERT INTO gathered_user_data(user_id, test_id, schd_id, gathered_data)VALUES('%s','%d','%d','%s');",
+        			$user_id, $test_id, $schd_id,$gathered_data);
+        	
+        	$result = mysql_query($query, $this->db_link_id) or die("Insert Gathered Data Error: ".mysql_error($this->db_link_id)) ;
+        	
+        	return $result;
+        }
 	}
 ?>

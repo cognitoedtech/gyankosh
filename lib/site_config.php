@@ -11,12 +11,12 @@
 
 		const HIGHCHART_SERVER_URL = "http://127.0.0.1:3003";
 
-		const FREE_ROOT_URL =  "http://localhost/quizus-integration" ;
+		const FREE_ROOT_URL =  "http://localhost/quizus" ;
 		//const FREE_ROOT_URL = "http://practice.quizus.co";
 
 		const AWS_QUIZUS_USER_NAME	= "quizus.co";
-		const AWS_ACCESS_KEY_ID		= "AKIAJU4JRLYXC25VBYGQ";
-		const AWS_SECRET_ACCESS_KEY = "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";
+		const AWS_ACCESS_KEY_ID		= "AKIAJ42JCY4MSUMUG4DA";
+		const AWS_SECRET_ACCESS_KEY = "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";
 		
 		const DEBUG_SITE		= false;
 		/*----------------------------------------------*/
