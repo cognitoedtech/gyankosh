@@ -1822,6 +1822,9 @@
 				echo "<span id='".$row['test_id']."_what_will_you_acheive'>".$aryPublishedInfo["what_will_you_acheive"]."</span>";
 				echo "<span id='".$row['test_id']."_inr_cost'>".$aryPublishedInfo["cost"]["inr"]."</span>";
 				echo "<span id='".$row['test_id']."_usd_cost'>".$aryPublishedInfo["cost"]["usd"]."</span>";
+				echo "<span id='".$row['test_id']."_gd_univ_name'>".$aryPublishedInfo["gather_data"]["gd_univ_name"]."</span>";
+				echo "<span id='".$row['test_id']."_gd_inst_name'>".$aryPublishedInfo["gather_data"]["gd_inst_name"]."</span>";
+				echo "<span id='".$row['test_id']."_gd_enroll_num'>".$aryPublishedInfo["gather_data"]["gd_enroll_num"]."</span>";
 				echo "<span id='".$row['test_id']."_schedule_start'>".$pub_start_date."</span>";
 				echo "<span id='".$row['test_id']."_schedule_end'>".$pub_end_date."</span>";
 				

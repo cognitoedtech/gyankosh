@@ -27,6 +27,14 @@
 		$what_will_you_acheive 	= trim($_POST['what_will_you_acheive']);
 		$product_id				= trim($_POST['pub_test_id']);
 		
+		$gd_univ_name			= isset($_POST['gd_univ_name']) ? 1 : 0;
+		$gd_inst_name			= isset($_POST['gd_inst_name']) ? 1 : 0;
+		$gd_enroll_num			= isset($_POST['gd_enroll_num']) ? 1 : 0;
+		
+		$aryGatherData	= array("gd_univ_name" 	=> $gd_univ_name,
+								"gd_inst_name" 	=> $gd_inst_name,
+								"gd_enroll_num" => $gd_enroll_num);
+		
 		$publish_test_category  	= trim($_POST['publish_test_category']);
 		$publish_test_sub_category  = trim($_POST['publish_test_sub_category']);
 		
@@ -51,6 +59,7 @@
 							"who_should_buy"=>mysql_real_escape_string($who_should_buy),
 							"what_will_you_acheive"=>mysql_real_escape_string($what_will_you_acheive),
 							"cost"=>array("inr"=>$inr_cost, "usd"=>$usd_cost),
+							"gather_data"=>$aryGatherData,
 							);
 		
 		$objDB->PublishProduct($keywords, $description, $product_image, 
