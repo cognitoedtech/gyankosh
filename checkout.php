@@ -584,7 +584,7 @@ switch($hash_var)
 		$hash_string .= $txnid .'|';
 		break;
 	case "amount":
-		$hash_string .= "0.50" .'|'; // for testing now. Need to change
+		$hash_string .= $amount .'|'; // for testing now. Need to change
 		break;
 	case "productinfo";
 	$hash_string .= $jsonCartItems.'|'; // for testing only
