@@ -656,7 +656,7 @@
 			
 			if($user_type != CConfig::UT_INDIVIDAL)
 			{
-				$query = sprintf("select test.test_id, test.owner_id, test_name, result.tschd_id from result, test, test_schedule where test.test_id = result.test_id and (test.owner_id='%s' %s) and test.deleted is null and result.tschd_id != '%s'", $owner_id, $includePackageCond, CConfig::FEUC_TEST_SCHEDULE_ID);
+				$query = sprintf("select test.test_id, test.owner_id, test_name, result.tschd_id from result, test, test_schedule where test.test_id = result.test_id  and test.test_id = test_schedule.test_id and  (test.owner_id='%s' %s) and test.deleted is null and result.tschd_id != '%s'", $owner_id, $includePackageCond, CConfig::FEUC_TEST_SCHEDULE_ID);
 			}
 			else 
 			{

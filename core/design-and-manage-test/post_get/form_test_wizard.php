@@ -44,6 +44,12 @@
     {
     	$criteria = 1;
     }
+    else
+    {
+    	$criteria = 1;
+    }
+    
+   
     
     $cutoff_min 		= clean($_POST['cutoff_min']);
     $cutoff_max 		= clean($_POST['cutoff_max']);
@@ -63,6 +69,11 @@
     $pref_lang			= $_POST['pref_lang'];
     $allow_trans		= $_POST['allow_trans'];
     $test_nature		= $_POST['test_nature'];
+    
+    
+    // need to confirm use of $top
+    
+    $top = 0;
     
     $langAry = "";
     if($ques_source == "mipcat")
@@ -99,6 +110,11 @@
     $TopicDifficultQues     		= $_POST['TopicDifficultQues'];
     $TopicId						= $_POST['TopicId'];
     $TagId							= $_POST['tag'];
+    if(empty($TagId) || $TagId == null)
+    	$TagId = 0;
+    if(empty($test_nature) || $test_nature == null)
+    	$test_nature = 0;
+    
     
     //echo $mcq_type;
     $test_id = $objDB->InsertIntoTest($user_id, $test_name, $mcpa_flash_ques, $mcpa_lock_ques, $test_expiration, $attempts, $mcq_type, $pref_lang, $allow_trans, $test_nature, $TagId);
