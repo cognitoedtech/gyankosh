@@ -4,15 +4,15 @@
 		/*----------------------------------------------*/
 		// Host root path/url settings.
 		/*----------------------------------------------*/
-		//const ROOT_URL = "http://www.xnorch.com" ;
-		//const ROOT_URL = "http://mcat.mastishka.com" ;
-		const ROOT_URL = "http://localhost/quizus" ;
-		//const ROOT_URL = "http://localhost:8080/revamp-mip" ;
-
+		
 		const HIGHCHART_SERVER_URL = "http://127.0.0.1:3003";
-
-		const FREE_ROOT_URL =  "http://localhost/quizus-integration" ;
+		//const ROOT_URL = "http://localhost/quizus-integration";
+		//const FREE_ROOT_URL =  "http://localhost/quizus-integration" ;
 		//const FREE_ROOT_URL = "http://practice.quizus.co";
+		
+		const FREE_ROOT_URL =  "http://www.quizus.co" ;
+		const FREE_ROOT_URL = "http://www.quizus.co";
+		
 
 		const AWS_QUIZUS_USER_NAME	= "quizus.co";
 		const AWS_ACCESS_KEY_ID		= "AKIAJU4JRLYXC25VBYGQ";
