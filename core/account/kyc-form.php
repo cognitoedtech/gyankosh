@@ -138,7 +138,7 @@ $page_id = CSiteConfig::UAP_ACOOUNT_KYC_FORM;
 							<span class="input-group-addon" id="market_percentage_sharing">Your
 								Revenue Share on Market Place (in %)</span> <input readonly type="text"
 								id="market_percentage_sharing" name="market_percentage_sharing" 
-								value="<?php echo($bSellerKYCEntryPresent ? $arySellerBilling['market_percentage_sharing'] : '50');?>"
+								value="<?php echo($bSellerKYCEntryPresent ? $arySellerBilling['market_percentage_sharing'] : '70');?>"
 								class="form-control" aria-describedby="market_percentage_sharing"/>
 						</div>
 					</div>
