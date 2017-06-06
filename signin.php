@@ -235,8 +235,8 @@
 			/*$("#btn_reg_contributor").click(function(){
 				window.location = "login/register-contrib.php";
 			});*/
-			
-			$(window).load(function() {
+
+			$(window).on('load', function() {
 			        //$('#slider').nivoSlider();
 			        
 			        var b_version = parseInt($.browser.version, 10);

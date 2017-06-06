@@ -119,19 +119,11 @@
 						</ul></li>
 						<li>
 							<form class="navbar-form navbar-left" action="<?php echo CSiteConfig::ROOT_URL;?>/search-results.php" method="post">
-								<div class="input-group">
-									<input type="text" name="search_text" class="form-control col-lg-7" placeholder="Search Tests ..."/>
-									<span class="input-group-btn">
-										<button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-										</button>
-									</span>
-								</div>
-		      					<input type="hidden" name="search_category" value="keywords"/>
+								<input type="text"  name="search_text" class="form-control" placeholder="Search Tests ..."/>
+								<i style="margin-top: 18px; margin-right:10px" class="fa fa-search form-control-feedback" aria-hidden="true"></i>
+								<input type="hidden" name="search_category" value="keywords"/>
 		    				</form>
 	    				</li>
-						<li>
-							<!-- <a href="#" class="btn btn-info btn-lg btn-danger"><span class="glyphicon glyphicon-shopping-cart" style=" vertical-align: bottom;"></span> <span class="badge" style=" vertical-align: top; font-size: 10px;"></span></a> -->
-						</li>
 					<?php
 					/*
 					<li class="dropdown"><a href="#" class="dropdown-toggle"

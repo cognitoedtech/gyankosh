@@ -271,7 +271,7 @@
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Tax Applied on Business Associate (In Percent)
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-		static $BA_TAX_APPLIED_ARY = array("Service Tax" => 15.56,
+		static $BA_TAX_APPLIED_ARY = array("Service Tax" => 0,
 										   "Tax Deduction at Source (TDS)" => 10);
 										   
 		const TDS_MIN_BRACKET = 20000;
