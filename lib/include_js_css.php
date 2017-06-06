@@ -9,7 +9,7 @@
 		
 		const FONT_AWESOME_CSS					= "3rd_party/font-awesome-4.7.0/css/font-awesome.min.css";
 		const BOOTSTRAP3_1_1_PLUS_1_CSS 		= "3rd_party/bootswatch-3.1.1+1/css/bootstrap.min.css";
-		const BOOTSWATCH3_1_1_PLUS_1_LESS_CSS 	= "3rd_party/bootswatch-3.1.1+1/css/bootswatch.less.css";
+		const BOOTSWATCH3_1_1_PLUS_1_LESS_CSS 	= "3rd_party/bootswatch-3.1.1+1/css/bootswatch.less";
 		const BOOTSTRAP_FILEUPLOAD_MIN_CSS      = "3rd_party/bootstrap/css/bootstrap-fileupload.min.css";
 		const METRO_BOOTSTRAP_CSS				= "3rd_party/Metro-UI-CSS-master/Metro-UI-CSS-master/css/metro-bootstrap.css";
 		const BOOTSTRAP_THEME_MIN_CSS			= "3rd_party/bootstrap-3.1.1/css/bootstrap-theme.min.css";

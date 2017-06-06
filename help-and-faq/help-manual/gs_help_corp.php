@@ -123,7 +123,7 @@ $objIncludeJsCSS = new IncludeJSCSS ();
 					<h1>Getting Started as Corporate : Introduction</h1>
 				</div>
 				<p>
-					<a href="http://<?php echo(CSiteConfig::ROOT_URL);?>/index.php"><?php echo(CConfig::SNC_SITE_NAME);?>.co</a>
+					<a href="<?php echo(CSiteConfig::ROOT_URL);?>/index.php"><?php echo(CConfig::SNC_SITE_NAME);?>.co</a>
 					is a complete bundle of all the modules which will help you in
 					selecting proper candidates by evaluation, for your organization.
 					It is simple and easy to use tool with rich set of features to
@@ -132,7 +132,7 @@ $objIncludeJsCSS = new IncludeJSCSS ();
 					detailed result analytics of students help you and your students to
 					figure out specific area in which students are weak or need more
 					attention. With the help of <a
-						href="http://<?php echo(CSiteConfig::ROOT_URL);?>/index.php"><?php echo(CConfig::SNC_SITE_NAME);?>.co</a>
+						href="<?php echo(CSiteConfig::ROOT_URL);?>/index.php"><?php echo(CConfig::SNC_SITE_NAME);?>.co</a>
 					overall performance of your students will increase exponentially
 					and they will be ready to face Exams/Campus Tests with full
 					confidence.<br />
