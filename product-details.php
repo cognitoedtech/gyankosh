@@ -192,13 +192,13 @@ function PupulateRatingPopover() {
 	printf ( "</div>" );
 	printf ( "</div>" );
 }
-
+$objIncludeJsCSS = new IncludeJSCSS ();
 function PopulateProductSpecifications() {
 	$objTH = new CTestHelper ();
 	echo ($objTH->PrepareProductSpecificationsHTML ( $GLOBALS ['product_id'] ));
 }
 
-$objIncludeJsCSS = new IncludeJSCSS ();
+
 ?>
 <html lang="en">
 <head>
@@ -255,6 +255,11 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 <script>
          new WOW(
             ).init();
+
+
+         $(".nav-tabs a").click(function(){
+             $(this).tab('show');
+         });
         </script>
 </head>
 <body style="margin-top: 70px; overflow-x: hidden;">

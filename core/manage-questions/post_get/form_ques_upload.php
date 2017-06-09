@@ -78,7 +78,7 @@
 		}
 		else
 		{
-			$data_row[CConfig::$QUES_XLS_HEADING_ARY["Explanation"]] = str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("�", "'", trim($_POST['explanation_text'])))))));
+			$data_row[CConfig::$QUES_XLS_HEADING_ARY["Explanation"]] = str_ireplace(CConfig::OPER_CODE_END,"</div>",str_ireplace(CConfig::OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">",">",str_replace("<","<",str_replace("&","&amp;",str_replace("�", "'", trim($_POST['explanation_text'])))))));
 		}
 	}
 	else 

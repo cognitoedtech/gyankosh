@@ -116,6 +116,10 @@
     	$test_nature = 0;
     
     
+    if(empty($mcpa_flash_ques) || $mcpa_flash_ques == null)
+    	$mcpa_flash_ques = 0;
+    
+    
     //echo $mcq_type;
     $test_id = $objDB->InsertIntoTest($user_id, $test_name, $mcpa_flash_ques, $mcpa_lock_ques, $test_expiration, $attempts, $mcq_type, $pref_lang, $allow_trans, $test_nature, $TagId);
     

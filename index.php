@@ -180,7 +180,7 @@ $objIncludeJsCSS->CommonIncludeJS ( "" );
                             <h3>Support Forum</h3>
                             <p>We are forum driven, if you need help then join Quizus's Google Group and we shall help you there. </p>
                         </div>
-						<br/><p class="block wow fadeInRight" data-wow-delay="1.2s">Wana know if <?php echo(CConfig::SNC_SITE_NAME); ?> is covered in your use case?<!--  Watch two mins video. --><br/>Scroll down <i class="icon-arrow-down"></i></p>
+						<br/><p class="block wow fadeInRight" data-wow-delay="1.2s">Wana know if <?php echo(CConfig::SNC_SITE_NAME); ?> is covered in your use case?<!--  Watch two mins video. --><br/></p>
                     </div>
                 </div>
             </div>
@@ -214,7 +214,7 @@ $objIncludeJsCSS->CommonIncludeJS ( "" );
                         <h2><?php echo(CConfig::SNC_SITE_NAME); ?> Use Cases</h2>
                         <p>
                             Just sit back and relax, let us navigate you through most popular use cases of <?php echo(CConfig::SNC_SITE_NAME); ?>. That includes but no limited to Quizes, Subject Knowledge Evaluation, Training Assessment, Compliance Assessment, Campus Recruitment, Lateral Hiring, Professional Cources Entrance Examination and Product Knowledge Test etc.<br/>
-							<br/>Still wana know more, okay scroll down <i class="icon-arrow-down"></i>.
+							
                         </p>
                     </div>
                 </div>

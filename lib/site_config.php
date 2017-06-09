@@ -6,11 +6,13 @@
 		/*----------------------------------------------*/
 		
 		const HIGHCHART_SERVER_URL = "http://127.0.0.1:3003";
-		const ROOT_URL = "http://localhost/quizus";
+		//const ROOT_URL = "http://localhost/quizus";
 		//const ROOT_URL =  "http://localhost/quizus-integration" ;
 		
-		const FREE_ROOT_URL =  "http://localhost/quizus" ;
-		//const FREE_ROOT_URL =  "http://www.quizus.co" ;
+
+		const ROOT_URL =  "http://localhost/quizus-integration" ;
+		const FREE_ROOT_URL = "http://localhost/quizus-integration";
+
 		
 		const AWS_QUIZUS_USER_NAME	= "quizus.co";
 		const AWS_ACCESS_KEY_ID		= "AKIAJU4JRLYXC25VBYGQ";
