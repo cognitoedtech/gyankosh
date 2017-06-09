@@ -48,7 +48,7 @@
 	else if($qry[5] == 1) // $qry[4] -> random = 1
 	{
 		header('Content-Type: image/jpeg');
-		$image = imagecreatefromjpeg (CSiteConfig::ROOT_URL."/images/org_logo_placeholder/".mt_rand(1,7).".jpg");
+		$image = imagecreatefromjpeg (dirname(__FILE__)."/../images/org_logo_placeholder/".mt_rand(1,7).".jpg");
 		
 		if($image !== FALSE)
 		{

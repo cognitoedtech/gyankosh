@@ -742,10 +742,10 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 	                	},
 	                	schedule_start: {
 	                		required:true
-	                	},
+	                	}/*,
 	                	schedule_end: {
 	                		required:true
-	                	}
+	                	}*/
 	        		},
 	        		messages: {
 	        			publish_keywords: {	
@@ -775,10 +775,10 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 		    			},
 		    			schedule_start:{
 		    				required:	"<div style='color:red'>* Please provide launch date for the test</div>",
-		    			},
+		    			}/*,
 		    			schedule_end:{
 		    				required:	"<div style='color:red'>* Please provide test expiry/unpublish date</div>",
-		    			}
+		    			}*/
 	    	    	},
 	    	    	submitHandler: function(form) {
 	    				//$('#publish_test_box').modal('modal');
@@ -805,7 +805,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 	    				else
 	    				{
 	    					$("#"+test_id+"_schedule_end").html("Never");
-	    					$("#"+test_id+"_schedule_end").text("<?php echo(CConfig::CONST_NEVER);?>>");
+	    					$("#"+test_id+"_schedule_end").text("<?php echo(CConfig::CONST_NEVER);?>");
 	    				}
 	    				$("#"+test_id+"_copy").show();
 	    				$("#"+test_id+"_edit").show();
@@ -870,7 +870,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 					  fx.rates = data.rates;
 					}
 
-				$.getJSON("http://api.fixer.io/latest", GetLatestCurrencyRates);
+				$.getJSON("https://api.fixer.io/latest", GetLatestCurrencyRates);
 				// ------------------------
 				// [ End Money.js ]
 				// ------------------------
@@ -953,7 +953,7 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 						$('#publish_test_sub_category').attr("disabled", false);
 					});
 
-					if( jsonCategories[this.value].length <=0 ) {
+					if( jsonCategories[this.value] === undefined || jsonCategories[this.value].length <=0 ) {
 						$('#publish_test_sub_category').attr("disabled", true);
 					}
 					//alert( this.value );
@@ -1169,6 +1169,9 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 					$("#schedule_end_check").prop("checked", true);
 					$("#datepicker2").css("pointer-events","none");
 					$("#schedule_end").css("background-color","#ddd");
+
+					objDate = new Date();
+					objDate.setFullYear(objDate.getFullYear() + 1);
 				}
 				else
 				{
@@ -1184,20 +1187,19 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 				$('#publish_test_box').modal('show');
 			}
 			else{
+				$("#publish_test_id").val($(obj).attr('test_id')+'');
+				var test_id= $("#publish_test_id").val();
 
-					$("#publish_test_id").val($(obj).attr('test_id')+'');
-					var test_id= $("#publish_test_id").val();
-
-					$(".modal1").show();
-					$.post("ajax/ajax_publish_test.php",{'unpublish':0,'test_id':test_id},function(data){
-						$(".modal1").hide();
-						$("#"+test_id+"_row_start_date").text("Test is not live");
-	    				$("#"+test_id+"_row_end_date").text("Not Applicable");
-						$("#"+check_box_id).attr("made_publish", "0");
-						$("#"+test_id+"_copy").hide();
-						$("#"+test_id+"_edit").hide();
-					});
-				}
+				$(".modal1").show();
+				$.post("ajax/ajax_publish_test.php",{'unpublish':0,'test_id':test_id},function(data){
+					$(".modal1").hide();
+					$("#"+test_id+"_row_start_date").text("Test is not live");
+    				$("#"+test_id+"_row_end_date").text("Not Applicable");
+					$("#"+check_box_id).attr("made_publish", "0");
+					$("#"+test_id+"_copy").hide();
+					$("#"+test_id+"_edit").hide();
+				});
+			}
 			check_box_id = $(obj).attr("id");
 		}
 
