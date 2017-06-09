@@ -1774,7 +1774,7 @@
 				$pub_end_date="";
 				if($row['is_published'] == 1)
 				{
-					if(strcasecmp($aryProductDetails['pub_end_date'],'0000-00-00') != 0)
+					if(!is_null($aryProductDetails['pub_end_date']))
 					{
 						$pub_end_date = new DateTime($aryProductDetails['pub_end_date']);
 						$pub_end_date->setTimezone($dtzone);
@@ -4958,14 +4958,21 @@
         	{
         		$schedule_start = str_replace(' ', '-', $schedule_start);
         		$schedule_start = str_replace(',', '-', $schedule_start);
-        		$schedule_start	 = date('Y-m-d H:i:s', strtotime($schedule_start));
+        		$schedule_start	= date('Y-m-d H:i:s', strtotime($schedule_start));
         		
-        		$schedule_end = str_replace(' ', '-', $schedule_end);
-        		$schedule_end = str_replace(',', '-', $schedule_end);
-        		$schedule_end	 = date('Y-m-d H:i:s', strtotime($schedule_end));
+        		if($schedule_end != 0)
+        		{
+	        		$schedule_end = str_replace(' ', '-', $schedule_end);
+	        		$schedule_end = str_replace(',', '-', $schedule_end);
+	        		$schedule_end = date('Y-m-d H:i:s', strtotime($schedule_end));
+        		}
+        		else 
+        		{
+        			$schedule_end = "NULL";
+        		}
         		
         		$test_name = $this->GetTestName($product_id);
-        		$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date, pub_end_date) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s', pub_end_date='%s'",
+        		$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date, pub_end_date) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s) on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s', pub_end_date='%s'",
         				$product_id, $product_type, $category_id, mysql_real_escape_string($test_name), 
         				mysql_real_escape_string($aryPublishedInfo["org_name"]), 
         				mysql_real_escape_string($keywords), 

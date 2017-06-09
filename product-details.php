@@ -222,12 +222,10 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 ?>
 		<!-- CSS -->
-
-<link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/animate.css">
 <link rel="stylesheet" href="css/responsive.css">
-<link rel="icon" href="images/gini-favicon.png" type="image/png">
+<link rel="icon" href="favicon.ico" type="image/ico">
 
 <style type="text/css">
 .popover {
