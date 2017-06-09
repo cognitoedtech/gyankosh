@@ -10,8 +10,8 @@
 		//const FREE_ROOT_URL =  "http://localhost/quizus-integration" ;
 		//const FREE_ROOT_URL = "http://practice.quizus.co";
 		
-		const FREE_ROOT_URL =  "http://www.quizus.co" ;
-		const FREE_ROOT_URL = "http://www.quizus.co";
+		const ROOT_URL =  "http://localhost/quizus-integration" ;
+		const FREE_ROOT_URL = "http://localhost/quizus-integration";
 		
 
 		const AWS_QUIZUS_USER_NAME	= "quizus.co";
