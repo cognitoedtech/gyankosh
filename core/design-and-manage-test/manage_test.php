@@ -1378,8 +1378,8 @@ $objIncludeJsCSS->IncludeMetroDatepickerJS ( "../../" );
 			if(inr_cost <= 0 && usd_cost <= 0)
 			{
 				$("#free_cost").prop("checked", true);
-				$("#inr_cost").val(0);
-				$("#usd_cost").val(0);
+				$("#inr_cost").val("0");
+				$("#usd_cost").val("0");
 				$("#inr_cost").prop('disabled', true);
 				$("#usd_cost").prop('disabled', true);
 			}

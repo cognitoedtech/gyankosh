@@ -19,7 +19,7 @@
 	if($_POST['publish']==1)
 	{
 		$schedule_start			= trim($_POST['schedule_start']);
-		$schedule_end			= trim($_POST['schedule_end']);
+		$schedule_end			= isset($_POST['schedule_end']) ? trim($_POST['schedule_end']) : 0;
 		$keywords				= trim($_POST['publish_keywords']);
 		$description			= trim($_POST['publish_test_desc']);
 		$suggested_reads		= trim($_POST['suggested_reads']);
@@ -38,8 +38,8 @@
 		$publish_test_category  	= trim($_POST['publish_test_category']);
 		$publish_test_sub_category  = trim($_POST['publish_test_sub_category']);
 		
-		$inr_cost			= trim($_POST['inr_cost']);
-		$usd_cost			= trim($_POST['usd_cost']);
+		$inr_cost			= isset($_POST['inr_cost']) ? trim($_POST['inr_cost']) : 0;
+		$usd_cost			= isset($_POST['usd_cost']) ? trim($_POST['usd_cost']) : 0;
 		
 		$org_id			= $objDB->GetOrgIdByUserId($user_id);
 		$org_name 		= $objDB->GetOrganizationName($org_id);

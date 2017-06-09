@@ -24,7 +24,7 @@ $bProperURL = true;
 // http://localhost/QuizUS/63-1-23-ef
 // http://localhost/QuizUS/product-details.php?product=Aptitude&product-id=63-1-23-ef
 // 63 - Product ID
-// 1  - Product type 0 for test and 1 for set
+// 1 - Product type 0 for test and 1 for set
 // 23 - Date
 // ef - first two letters of owner-id
 // -------------------------------------------
@@ -57,7 +57,7 @@ if (isset ( $_GET ['product-id'] ) && ! empty ( $_GET ['product-id'] )) {
 
 $objUtils = new CUtils ();
 
-if ( !$bCopiedLink && !$bProperURL ) {
+if (! $bCopiedLink && ! $bProperURL) {
 	// echo("\nTest - 1");
 	$objUtils->Redirect ( "search-results.php" );
 }
@@ -295,8 +295,8 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<a
-								href="search-results.php?company-name=<?php echo(urldecode($aryPublishedProduct['org_name']));?>">More Tests/Sets</a> 
-								by <a
+								href="search-results.php?company-name=<?php echo(urldecode($aryPublishedProduct['org_name']));?>">More
+								Tests/Sets</a> by <a
 								href="about-publisher.php?pub=<?php echo(urldecode($aryPublishedProduct['org_name']));?>&pub-enct=<?php echo($aryPublishedInfo['org_id']);?>"><?php echo($aryPublishedProduct['org_name']);?></a>
 						</div>
 					</div>
@@ -353,8 +353,7 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 							<!-- Tab panes -->
 							<div class="tab-content"
 								style="border-left: 1px solid #ddd; padding-left: 10px; padding-top: 10px;">
-								<div role="tabpanel" class="tab-pane active"
-									id="product_details">
+								<div role="tabpanel" class="tab-pane" id="product_details">
 									<div class="row">
 										<div class="col-lg-12 col-md-12 col-sm-12">
 											<span class="h5">Description:</span> <span
@@ -381,56 +380,56 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 								PopulateProductSpecifications ();
 								?>
 								</div>
-							</div>
-						</div>
-					</div>
-
-					<hr />
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<form id="review_form"
-								action="core/index/ajax/ajax_submit_review.php" method="post">
-								<label for="basic-url"><?php echo($bLoggedIn?'Provide':'Please login to provide');?> review for this test/package</label>
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon3">Subject</span>
-									<input type="text" class="form-control" id="basic-url"
-										name="subject" aria-describedby="basic-addon3"
-										<?php echo($bLoggedIn?'':'readonly');?> /> <span
-										class="input-group-addon" id="basic-addon3">Rating</span> <span
-										class="input-group-btn" aria-describedby="basic-addon3"> <select
-										name="rating" class="btn"
-										<?php echo($bLoggedIn?'':'disabled');?>>
-											<option value=5>5 Stars</option>
-											<option value=4>4 Stars</option>
-											<option value=3>3 Stars</option>
-											<option value=2>2 Stars</option>
-											<option value=1>1 Star</option>
-									</select>
-									</span>
-								</div>
-								<textarea class="form-control" rows="3" name="description"
-									placeholder="Review Comments"
-									<?php echo($bLoggedIn?'':'readonly');?>></textarea>
-								<input type="hidden" name="product_id"
-									value="<?php echo($product_id);?>"> <input type="hidden"
-									name="product_type" value="<?php echo($product_type);?>"> <input
-									type="hidden" name="redirect_url"
-									value="<?php printf("../../../product-details.php?product=%s&product-id=%d&product-type=%d", urlencode($aryPublishedProduct['product_name']), $product_id, $product_type);?>">
-								<button class="btn btn-success" type="submit"
-									<?php echo($bLoggedIn?'':'disabled');?>>Submit</button>
-							</form>
 						</div>
 					</div>
 				</div>
-			</div>
-			<hr />
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12">
-					<a name="review"></a>
-						<?php PopulateReviews();?>
+
+				<hr />
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<form id="review_form"
+							action="core/index/ajax/ajax_submit_review.php" method="post">
+							<label for="basic-url"><?php echo($bLoggedIn?'Provide':'Please login to provide');?> review for this test/package</label>
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon3">Subject</span>
+								<input type="text" class="form-control" id="basic-url"
+									name="subject" aria-describedby="basic-addon3"
+									<?php echo($bLoggedIn?'':'readonly');?> /> <span
+									class="input-group-addon" id="basic-addon3">Rating</span> <span
+									class="input-group-btn" aria-describedby="basic-addon3"> <select
+									name="rating" class="btn"
+									<?php echo($bLoggedIn?'':'disabled');?>>
+										<option value=5>5 Stars</option>
+										<option value=4>4 Stars</option>
+										<option value=3>3 Stars</option>
+										<option value=2>2 Stars</option>
+										<option value=1>1 Star</option>
+								</select>
+								</span>
+							</div>
+							<textarea class="form-control" rows="3" name="description"
+								placeholder="Review Comments"
+								<?php echo($bLoggedIn?'':'readonly');?>></textarea>
+							<input type="hidden" name="product_id"
+								value="<?php echo($product_id);?>"> <input type="hidden"
+								name="product_type" value="<?php echo($product_type);?>"> <input
+								type="hidden" name="redirect_url"
+								value="<?php printf("../../../product-details.php?product=%s&product-id=%d&product-type=%d", urlencode($aryPublishedProduct['product_name']), $product_id, $product_type);?>">
+							<button class="btn btn-success" type="submit"
+								<?php echo($bLoggedIn?'':'disabled');?>>Submit</button>
+						</form>
 					</div>
+				</div>
 			</div>
 		</div>
+		<hr />
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<a name="review"></a>
+						<?php PopulateReviews();?>
+					</div>
+		</div>
+	</div>
 	</div>
 	<p class="text-center"><?php include ("lib/footer.php"); ?></p>
 

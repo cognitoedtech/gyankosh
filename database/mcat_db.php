@@ -1728,18 +1728,18 @@
 				if(empty($aryPublishedInfo["cost"]["inr"]) || empty($aryPublishedInfo["cost"]["usd"]))
 				{
 					$inr_element = "";
-					if(!empty($aryPublishedInfo["cost"]["inr"]))
+					if(isset($aryPublishedInfo["cost"]["inr"]))
 					{
 						$inr_element = "<i class='fa fa-inr' aria-hidden='true'></i> ".$aryPublishedInfo["cost"]["inr"]."<br/>";
 					}
 					
 					$usd_element = "";
-					if(!empty($aryPublishedInfo["cost"]["usd"]))
+					if(isset($aryPublishedInfo["cost"]["usd"]))
 					{
 						$usd_element = "<i class='fa fa-usd' aria-hidden='true'></i> ".$aryPublishedInfo["cost"]["usd"];
 					}
 					
-					if(empty($inr_element) && empty($usd_element))
+					if(strlen($inr_element) == 0 && strlen($usd_element) == 0)
 					{
 						echo "<td>Not Applicable</td>";
 					}
@@ -4988,7 +4988,7 @@
         				$published_info, $schedule_start, $schedule_end);
         		
         		/*$fp = fopen("jsonfile.txt", "w");
-        		fwrite($fp, $query_inner);
+        		fwrite($fp, $published_info);
         		fclose($fp);*/
         		
         		$result	= mysql_query($query_inner, $this->db_link) or die('Insert published products error : ' . mysql_error());
