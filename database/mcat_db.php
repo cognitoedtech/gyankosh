@@ -619,15 +619,19 @@
 			return $nRet;
 		}
 		
-		public function InsertQuestion($row, $user_id, $mca, $ques_type = 0, $group_title=NULL, $tag_id = NULL, $linked_to = NULL, $is_eq = false)
+		public function InsertQuestion($row, $user_id, $mca, $ques_type = 0, $group_title=NULL, $tag_id = NULL, $linked_to = 0, $is_eq = false)
 		{
-			$query = "";
+			$query = "";						
+			if(empty($linked_to) or $linked_to == '')
+				$linked_to =  0;			
 			if(empty($tag_id) || $tag_id == 0)
 			{
+				
 				$query = sprintf("insert into question(ques_type, linked_to, language, mca, user_id, question, subject_id, topic_id, difficulty_id, explanation) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')", $ques_type, $linked_to, mysql_real_escape_string(strtolower($row[CConfig::$QUES_XLS_HEADING_ARY["Language"]])), $mca, $user_id, mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Question"]]), $this->GetSubjectId(mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Subject"]])), $this->GetTopicId(mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Topic"]]),mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Subject"]])), $row[CConfig::$QUES_XLS_HEADING_ARY["Difficulty"]], mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Explanation"]]));
 			}
 			else
 			{
+				
 				$query = sprintf("insert into question(ques_type, linked_to, language, mca, tag_id, user_id, question, subject_id, topic_id, difficulty_id, explanation) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')", $ques_type, $linked_to, mysql_real_escape_string(strtolower($row[CConfig::$QUES_XLS_HEADING_ARY["Language"]])), $mca, $tag_id, $user_id, mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Question"]]), $this->GetSubjectId(mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Subject"]])), $this->GetTopicId(mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Topic"]]),mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Subject"]])), $row[CConfig::$QUES_XLS_HEADING_ARY["Difficulty"]], mysql_real_escape_string($row[CConfig::$QUES_XLS_HEADING_ARY["Explanation"]]));
 			}
            
@@ -683,11 +687,12 @@
 		//insert directions para
 		public function InsertDirectionsPara($dir_description)
 		{
-			$query = sprintf("insert into directions_para(description) values('%s')", mysql_real_escape_string($dir_description));
+			$query = sprintf("insert into directions_para(description) values('%s')", mysql_real_escape_string($dir_description));			
+			//echo $query; 
+			$result = mysql_query($query, $this->db_link) or die('Insert directions para error : ' . mysql_error());			
+			$id = mysql_insert_id();			
+			return $id;
 			
-			$result = mysql_query($query, $this->db_link) or die('Insert directions para error : ' . mysql_error());
-			
-			return mysql_insert_id();
 		}
 		
 		public function UpdatePara($description, $para_id, $ques_type)
@@ -729,7 +734,7 @@
 				$query = sprintf("select * from topic join question on topic.topic_id = question.topic_id where topic.topic_name='%s' and question.user_id='%s' %s",ucwords(strtolower($topic)), $user_id, $ques_type_cond);
 			}
 			
-			//echo $query;
+			
 			
 			$result = mysql_query($query, $this->db_link) or die('Is Topic Exists Error : ' . mysql_error());
 			
@@ -4953,27 +4958,20 @@
         	
         	$query 		= 	sprintf("update test set is_published=1 where test_id='%s'",$product_id );
         	$result		=	mysql_query($query, $this->db_link) or die('Publish Test error : ' . mysql_error());
-        	
+        	//echo $query;
         	if($result == TRUE)
         	{
         		$schedule_start = str_replace(' ', '-', $schedule_start);
         		$schedule_start = str_replace(',', '-', $schedule_start);
         		$schedule_start	= date('Y-m-d H:i:s', strtotime($schedule_start));
+        		$test_name = $this->GetTestName($product_id);
         		
         		if($schedule_end != 0)
         		{
 	        		$schedule_end = str_replace(' ', '-', $schedule_end);
 	        		$schedule_end = str_replace(',', '-', $schedule_end);
 	        		$schedule_end = date('Y-m-d H:i:s', strtotime($schedule_end));
-        		}
-        		else 
-        		{
-        			$schedule_end = "NULL";
-        		}
-        		
-        		$test_name = $this->GetTestName($product_id);
-        		$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date, pub_end_date) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s) on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s', pub_end_date='%s'",
-        				$product_id, $product_type, $category_id, mysql_real_escape_string($test_name), 
+	        		$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date, pub_end_date) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s', pub_end_date='%s'",$product_id, $product_type, $category_id, mysql_real_escape_string($test_name), 
         				mysql_real_escape_string($aryPublishedInfo["org_name"]), 
         				mysql_real_escape_string($keywords), 
         				mysql_real_escape_string($description), 
@@ -4986,10 +4984,36 @@
         				mysql_real_escape_string($description), 
         				base64_encode($product_image), 
         				$published_info, $schedule_start, $schedule_end);
+        		}
+        		else 
+        		{
+        			
+        			$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s'",$product_id, $product_type, $category_id, mysql_real_escape_string($test_name),
+        					mysql_real_escape_string($aryPublishedInfo["org_name"]),
+        					mysql_real_escape_string($keywords),
+        					mysql_real_escape_string($description),
+        					base64_encode($product_image),
+        					$published_info, $schedule_start, 
+        					$category_id,
+        					mysql_real_escape_string($test_name),
+        					mysql_real_escape_string($aryPublishedInfo["org_name"]),
+        					mysql_real_escape_string($keywords),
+        					mysql_real_escape_string($description),
+        					base64_encode($product_image),
+        					$published_info, $schedule_start,$schedule_end);
+        			
+        			//echo $query_inner;
+        		}
+        		
+        		
+        		
+        				
+        		
         		
         		/*$fp = fopen("jsonfile.txt", "w");
         		fwrite($fp, $published_info);
         		fclose($fp);*/
+        		
         		
         		$result	= mysql_query($query_inner, $this->db_link) or die('Insert published products error : ' . mysql_error());
         	}
