@@ -358,7 +358,7 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 							<!-- Tab panes -->
 							<div class="tab-content"
 								style="border-left: 1px solid #ddd; padding-left: 10px; padding-top: 10px;">
-								<div role="tabpanel" class="tab-pane" id="product_details">
+								<div role="tabpanel" class="tab-pane active" id="product_details">
 									<div class="row">
 										<div class="col-lg-12 col-md-12 col-sm-12">
 											<span class="h5">Description:</span> <span
@@ -539,7 +539,7 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 	    }
 
 		<?php
-		if ($bCopiedLink && ! $bProperURL) 
+		if (! $bCopiedLink && ! $bProperURL) 
 		{
 		?>
 		    $.Notify({
