@@ -475,7 +475,7 @@
 			return $row['name'];
 		}
 		
-		private function GetCountryCode($name)
+		public function GetCountryCode($name)
 		{
 			$query = "select * from countries where name='".$name."'";
 			//echo $query."<br/><br/>";

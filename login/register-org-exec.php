@@ -48,8 +48,25 @@
 		return $str;
 	}
 	
+	function GetCountryCodeFromIP($ip_addr)
+	{
+		$data = file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip_addr);
+		$data = json_decode($data);
+		$objDB = new CMcatDB();
+		
+		return $objDB->GetCountryCode($data->geoplugin_countryName);
+	}
+	
+	function GetCurrencyCodeFromIP($ip_addr)
+	{
+		$data = file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip_addr);
+		$data = json_decode($data);
+		
+		return $data->geoplugin_currencyCode == "INR" ? "INR" : "USD";
+	}
+	
 	//Sanitize the POST values
-	$currency		= "USD";
+	$currency		= GetCurrencyCodeFromIP($_SERVER['REMOTE_ADDR']);
 	$buss_assoc_id	= "";
 	$org_name		= clean($_POST['ORG']);
 	$org_size		= "";
@@ -64,7 +81,7 @@
 	$address		= "";
 	$city			= "";
 	$state			= "";
-	$country		= "";
+	$country		= GetCountryCodeFromIP($_SERVER['REMOTE_ADDR']);
 	$year			= "";
 	$day			= "";
 	$month			= "";

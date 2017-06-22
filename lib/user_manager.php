@@ -1,5 +1,6 @@
 <?php
 	include_once("user.php") ;
+	include_once (dirname(__FILE__)."/../database/config.php");
 	
 	class CUserManager
 	{
@@ -270,10 +271,10 @@
 			}
 			
 			$user_id = CUtils::uuid() ;
-			$query = sprintf("INSERT INTO users(".CUser::FIELD_USER_ID.", ".CUser::FIELD_USER_TYPE.", ".CUser::FIELD_LOGIN_NAME.", ".CUser::FIELD_ORGANIZATION_ID.", ".CUser::FIELD_PAN_NO.", ".CUser::FIELD_FIRST_NAME.", ".CUser::FIELD_LAST_NAME.", ".CUser::FIELD_PASSWORD.", ".CUser::FIELD_CONTACT_NO .", ".CUser::FIELD_EMAIL.", ".CUser::FIELD_GENDER.", ".CUser::FIELD_ADDRESS.", ".CUser::FIELD_CITY.", ".CUser::FIELD_STATE.", ".CUser::FIELD_COUNTRY.", ".CUser::FIELD_DOB.", ".CUser::FIELD_SECURITY_QUES .", ".CUser::FIELD_SECURITY_ANS.", ".CUser::FIELD_BUSS_ASSOC_ID.", ".CUser::FIELD_OWNER_ID.", ".CUser::FIELD_BATCH.") VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s') ;", 
-							$user_id, $objUser->GetUserType(), $objUser->GetLoginName(), $objUser->GetOrganizationId(), $objUser->GetPANNo(), $objUser->GetFirstName(), $objUser->GetLastName(), md5($objUser->GetPassword()), $objUser->GetContactNo(), $objUser->GetEmail(), $objUser->GetGender(), $objUser->GetAddress(), $objUser->GetCity(), $objUser->GetState(), $objUser->GetCountry(), $objUser->GetDOB(), $objUser->GetSecQues(), $objUser->GetSecAns(), $objUser->GetBusinessAssociateId(), $objUser->GetOwnerID(), mysql_real_escape_string($batch)) ;
+			$query = sprintf("INSERT INTO users(".CUser::FIELD_USER_ID.", ".CUser::FIELD_USER_TYPE.", ".CUser::FIELD_LOGIN_NAME.", ".CUser::FIELD_ORGANIZATION_ID.", ".CUser::FIELD_PAN_NO.", ".CUser::FIELD_FIRST_NAME.", ".CUser::FIELD_LAST_NAME.", ".CUser::FIELD_PASSWORD.", ".CUser::FIELD_CONTACT_NO .", ".CUser::FIELD_EMAIL.", ".CUser::FIELD_GENDER.", ".CUser::FIELD_ADDRESS.", ".CUser::FIELD_CITY.", ".CUser::FIELD_STATE.", ".CUser::FIELD_COUNTRY.", ".CUser::FIELD_DOB.", ".CUser::FIELD_SECURITY_QUES .", ".CUser::FIELD_SECURITY_ANS.", ".CUser::FIELD_BUSS_ASSOC_ID.", ".CUser::FIELD_OWNER_ID.", ".CUser::FIELD_BATCH.", ".CUser::FIELD_VCODE.") VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s') ;", 
+							$user_id, $objUser->GetUserType(), $objUser->GetLoginName(), $objUser->GetOrganizationId(), $objUser->GetPANNo(), $objUser->GetFirstName(), $objUser->GetLastName(), md5($objUser->GetPassword()), $objUser->GetContactNo(), $objUser->GetEmail(), $objUser->GetGender(), $objUser->GetAddress(), $objUser->GetCity(), $objUser->GetState(), $objUser->GetCountry(), $objUser->GetDOB(), $objUser->GetSecQues(), $objUser->GetSecAns(), $objUser->GetBusinessAssociateId(), $objUser->GetOwnerID(), mysql_real_escape_string($batch), $objUser->GetVerificationCode()) ;
 			
-			//echo  $query."<br/>";
+			// echo  $query."<br/>";
 			
 			$result = mysql_query($query, $this->db_link_id) or die("Insert User Info Error: ".mysql_error($this->db_link_id)) ;
 			if(mysql_affected_rows($this->db_link_id) > 0)
@@ -397,14 +398,22 @@
 			return $loginResult;
 		}
 
-		public function ListCountryOption($selected=-1)
+		public function ListCountryOption($selected=-1, $code=false)
 		{
 			$query  = "select * from countries order by name;";
 			$result = mysql_query($query, $this->db_link_id) or die("List Country Option Error: ".mysql_error($this->db_link_id));
-			printf(" <option value=\"91\" selected=\"selected\">India</option>");
+			if($code)
+			{
+				printf(" <option value=\"91\" selected=\"selected\">91</option>");
+			}
+			else 
+			{
+				printf(" <option value=\"91\" selected=\"selected\">India</option>");
+			}
+			
 			while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
 			{	
-				printf("<option value=\"%d\" %s>%s</option>", $row["code"], ($selected==$row["code"])?"selected='selected'":"", $row["name"]);
+				printf("<option value=\"%d\" %s>%s</option>", $row["code"], ($selected==$row["code"])?"selected='selected'":"", $code ? $row["code"] : $row["name"]);
 			}
 			mysql_free_result($result) ;
 		}
