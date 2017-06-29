@@ -391,9 +391,9 @@
 					foreach ($cellIterator as $cell)
 					{
 						$cell_value = trim($cell->getValue());
-						$pos = stripos($cell_value, "#@MIPCAT_Img[");
-						$ea_pos = stripos($cell_value, "#@EZEEASSES_Img[");
-							
+						$pos = stripos($cell_value, "#@EZEEASSESS_Img[");
+						$ea_pos = stripos($cell_value, "#@QUIZUS_Img[");
+						
 						if($pos !== false)
 						{
 							$img = trim(substr($cell_value, 13,-1));
@@ -465,8 +465,8 @@
 					foreach ($cellIterator as $cell)
 					{
 						$cell_value = trim($cell->getValue());
-						$pos = stripos($cell_value, "#@MIPCAT_Img[");
-						$ea_pos = stripos($cell_value, "#@EZEEASSES_Img[");
+						$pos = stripos($cell_value, "#@EZEEASSES_Img[");
+						$ea_pos = stripos($cell_value, "#@QUIZUS_Img[");
 							
 						if($pos !== false)
 						{
@@ -605,8 +605,8 @@
 						foreach ($cellIterator as $cell)
 						{
 							$cell_val = str_replace("’", "'", trim($cell->getValue()));
-							$pos = stripos($cell_val, "#@MIPCAT_Img[");
-							$ea_pos = stripos($cell_value, "#@EZEEASSES_Img[");
+							$pos = stripos($cell_val, "#@EZEEASSES_Img[");
+							$ea_pos = stripos($cell_value, "#@QUIZUS_Img[");
 							$img_content = "";
 							$img_type = "";
 								
