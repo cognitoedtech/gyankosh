@@ -53,7 +53,7 @@
 				if($zip->open($zipFileTmp) === TRUE)
 				{
 					$img_content = $zip->getFromName($zipFileName.'/'.$img);
-		
+					
 					if(!$img_content)
 					{
 						$retVal = "Image link is not proper, please provide only valid image link";
@@ -391,9 +391,10 @@
 					foreach ($cellIterator as $cell)
 					{
 						$cell_value = trim($cell->getValue());
-						$pos = stripos($cell_value, "#@EZEEASSESS_Img[");
-						$ea_pos = stripos($cell_value, "#@QUIZUS_Img[");
 						
+						$pos = stripos($cell_value, "#@quizus_Img[");
+						$ea_pos = stripos($cell_value, "#@EZEEASSES_Img[");
+							
 						if($pos !== false)
 						{
 							$img = trim(substr($cell_value, 13,-1));
@@ -465,8 +466,8 @@
 					foreach ($cellIterator as $cell)
 					{
 						$cell_value = trim($cell->getValue());
-						$pos = stripos($cell_value, "#@EZEEASSES_Img[");
-						$ea_pos = stripos($cell_value, "#@QUIZUS_Img[");
+						$pos = stripos($cell_value, "#@quizus_img[");
+						$ea_pos = stripos($cell_value, "#@EZEEASSES_Img[");
 							
 						if($pos !== false)
 						{
@@ -605,8 +606,8 @@
 						foreach ($cellIterator as $cell)
 						{
 							$cell_val = str_replace("’", "'", trim($cell->getValue()));
-							$pos = stripos($cell_val, "#@EZEEASSES_Img[");
-							$ea_pos = stripos($cell_value, "#@QUIZUS_Img[");
+							$pos = stripos($cell_val, "#@quizus_img[");
+							$ea_pos = stripos($cell_value, "#@EZEEASSES_Img[");
 							$img_content = "";
 							$img_type = "";
 								
