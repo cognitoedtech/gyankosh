@@ -94,8 +94,8 @@ function PopulateCart() {
 				printf ( "</div><br />" );
 			}
 		}
-		
-		$GLOBALS ['publishers'] = implode("|", $GLOBALS ['aryProductPublishers']);
+		$aryPub = array_unique($GLOBALS ['aryProductPublishers']);
+		$GLOBALS ['publishers'] = implode("|", $aryPub);
 	}
 }
 
