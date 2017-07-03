@@ -36,6 +36,7 @@ function PopulateCustomerBillingTBody() {
 				if ($GLOBALS ['objResult']->IsResultAlreadyExist ( $GLOBALS ['user_id'], $aryTests ['id'], $aryTests ['scheduled_id'] ) != TRUE) {
 					$aryPubProduct = $GLOBALS ['objDB']->GetPublishedProductDetails($aryTests ['id'], CConfig::PT_TEST);
 					
+					$gData = "";
 					$aryPubInfo = json_decode($aryPubProduct['published_info'], true);
 					//print_r($aryPubInfo['gather_data']);
 					
@@ -45,12 +46,12 @@ function PopulateCustomerBillingTBody() {
 					printf ( "<td>%s</td>", $billingEntry ['timestamp'] );
 					printf ( "<td>%.2f</td>", $aryTests ['amount_base'] + $aryTests ['taxes'] );
 					printf ( "<td>%s</td>", $aryPaymentInfo ['payment_info'] ['transaction_id'] );
-					printf ( "<td><a onclick=\"PreShowOverlay('%s/test/test.php?test_id=%d&tschd_id=%d', %d, %d, %d, %d, %d);\" class='btn btn-info btn-sm'>Start Test</a></td>", 
+					printf ( "<td><a onclick=\"PreShowOverlay('%s/test/test.php?test_id=%d&tschd_id=%d', %d, %d, %d, %d, %d, %d);\" class='btn btn-info btn-sm'>Start Test</a></td>", 
 							CSiteConfig::ROOT_URL, $aryTests ['id'], $aryTests ['scheduled_id'], 
 							$aryTests ['id'], $aryTests ['scheduled_id'],
 							$aryPubInfo['gather_data']['gd_univ_name'], 
 							$aryPubInfo['gather_data']['gd_inst_name'], 
-							$aryPubInfo['gather_data']['gd_enroll_num']);
+							$aryPubInfo['gather_data']['gd_enroll_num'], $GLOBALS ['objDB']->IsGatheredDataExists($GLOBALS ['user_id'], $aryTests ['id'], $aryTests ['scheduled_id'], $gData));
 					printf ( "</tr>" );
 				}
 			}
@@ -361,7 +362,7 @@ $objIncludeJsCSS->IncludeDatatablesResponsiveJS ( "../" );
 				schd_id: 0
 				};
 		
-		function PreShowOverlay(url, ti, si, a, b, c)
+		function PreShowOverlay(url, ti, si, a, b, c, bDataExist)
 		{
 			objSO.url = url;
 			objSO.ga_univ_name  = a;
@@ -387,7 +388,7 @@ $objIncludeJsCSS->IncludeDatatablesResponsiveJS ( "../" );
 			else
 				$("#ga_enroll_num").hide();
 
-			if(a == 1 || b == 1 || c == 1)
+			if(bDataExist == 0 && (a == 1 || b == 1 || c == 1))
 				$("#gather_data_modal").modal("show");
 			else
 				ShowOverlay();

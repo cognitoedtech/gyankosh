@@ -139,7 +139,9 @@ function printThis()
 			//$sTestName =  $objDB->GetTestName($test_id);
 			$owner_id =  $objDB->GetTestOwnerID($test_id);
 			$schd_id ="";
-	
+			
+			$objDB->AddOwnerIfNotExist($user_id, $owner_id);
+			
 			$sTestName= $objDB->InsertIntoTestSchedule($test_id, $user_id, $scheduled_on, $hours, $minutes, $expire_on, $expire_hours, $expire_minutes, $candidate_list, $time_zone,CConfig::TST_ONLINE, $schd_id);
 	
 			$sellerBilling = $objBilling->GetSellerBilling($owner_id);

@@ -1350,12 +1350,24 @@
 					continue;
 				}
 				echo "<tr id='".$row['user_id']."'>";
-				echo "<td>".$row['firstname']."</td>";
-				echo "<td>".$row['lastname']."</td>";
+				echo "<td>".$row['firstname']." ".$row['lastname']."</td>";
 				echo "<td>".($row['gender']==1?"Male":"Female")."</td>";
 				echo "<td>".$row['dob']."</td>";
 				echo "<td>".$row['contact_no']."</td>";
 				echo "<td>".$row['email']."</td>";
+				$jsonData = $this->GetGatheredData($row['user_id']);
+				
+				$aryData = json_decode($jsonData['gathered_data'], TRUE);
+				//{"ga_univ_name":"RGPV","ga_inst_name":"","ga_enroll_num":"IT2004100029"}
+				$gData = empty($aryData['ga_inst_name']) ? "" : $aryData['ga_inst_name'];
+				$gData = $gData.(empty($aryData['ga_univ_name']) ? "" : ", ".$aryData['ga_univ_name']);
+				$gData = $gData.(empty($aryData['ga_enroll_num']) ? "" : " ( ".$aryData['ga_enroll_num']." )");
+				
+				if(empty($gData))
+					$gData = "Not Applicable";
+				
+				echo "<td>".$gData."</td>";
+				
 				if(!empty($row['city']))
 				{
 					echo "<td>".$row['city'].", ".$row['state'].", ".$row['country']."</td>";
@@ -5345,6 +5357,63 @@
 			$result = mysql_query($query, $this->db_link) or die('Add Category Request Error : ' . mysql_error());
 			
 			return $result;
+		}
+		
+		public function IsGatheredDataExists($user_id, $test_id, $schd_id, &$retAry)
+		{
+			$retVal = 0;
+			 
+			$query = sprintf("select * from gathered_user_data where user_id = '%s' and test_id = '%s' and schd_id = '%s';",
+					$user_id, $test_id, $schd_id);
+			 
+			$result = mysql_query($query, $this->db_link) or die("Is Gathered Data Exists Error: ".mysql_error($this->db_link_id)) ;
+			
+			if(mysql_num_rows($result) > 0)
+			{
+				$retAry = mysql_fetch_array($result);
+				$retVal = 1;
+			}
+			return $retVal;
+		}
+		
+		public function GetGatheredData($user_id)
+		{
+			$retVal = null;
+		
+			$query = sprintf("select * from gathered_user_data where user_id = '%s';", $user_id);
+		
+			$result = mysql_query($query, $this->db_link) or die("Get Gathered Data Error: ".mysql_error($this->db_link_id)) ;
+				
+			if(mysql_num_rows($result) > 0)
+			{
+        		$retVal = mysql_fetch_array($result);
+        	}
+        	
+			return $retVal;
+		}
+		
+		public function AddOwnerIfNotExist($user_id, $publisher)
+		{
+			$retVal = 0;
+			
+			$owner_id = $this->GetOwnerId($user_id);
+			$aryPublishers = explode("|", $owner_id);
+			
+			if(in_array($publisher, $aryPublishers))
+			{ // If publisher is already owner, do nothing
+				$retVal = 1;
+			}
+			else
+			{ // If publisher is not owner add it to the list
+				array_push($aryPublishers, $publisher);
+				$owner_id = implode("|", $aryPublishers);	
+				$query = sprintf("update users set owner_id='%s' where user_id='%s'", $owner_id, $user_id);
+				$result = mysql_query($query, $this->db_link) or die('Add Owner If Not Exist Error: ' . mysql_error());
+				
+				$retVal = $result;
+			}
+			
+			return $retVal;
 		}
 	}
 ?>
