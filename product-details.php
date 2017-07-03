@@ -292,7 +292,7 @@ $objIncludeJsCSS->IncludeJqueryRatyJS ( "" );
 					<div class="row">
 						<div class="col-lg-10 col-md-10 col-sm-10">
 							<span class="h5">Who should buy?</span><br />
-							<p id="who-should-buy"><?php echo($aryPublishedProduct['who_should_buy']);?></p>
+							<p id="who-should-buy"><?php echo($aryPublishedInfo['who_should_buy']);?></p>
 						</div>
 					</div>
 				</div>
