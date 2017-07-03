@@ -50,6 +50,8 @@ $fSumCost = 0;
 $fTax = CConfig::$BA_TAX_APPLIED_ARY ["Service Tax"] / 100;
 
 $aryProductsInCart = array ();
+$aryProductPublishers = array ();
+$publishers = "";
 
 function PopulateCart() {
 	if (empty ( $GLOBALS ['aryCartItems'] ) || count ( $GLOBALS ['aryCartItems'] ) <= 1) {
@@ -58,7 +60,9 @@ function PopulateCart() {
 		printf ( "</div>" );
 		
 		$GLOBALS ['disableCheckout'] = "disabled";
-	} else {
+	} 
+	else 
+	{
 		foreach ( $GLOBALS ['aryCartItems'] as $key => $cartItem ) {
 			if (is_int ( $key )) {
 				$aryProdDetails = $GLOBALS ['objDB']->GetPublishedProductDetails ( $cartItem ['id'], $cartItem ['type'] );
@@ -66,6 +70,8 @@ function PopulateCart() {
 				$aryProdInfo = json_decode ( $aryProdDetails ['published_info'], TRUE );
 				
 				array_push ( $GLOBALS ['aryProductsInCart'], array ("id" => $aryProdDetails ['product_id'], "name" => $aryProdDetails ['product_name'], "cost_inr" => $aryProdInfo ['cost'] ['inr'] ) );
+				array_push ( $GLOBALS ['aryProductPublishers'], $GLOBALS ['objDB']->GetTestOwnerID($aryProdDetails ['product_id']));
+				
 				$GLOBALS ['fSumCost'] += $aryProdInfo ['cost'] ['inr'];
 				
 				printf ( "<div class='row'>" );
@@ -88,6 +94,8 @@ function PopulateCart() {
 				printf ( "</div><br />" );
 			}
 		}
+		
+		$GLOBALS ['publishers'] = implode("|", $GLOBALS ['aryProductPublishers']);
 	}
 }
 
@@ -473,6 +481,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 															placeholder="Country" aria-describedby="basic-addon10"> <input
 															type="hidden" name="redirect_url"
 															value="../checkout.php">
+															<input type="hidden" name="owner_id" value="<?php echo($publishers);?>>"/>
 													</div>
 												</div>
 											</div>
