@@ -144,6 +144,7 @@
 		$objUser->SetSecQues(ucwords(strtolower($question)));
 		$objUser->SetSecAns(ucwords(strtolower($security_answer)));
 		$objUser->SetContactNo($phone);
+		$objUser->SetVerificationCode(0);
 
 		$result = $objUM->AddUser($objUser);
 		
