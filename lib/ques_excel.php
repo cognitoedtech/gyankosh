@@ -415,7 +415,7 @@
 						}
 						else 
 						{
-							$data_row[$cell_index] = str_ireplace(CConfig::EA_OPER_CODE_END,"</div>",str_ireplace(CConfig::EA_OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("’", "'", trim($cell_value)))))));
+							$data_row[$cell_index] = str_ireplace(CConfig::EA_OPER_CODE_END,"</div>",str_ireplace(CConfig::EA_OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">",">",str_replace("<","<",str_replace("&","&amp;",str_replace("’", "'", trim($cell_value)))))));
 						}
 						$data_table[$row_index][$cell_index] = $data_row[$cell_index];
 						$cell_index++;
@@ -489,7 +489,7 @@
 						}
 						else
 						{
-							$data_row[$cell_index] = str_ireplace(CConfig::EA_OPER_CODE_END,"</div>",str_ireplace(CConfig::EA_OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("’", "'", trim($cell_value)))))));
+							$data_row[$cell_index] = str_ireplace(CConfig::EA_OPER_CODE_END,"</div>",str_ireplace(CConfig::EA_OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">",">",str_replace("<","<",str_replace("&","&amp;",str_replace("’", "'", trim($cell_value)))))));
 						}
 						$data_table[$row_index][$cell_index] = $data_row[$cell_index];
 						$cell_index++;
@@ -1084,7 +1084,7 @@
 							}
 							else
 							{
-								$data_row[$cell_index] = str_ireplace(CConfig::EA_OPER_CODE_END,"</div>",str_ireplace(CConfig::EA_OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">","&gt;",str_replace("<","&lt;",str_replace("&","&amp;",str_replace("’", "'", trim($cell_value)))))));
+								$data_row[$cell_index] = str_ireplace(CConfig::EA_OPER_CODE_END,"</div>",str_ireplace(CConfig::EA_OPER_CODE_START,"<div class='mipcat_code_ques'>",str_replace(">",">",str_replace("<","<",str_replace("&","&amp;",str_replace("’", "'", trim($cell_value)))))));
 							}
 							$data_table[$row_index][$cell_index] = $data_row[$cell_index];
 						}
