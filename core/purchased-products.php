@@ -46,7 +46,7 @@ function PopulateCustomerBillingTBody() {
 					printf ( "<td>%s</td>", $billingEntry ['timestamp'] );
 					printf ( "<td>%.2f</td>", $aryTests ['amount_base'] + $aryTests ['taxes'] );
 					printf ( "<td>%s</td>", $aryPaymentInfo ['payment_info'] ['transaction_id'] );
-					printf ( "<td><a onclick=\"PreShowOverlay('%s/test/test.php?test_id=%d&tschd_id=%d', %d, %d, %d, %d, %d, %d);\" class='btn btn-info btn-sm'>Start Test</a></td>", 
+					printf ( "<td><a onclick=\"PreShowOverlay('%s/test/test.php?test_id=%d&tschd_id=%d', %d, %d, %d, %d, %d, %d);\" class='btn btn-info btn-sm'>Attempt Test</a></td>", 
 							CSiteConfig::ROOT_URL, $aryTests ['id'], $aryTests ['scheduled_id'], 
 							$aryTests ['id'], $aryTests ['scheduled_id'],
 							$aryPubInfo['gather_data']['gd_univ_name'], 
