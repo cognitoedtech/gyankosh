@@ -19,14 +19,15 @@ if (isset( $_GET ['company-name'] ) && ! empty ( $_GET ['company-name'] )) {
 }
 
 $prod_category_id = -1;
+$prod_major_category = 0;
 if(isset($_GET ['ci']))
 {
 	$prod_category_id = $_GET ['ci'];
 } 
-
 else if(isset($_GET ['category-id'])) 
 {
 	$prod_category_id = $_GET ['category-id'];
+	$prod_major_category = 1;
 }
 
 
@@ -257,7 +258,7 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 		    $.ajax({
 				url: '<?php echo(CSiteConfig::ROOT_URL);?>/core/index/ajax/ajax_get_search_results.php',
 				type: 'POST',
-				data: {'search_text' : '<?php echo(trim($_POST['search_text']));?>', 'search_category' : '<?php echo($_POST['search_category']);?>', 'limit_start_value' : limit_start_value, 'product_category' : <?php echo($prod_category_id);?>},
+				data: {'search_text' : '<?php echo(trim($_POST['search_text']));?>', 'search_category' : '<?php echo($_POST['search_category']);?>', 'limit_start_value' : limit_start_value, 'product_category' : <?php echo($prod_category_id);?>, 'product_major_category' : <?php echo($prod_major_category);?>},
 				dataType: 'json',
 				async: false,
 				success: function(data) {

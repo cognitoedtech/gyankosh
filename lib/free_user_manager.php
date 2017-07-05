@@ -73,7 +73,7 @@ class CFreeUserManager
 	}
 	
 	//PopulateFreeTests
-	public function PopulateProducts($searchText, $searchCategory, $limit_start_value = 0, $product_category = -1)
+	public function PopulateProducts($searchText, $searchCategory, $limit_start_value = 0, $product_category = -1, $product_major_category = 0)
 	{
 		$searchText = trim($searchText);
 		$searchCategory = trim($searchCategory);
@@ -83,7 +83,15 @@ class CFreeUserManager
 		
 		if($product_category > 0)
 		{
-			$locateCond = sprintf("category_id=%d", $product_category);
+			//$locateCond = sprintf("category_id=%d", $product_category);
+			if($product_major_category == 0)
+			{
+				$locateCond = sprintf("category_id=%d", $product_category);
+			}
+			else
+			{
+				$locateCond = sprintf("category_id in (SELECT category_id FROM test_category where category = (select category from test_category where category_id=%d))", $product_category);
+			}
 		}
 		else if($searchCategory == "keywords")
 		{
