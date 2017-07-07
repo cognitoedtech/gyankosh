@@ -102,13 +102,23 @@ class CFreeUserManager
 			
 			foreach($searchAry as $searchString)
 			{
+				//  CONCAT(product_name,'|',keywords,'|',description) like '%%%s%%'
+				/*
+				 *  SELECT * 
+					FROM projects 
+					WHERE 
+					    CONCAT(category,"|",name,"|",description,"|",keywords,"|",type) LIKE '%query%' 
+					ORDER BY name ASC;
+				 * */
 				if($i == 0)
 				{
-					$locateCond .= sprintf("locate('%s', keywords)", $searchString);
+					//$locateCond .= sprintf("locate('%s', keywords)", $searchString);
+					$locateCond .= sprintf("CONCAT(product_name,'|',keywords,'|',description) like '%%%s%%'", $searchString);
 				}
 				else 
 				{
-					$locateCond .= sprintf(" || locate('%s', keywords)", $searchString);
+					//$locateCond .= sprintf(" || locate('%s', keywords)", $searchString);
+					$locateCond .= sprintf(" || CONCAT(product_name,'|',keywords,'|',description) like '%%%s%%'", $searchString);
 				}
 				$i++;
 			}
