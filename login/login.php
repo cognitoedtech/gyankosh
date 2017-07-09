@@ -1,6 +1,7 @@
 <?php
 	include_once("../lib/session_manager.php") ;
 	include_once("../database/config.php") ;
+	include_once("../database/mcat_db.php") ;
 	include_once("../lib/utils.php") ;
 	include_once("../lib/site_config.php") ;
 	include_once("../lib/user_manager.php");
@@ -49,8 +50,21 @@
 			$user = $email ;
 		}
 		
+		$objDB = new CMcatDB ();
+		$countryData = file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $_SERVER['REMOTE_ADDR']);
+		$countryData = json_decode($countryData);
+		$countryCode = $objDB->GetCountryCode($countryData->geoplugin_countryName);
+		
+		$isLoggedInWithEmail = true;
+		
 		$objUM = new CUserManager();
-		$result = $objUM->VerifyUser($email, $pass);
+		
+		if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$email = $objUM->GetFieldValueByContactAndCountry($email, $countryCode, CUser::FIELD_EMAIL);
+			$isLoggedInWithEmail = false;
+		}
+		
+		$result = $objUM->VerifyUser($email, $pass, $countryCode);
 		
 		if($result == 3)
 		{
@@ -139,12 +153,20 @@
 			if(empty($redirect_url))
 			{
 				CSessionManager::SetErrorType(2);
-				CSessionManager::SetErrorMsg("E-mail and password mismatch.");
+				if($isLoggedInWithEmail){
+					CSessionManager::SetErrorMsg("E-mail and password mismatch.");
+				} else {
+					CSessionManager::SetErrorMsg("Phone and password mismatch.");
+				}
 				CUtils::Redirect("login_form.php");
 			}
 			else 
 			{
-				CUtils::Redirect($redirect_url."?err_msg=".urlencode("E-mail and password mismatch."));
+				if($isLoggedInWithEmail){
+					CUtils::Redirect($redirect_url."?err_msg=".urlencode("E-mail and password mismatch."));
+				} else {
+					CUtils::Redirect($redirect_url."?err_msg=".urlencode("Phone and password mismatch."));
+				}
 			}
 		}
 	}

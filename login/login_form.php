@@ -145,12 +145,16 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS("../");
 
 		$(document).ready(function () {
 
+			jQuery.validator.addMethod("eitherEmailOrPhone", function(value, element) {
+				return this.optional(element) || /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(value) || /^\d+$/.test(value);
+			}, "<p style='color: red;font-size: 12px;'>Please enter your valid email-id or valid Phone!</p>");
+
 			$('#login_form').validate({
 				rules: {
-					'email':			{required: true, email: true},
+					'email':			{required: true, eitherEmailOrPhone: true},
 					'password':			{required: true}
 				}, messages: {
-					'email':			{required:	"<p style='color: red;font-size: 12px;'>Please enter your email-id!</p>", email:	"<p style='color: red;font-size: 12px;'>Please enter your valid email-id!</p>"},
+					'email':			{required:	"<p style='color: red;font-size: 12px;'>Please enter your email-id!</p>"},
 					'password':			{required:	"<p style='color: red;font-size: 12px;'>Please enter the password!</p>"}
 				},
 				submitHandler: function (form) {

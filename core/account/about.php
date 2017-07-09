@@ -102,7 +102,7 @@ $page_id = CSiteConfig::UAP_ABOUT_ORGANIZATION;
 		$objIncludeJsCSS->CommonIncludeJS ( "../../" );
 		$objIncludeJsCSS->IncludeBootStrapFileUploadMinJS ( "../../" );
 		$objIncludeJsCSS->IncludeJqueryValidateMinJS ( "../../" );
-		$objIncludeJsCSS->IncludeZeroClipboardJS ( "../../" );
+		$objIncludeJsCSS->IncludeClipboardJS ( "../../" );
 		$objIncludeJsCSS->IncludeMetroNotificationJS ( CSiteConfig::ROOT_URL . "/" );
 		?>
 		<script src="https://apis.google.com/js/api.js" type="text/javascript"> </script>
@@ -321,20 +321,18 @@ $page_id = CSiteConfig::UAP_ABOUT_ORGANIZATION;
 	</div>
 </body>
 <script type="text/javascript">
-		$(".btn-info").each(function(){
-			var client = new ZeroClipboard( document.getElementById($(this).attr("id")) );
+
+		var clipboard = new Clipboard('.btn-info');
 		
-			client.on( "ready", function( readyEvent ) {
-				client.on( "aftercopy", function( event ) {
-					$.Notify({
-						caption: "Your about page URL is copied",
-						content: "URL <b>"+event.data["text/plain"]+"</b> is copied to clipboard!",
-						style: {background: 'green', color: '#fff'}, 
-						timeout: 5000
-						});
-			  	});
-			});
+		clipboard.on('success', function(e) {
+			$.Notify({
+				caption: "Your about page URL is copied",
+				content: "URL <b>"+e.text+"</b> is copied to clipboard!",
+				style: {background: 'green', color: '#fff'}, 
+				timeout: 5000
+				});
 		});
+		
 		function OnRemove(obj)
 		{
 			var id = $(obj).attr("elm");

@@ -128,6 +128,22 @@
 			return $value ;
 		}
 		
+		public function GetFieldValueByContactAndCountry($contact, $country, $field)
+		{
+			$value = -1 ;
+		
+			$result = mysql_query("select ".$field." from users where ".CUser::FIELD_CONTACT_NO."='".$contact."' AND ".CUser::FIELD_COUNTRY."='".$country."';", $this->db_link_id) or die("Get User Info By Contact And Country Error: ".mysql_error($this->db_link_id)) ;
+		
+			if(mysql_num_rows($result) == 1)
+			{
+				$row = mysql_fetch_array($result, MYSQL_ASSOC) ;
+				$value = $row[$field] ;
+			}
+			mysql_free_result($result) ;
+		
+			return $value ;
+		}
+		
 		public function ClearFieldValueById($id, $field)
 		{
 			$bRet = mysql_query("update users set ".$field."='' where ".CUser::FIELD_USER_ID."='".$id."';", $this->db_link_id) or die("Get User Info Error: ".mysql_error($this->db_link_id)) ;
@@ -345,6 +361,21 @@
 				$bResult = true ;
 			}
 			
+			return $bResult ;
+		}
+		
+		public function IsUserExistsByPhone($phone, $country)
+		{
+			$bResult = false ;
+				
+			$query = sprintf("select * from users where ".CUser::FIELD_CONTACT_NO."='".$phone."' AND ".CUser::FIELD_COUNTRY."='".$country."' ;") ;
+			$result = mysql_query($query, $this->db_link_id) or die("Search For Duplicate Phone Error: ".mysql_error($this->db_link_id)) ;
+		
+			if (mysql_num_rows($result) > 0)
+			{
+				$bResult = true ;
+			}
+				
 			return $bResult ;
 		}
 		
