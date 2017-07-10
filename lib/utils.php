@@ -464,7 +464,9 @@
 			$host  = $_SERVER['HTTP_HOST'] ;
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\') ;
 			
-			$url = "https://".$host.$uri."/".$filepath;
+			$protocol = self::isSecure() ? "https://" : "http://";
+			
+			$url = $protocol.$host.$uri."/".$filepath;
 			//header($url) ;
 			}
 			else 
@@ -781,6 +783,13 @@
             //Return octet-stream (binary content type) if no signature is found
             return "application/octet-stream";
        
+        }
+        
+        public static function isSecure() 
+        {
+        	return
+        	(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        	|| $_SERVER['SERVER_PORT'] == 443;
         }
 	}
 ?>
