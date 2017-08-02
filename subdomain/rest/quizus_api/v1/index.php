@@ -105,6 +105,8 @@ $app->post('/login', function() use ($app) {
 
             $db = new DbHandler();
             // check for correct email and password
+	
+	echoRespnse(200, "Before Check login done");
             if ($db->checkLogin($email, $password)) {
                 // get the user by email
 		    echoRespnse(200, "Check login done");
