@@ -107,13 +107,13 @@ $app->post('/login', function() use ($app) {
             $db = new DbHandler();
             // check for correct email and password
 	
-	
+	    $response['error'] = true;
+                $response['message'] = 'Check login failed';
+		    echoRespnse(200, $response);
             if ($db->checkLogin($email, $password)) {
                 // get the user by email
 		    
-		    $response['error'] = true;
-                $response['message'] = 'Check login failed';
-		    echoRespnse(200, $response);
+		
                 $user = $db->getUserByEmail($email);
 
                 if ($user != NULL) {
