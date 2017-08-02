@@ -95,7 +95,7 @@ class DbHandler {
                 // user password is incorrect
                 return FALSE;
             }*/
-		$stmt->fetch();
+		//$stmt->fetch();
 		$stmt->close();
 			//Password verified in query
 			return TRUE;
