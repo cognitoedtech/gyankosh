@@ -83,7 +83,7 @@ class DbHandler {
         if ($stmt->num_rows > 0) {
             // Found user with the email
             // Now verify the password
-
+echo "Is user verified";
            /* $stmt->fetch();
 
             $stmt->close();
