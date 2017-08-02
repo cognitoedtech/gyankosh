@@ -190,7 +190,7 @@ class DbHandler {
      * @return boolean
      */
     public function isValidApiKey($api_key) {
-        $stmt = $this->conn->prepare("SELECT id from users_api_auth WHERE api_key = ? and status =1");
+        $stmt = $this->conn->prepare("SELECT user_id from users_api_auth WHERE api_key = ? and status =1");
         $stmt->bind_param("s", $api_key);
         $stmt->execute();
         $stmt->store_result();
