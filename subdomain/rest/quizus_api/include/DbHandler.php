@@ -76,7 +76,7 @@ class DbHandler {
 
         $stmt->execute();
 
-       // $stmt->bind_result($passwd);
+        $stmt->bind_result($passwd);
 
         $stmt->store_result();
 
@@ -95,6 +95,7 @@ class DbHandler {
                 // user password is incorrect
                 return FALSE;
             }*/
+		$stmt->fetch();
 		$stmt->close();
 			//Password verified in query
 			return TRUE;
