@@ -107,6 +107,7 @@ $app->post('/login', function() use ($app) {
             // check for correct email and password
             if ($db->checkLogin($email, $password)) {
                 // get the user by email
+		    echoRespnse(200, "Check login done");
                 $user = $db->getUserByEmail($email);
 
                 if ($user != NULL) {
