@@ -21,12 +21,12 @@ function authenticate(\Slim\Route $route) {
     $response = array();
     $app = \Slim\Slim::getInstance();
 
-    // Verifying Authorization Header
-    if (isset($headers['Authorization'])) {
+    // Verifying quizus_api_key Header
+    if (isset($headers['quizus_api_key'])) {
         $db = new DbHandler();
 
         // get the api key
-        $api_key = $headers['Authorization'];
+        $api_key = $headers['quizus_api_key'];
         // validating api key
         if (!$db->isValidApiKey($api_key)) {
             // api key is not present in users table
