@@ -70,20 +70,20 @@ class DbHandler {
      */
     public function checkLogin($email, $password) {
         // fetching user by email
-        $stmt = $this->conn->prepare("SELECT passwd FROM users WHERE passwd = MD5(?) and email = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE passwd = MD5(?) and email = ?");
 
         $stmt->bind_param("ss",$password, $email);
 
         $stmt->execute();
 
-        $stmt->bind_result($passwd);
+       // $stmt->bind_result($passwd);
 
-        $stmt->store_result();
+       // $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
             // Found user with the email
             // Now verify the password
-echo "Is user verified";
+
            /* $stmt->fetch();
 
             $stmt->close();
