@@ -96,6 +96,7 @@ $app->post('/register', function() use ($app) {
  */
 $app->post('/login', function() use ($app) {
             // check for required params
+	echoRespnse(200, "Before Check login done");
             verifyRequiredParams(array('email', 'password'));
 
             // reading post params
