@@ -108,9 +108,31 @@ $app->post('/login', function() use ($app) {
             // check for correct email and password
 	
 	    $response['error'] = true;
-                $response['message'] = 'Check login failed';
+                $response['message'] = "Check login failed";
 	
+	    echoRespnse(200, $response);
+            if ($db->checkLogin($email, $password)) {
+                // get the user by email
+		    
+		
+                $user = $db->getUserByEmail($email);
 
+                if ($user != NULL) {
+                    $response["error"] = false;
+                    $response['name'] = $user['name'];
+                    $response['email'] = $user['email'];
+                    $response['apiKey'] = $user['api_key'];
+                    $response['user_id'] = $user['user_id'];
+                } else {
+                    // unknown error occurred
+                    $response['error'] = true;
+                    $response['message'] = "An error occurred. Please try again";
+                }
+            } else {
+                // user credentials are wrong
+                $response['error'] = true;
+                $response['message'] = 'Login failed. Incorrect credentials';
+            }
             echoRespnse(200, $response);
         });
 
