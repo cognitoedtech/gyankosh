@@ -70,9 +70,9 @@ class DbHandler {
      */
     public function checkLogin($email, $password) {
         // fetching user by email
-        $stmt = $this->conn->prepare("SELECT passwd FROM users WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT passwd FROM users WHERE passwd = MD5(?) and email = ?");
 
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("ss",$password, $email);
 
         $stmt->execute();
 
@@ -84,7 +84,7 @@ class DbHandler {
             // Found user with the email
             // Now verify the password
 
-            $stmt->fetch();
+           /* $stmt->fetch();
 
             $stmt->close();
 
@@ -94,7 +94,9 @@ class DbHandler {
             } else {
                 // user password is incorrect
                 return FALSE;
-            }
+            }*/
+			//Password verified in query
+			return TRUE;
         } else {
             $stmt->close();
 
