@@ -96,7 +96,7 @@ $app->post('/register', function() use ($app) {
  */
 $app->post('/login', function() use ($app) {
             // check for required params
-	echoRespnse(200, "Before Check login done");
+	
             verifyRequiredParams(array('email', 'password'));
 
             // reading post params
@@ -107,10 +107,13 @@ $app->post('/login', function() use ($app) {
             $db = new DbHandler();
             // check for correct email and password
 	
-	echoRespnse(200, "Before Check login done");
+	
             if ($db->checkLogin($email, $password)) {
                 // get the user by email
-		    echoRespnse(200, "Check login done");
+		    
+		    $response['error'] = true;
+                $response['message'] = 'Check login failed';
+		    echoRespnse(200, $response);
                 $user = $db->getUserByEmail($email);
 
                 if ($user != NULL) {
