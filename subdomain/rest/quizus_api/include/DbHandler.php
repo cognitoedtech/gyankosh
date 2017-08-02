@@ -76,7 +76,7 @@ class DbHandler {
 
         $stmt->execute();
 
-        $stmt->bind_result($password_hash);
+        $stmt->bind_result($passwd);
 
         $stmt->store_result();
 
