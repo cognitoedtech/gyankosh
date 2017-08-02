@@ -78,7 +78,7 @@ class DbHandler {
 
        // $stmt->bind_result($passwd);
 
-       // $stmt->store_result();
+        $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
             // Found user with the email
