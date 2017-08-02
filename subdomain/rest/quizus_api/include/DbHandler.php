@@ -125,7 +125,7 @@ class DbHandler {
      * @param String $email User email id
      */
     public function getUserByEmail($email) {
-        $stmt = $this->conn->prepare("SELECT usr.name, usr.email, usr_api.api_key, usr_api.status, usr.user_id FROM users usr,users_api_auth usr_api WHERE usr.email = ? and usr.user_id=usr_api.user_id ");
+        $stmt = $this->conn->prepare("SELECT usr.firstname name, usr.email, usr_api.api_key, usr_api.status, usr.user_id FROM users usr,users_api_auth usr_api WHERE usr.email = ? and usr.user_id=usr_api.user_id ");
         $stmt->bind_param("s", $email);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
