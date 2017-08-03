@@ -96,19 +96,25 @@ $app->post('/register', function() use ($app) {
  */
 $app->post('/login', function() use ($app) {
             // check for required params
-	
             verifyRequiredParams(array('email', 'password'));
-
+            $request_params = array();
             // reading post params
             $email = $app->request()->post('email');
             $password = $app->request()->post('password');
+			
+			if($_SERVER["CONTENT_TYPE"] == 'application/json')
+			{
+	          $request_params = json_decode(file_get_contents('php://input'), true);
+			  $email = $request_params['email'];
+			  $password = $request_params['password'];
+	        }
+			
             $response = array();
 
             $db = new DbHandler();
             // check for correct email and password
-	      if ($db->checkLogin($email, $password)) {
+            if ($db->checkLogin($email, $password)) {
                 // get the user by email
-		    		
                 $user = $db->getUserByEmail($email);
 
                 if ($user != NULL) {
@@ -127,10 +133,8 @@ $app->post('/login', function() use ($app) {
                 $response['error'] = true;
                 $response['message'] = 'Login failed. Incorrect credentials';
             }
-           
-	
-	    echoRespnse(200, $response);
-      
+
+            echoRespnse(200, $response);
         });
 
 /*
