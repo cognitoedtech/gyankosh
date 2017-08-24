@@ -532,7 +532,7 @@
         	},
         
         	submitHandler: function(form) {
-				$(".modal1").show();
+        		$(".modal1").show();
     			$('#free_user_registration').ajaxSubmit(options);
         	}
     	});

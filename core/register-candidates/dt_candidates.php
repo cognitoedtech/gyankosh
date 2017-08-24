@@ -114,12 +114,12 @@ $objIncludeJsCSS->IncludeDatatablesResponsiveJS("../../");
 					</tbody>
 					<tfoot>
 						<tr>
-							<th data-class="expand"><font color="#000000">First Name</font></th>
-							<th><font color="#000000">Last Name</font></th>
+							<th data-class="expand"><font color="#000000">Name</font></th>
 							<th data-hide="phone"><font color="#000000">Gender</font></th>
 							<th data-hide="phone"><font color="#000000">Date of Birth</font></th>
 							<th data-hide="phone,tablet"><font color="#000000">Contact</font></th>
 							<th data-hide="phone,tablet"><font color="#000000">E-mail (Unique)</font></th>
+							<th data-hide="phone,tablet"><font color="#000000">Gathered Data</font></th>
 							<th data-hide="phone,tablet"><font color="#000000">Location</font></th>
 							<th data-hide="phone,tablet"><font color="#000000">Activation</font></th>
 							<th data-hide="phone,tablet"><font color="#000000">Signup Date</font></th>

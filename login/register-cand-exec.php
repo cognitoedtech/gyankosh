@@ -67,6 +67,12 @@
 		CUtils::Redirect($redirect_url);				
 		exit();
 	}
+	else if($objUM->IsUserExistsByPhone($contact_no, $country))
+	{
+		CSessionManager::SetErrorMsg("Contact number already in use.");
+		CUtils::Redirect("register-org.php?".$param);
+		exit();
+	}
 	else
 	{
 		$objUser = new CUser();

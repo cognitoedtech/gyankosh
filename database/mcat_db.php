@@ -1828,7 +1828,7 @@
 				echo "</div><br/>";
 				echo "<div class='row'>";
 				echo "<div class='col-lg-12 col-md-12 col-sm-12'>";
-				echo "<input type='button' test_name='".$row['test_name']."' data-clipboard-text='".CSiteConfig::FREE_ROOT_URL."/product-details.php?product=".urlencode($row['test_name'])."&product-id=".$row['test_id']."-".CConfig::PT_TEST."-".date("j")."-".substr($owner_id, 0, 2)."' class='btn btn-sm btn-success' id='".$row['test_id']."_copy' value='Copy Test Link' ".$isHidden."/>";
+				echo "<input type='button' test_name='".$row['test_name']."' data-clipboard-text='".CSiteConfig::FREE_ROOT_URL."/product-details.php?product=".urlencode($row['test_name'])."&product-id=".$row['test_id']."-".CConfig::PT_TEST."-".date("j")."-".substr($owner_id, 0, 2)."' class='btn btn-sm btn-success btn-copy-link' id='".$row['test_id']."_copy' value='Copy Test Link' ".$isHidden."/>";
 				echo "</div>";
 				echo "</div>";
 				echo "<div style='display:none;'>";

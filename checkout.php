@@ -42,6 +42,7 @@ if (! empty ( $login_name )) {
 }
 
 $objDB = new CMcatDB ();
+$objUM = new CUserManager();
 
 $objIncludeJsCSS = new IncludeJSCSS ();
 
@@ -52,6 +53,10 @@ $fTax = CConfig::$BA_TAX_APPLIED_ARY ["Service Tax"] / 100;
 $aryProductsInCart = array ();
 $aryProductPublishers = array ();
 $publishers = "";
+
+$countryData = file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $_SERVER['REMOTE_ADDR']);
+$countryData = json_decode($countryData);
+$countryCode = $objDB->GetCountryCode($countryData->geoplugin_countryName);
 
 function PopulateCart() {
 	if (empty ( $GLOBALS ['aryCartItems'] ) || count ( $GLOBALS ['aryCartItems'] ) <= 1) {
@@ -320,7 +325,8 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 											<br />
 											<div class="row">
 												<div class="input-group">
-													<span class="input-group-addon" id="basic-addon1">@</span>
+													<span class="input-group-addon" id="basic-addon1">@ / <i
+															class="fa fa-phone" aria-hidden="true"></i></span>
 													<input type="text" name="email" class="form-control"
 														placeholder="Email-ID" aria-describedby="basic-addon1" />
 												</div>
@@ -476,9 +482,14 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 												<div class="col-lg-6 col-md-6 col-sm-6">
 													<div class="input-group">
 														<span class="input-group-addon" id="basic-addon10"><i
-															class="fa fa-map" aria-hidden="true"></i> </span> <input
-															type="text" name="country" class="form-control"
-															placeholder="Country" aria-describedby="basic-addon10"> <input
+															class="fa fa-map" aria-hidden="true"></i> </span>
+															<select class="form-control" name="country" id="country"
+															placeholder="Country" aria-describedby="basic-addon10">
+																<?php
+																	$objUM->ListCountryOption($countryCode) ;
+																?>
+															</select>
+															<input
 															type="hidden" name="redirect_url"
 															value="../checkout.php">
 															<input type="hidden" name="owner_id" value="<?php echo($publishers);?>>"/>
@@ -858,7 +869,8 @@ $action = $PAYU_BASE_URL . '/_payment';
             		email: true
             	},
             	contact: {
-            		required:true
+            		required:true,
+            		digits:true
             	},
             	password: {
             		required:true,
@@ -900,6 +912,7 @@ $action = $PAYU_BASE_URL . '/_payment';
     			},
     			contact:{
     				required:	"<div style='color:red'>* Please enter your valid contact number</div>",
+    				digits:	"<div style='color:red'>* Please enter your valid contact number</div>",
     			},
     			password:{
     				required:	"<div style='color:red'>* Minimum length for password field should be eight letters</div>",

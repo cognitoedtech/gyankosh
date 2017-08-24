@@ -43,6 +43,7 @@ $objIncludeJsCSS->IncludeFuelUXCSS ( "../../" );
 $objIncludeJsCSS->CommonIncludeJS("../../");
 $objIncludeJsCSS->IncludeJquerySnippetJS("../../");
 $objIncludeJsCSS->IncludeMetroNotificationJS ( "../../" );
+$objIncludeJsCSS->IncludeMathJAXJS( "../../" );
 ?>
 <style type="text/css">
 	.modal1 {
@@ -472,6 +473,11 @@ $objIncludeJsCSS->IncludeMetroNotificationJS ( "../../" );
 				});
 			}
 		});
+	</script>
+	<script type="text/x-mathjax-config">
+  		MathJax.Hub.Config({
+    		tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+ 		});
 	</script>
 </body>
 </html>

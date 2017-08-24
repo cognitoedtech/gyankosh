@@ -116,6 +116,12 @@
 		CUtils::Redirect("register-org.php?".$param);				
 		exit();
 	}
+	else if($objUM->IsUserExistsByPhone($phone, $country))
+	{
+		CSessionManager::SetErrorMsg("Contact number already in use.");
+		CUtils::Redirect("register-org.php?".$param);
+		exit();
+	}
 	else
 	{
 		$final_org_type = $org_type;
