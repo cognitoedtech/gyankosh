@@ -159,9 +159,10 @@ function printThis()
 	}
 	$payment_info_arr["payment_info"] = array("transaction_id"=>$transaction_id, "purchase_type" =>CConfig::ZERO_CART,"total_amount" => 0);
 	$objBilling->AddToCustomerBilling($user_id, json_encode($productPurchasedarray), json_encode($payment_info_arr));
-	
+	CSessionManager::UnsetSessVar ( CSessionManager::JSON_CART_ITEMS );
 		
-	}
+	} 
+	
 	
 
 ?>

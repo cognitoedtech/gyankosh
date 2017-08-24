@@ -123,7 +123,7 @@ function printThis()
 	{
 		$status_value = 1;// success		
 		$message =  sprintf("Thank you for your purchase.");
-		
+	
 	}
 	
 	else 
@@ -222,7 +222,10 @@ function printThis()
 		 }
 		 $payment_info_arr["payment_info"] = array("transaction_id"=>$transaction_id, "purchase_type" =>CConfig::PAYU_MONEY, "bank_ref_num"=>$bank_reference_number,"bank_code"=>$bankcode, "paymentgw" =>$pg_type,"payumoney_id"=>$payuMoneyId,"total_amount" => $amount);
 		 $objBilling->AddToCustomerBilling($user_id, json_encode($productPurchasedarray), json_encode($payment_info_arr));
-	}
+		 CSessionManager::UnsetSessVar ( CSessionManager::JSON_CART_ITEMS );
+		 
+	}  
+		
 	
 	}
 	else
