@@ -1,0 +1,38 @@
+
+.left-panel h1{ text-transform:uppercase; font-size:14px; display:block; width:100%; text-indent:10px;  padding:40px 0 20px 0; margin:0;}
+ 
+.accordion {
+  list-style: none; 
+  padding: 0; margin:0; border-bottom:solid 1px #ddd; display:block; float:left;   
+}
+
+.accordion li {
+  margin:0;
+}
+.accordion li a.toggle {
+  width: 100%; float:left;
+  display: block;
+  background: none;
+  color: #3f5576;
+  padding:20px 0; font-size:11.5px;    border-top:solid 1px #ddd; text-transform:uppercase; font-weight:600;
+  border-radius: 0.15em;
+  transition: background .3s ease;
+}
+.accordion li a.toggle:hover {
+  background: #ddd;
+}
+
+.accordion li img { display:block; float:left;width:24px; height:24px; margin: 0 17px 0 15px;}
+.accordion li Span { display:block; float:left; width:60%; text-align:left;}
+
+
+.accordion .inner {
+  overflow: hidden; margin:0; 
+  display: none; float:left; padding:10px 0 20px 42px;
+}
+.accordion .inner.show {
+  /*display: block;*/
+}
+
+.accordion .inner li { list-style:none; text-indent:10px; font-size:12px; text-transform:uppercase; text-align:left;}
+.accordion .inner li a {color: #3f5576; padding:10px 0; display:block; float:left; font-weight:600;}

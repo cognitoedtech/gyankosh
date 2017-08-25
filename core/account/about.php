@@ -215,6 +215,10 @@ $page_id = CSiteConfig::UAP_ABOUT_ORGANIZATION;
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div id="error_div" class="col-lg-11 col-sm-11 col-md-11">
+							</div>
+						</div>
 					</div>
 					<div class="col-lg-9 col-sm-9 col-md-9">
 						<div class="row">
@@ -271,8 +275,7 @@ $page_id = CSiteConfig::UAP_ABOUT_ORGANIZATION;
 								<input type="text" class="form-control" readonly> <span
 									class="input-group-btn"> <span class="btn btn-default btn-file">
 										Browse <i class="fa fa-file-image-o" aria-hidden="true"></i> <input
-										type="file" accept="image/gif, image/jpeg, image/png"
-										id="organization_img" name="organization_img">
+										type="file" id="organization_img" name="organization_img">
 								<input 	type="hidden" id="organization_id" 
 										value="<?php echo($orgAry['organization_id']);?>" name="organization_id">
 								</span>
@@ -393,7 +396,7 @@ $page_id = CSiteConfig::UAP_ABOUT_ORGANIZATION;
 		}, '<div style="color:red">You must enter a valid URL</div>');
 			
 	    jQuery.validator.addMethod("ValidateImageExt", function(value, element) {
-			if(!value.trim())
+		    if(!value.trim())
 				return true;
 			
 	    	var extension = value.replace(/^.*\./, '');
@@ -418,7 +421,7 @@ $page_id = CSiteConfig::UAP_ABOUT_ORGANIZATION;
 
 	    	if(image_width != 300 || image_height != 300)
 		    	retVal = false;
-	    	
+
 	    	return retVal;
 		}, "<div style='color:red;'>* Supported image dimensions are 300 by 300 pixels</div>");
 			
@@ -516,9 +519,9 @@ $page_id = CSiteConfig::UAP_ABOUT_ORGANIZATION;
 			// ------------------------
 			
 			$('#acnt_dtls').validate({
-				errorPlacement: function(error, element) {			
-					//$('#acadamic_details div.reg-error').append(error);
-					$(error).insertAfter(element.parent());
+				errorPlacement: function(error, element) {
+					$('#error_div').append(error);
+					//$(error).insertAfter(element.parent());
 				}, 
 				rules: {
 					organization_address: {
@@ -556,7 +559,8 @@ $page_id = CSiteConfig::UAP_ABOUT_ORGANIZATION;
 					},
 					organization_img: {
 						'ValidateImageExt':true,
-	            		'ValidateImageDim':true
+	            		'ValidateImageDim':true,
+	            		required: false,
 					},
 					description: {
 						required: true
