@@ -891,10 +891,7 @@ $action = $PAYU_BASE_URL . '/_payment';
             		required:true,
             		'alphanumeric': true
             	},
-            	country: {
-            		required:true,
-            		'alphanumeric': true
-            	},
+            	
             	dob: {
             		required:true
             	}
@@ -931,9 +928,7 @@ $action = $PAYU_BASE_URL . '/_payment';
     			state:{
     				required:	"<div style='color:red'>* Please provide your state name</div>",
     			},
-    			country:{
-    				required:	"<div style='color:red'>* Please provide your country name</div>",
-    			},
+    			
     			dob:{
     				required:	"<div style='color:red'>* Please provide your date of birth</div>",
     			}
