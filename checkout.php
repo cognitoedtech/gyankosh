@@ -492,7 +492,7 @@ $objIncludeJsCSS->IncludeJqueryValidateMinJS ( "", "1.16.0" );
 															<input
 															type="hidden" name="redirect_url"
 															value="../checkout.php">
-															<input type="hidden" name="owner_id" value="<?php echo($publishers);?>>"/>
+															<input type="hidden" name="owner_id" value="<?php echo($publishers);?>"/>
 													</div>
 												</div>
 											</div>

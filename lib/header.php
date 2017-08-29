@@ -145,7 +145,7 @@
 				{
 				?>
 					<!-- <li><a href="<?php echo CSiteConfig::FREE_ROOT_URL;?>">Free Practice Tests</a></li> -->
-					<li><a href="<?php echo CSiteConfig::ROOT_URL;?>/login/register-org.php" class="btn btn-primary">Free Sign-up!</a></li>
+					<li><a href="<?php echo CSiteConfig::ROOT_URL;?>/login/register-org.php" class="btn btn-primary">Publisher Sign-up!</a></li>
 					<li><a href="<?php echo CSiteConfig::ROOT_URL;?>/signin.php" class="btn btn-danger">Sign-in</a></li>
 				<?php 
 				}

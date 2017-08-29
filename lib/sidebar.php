@@ -90,14 +90,7 @@
 								?>
 								<li><a class="dropdown-toggle" href="#"><i class="icon-github-6 fg-steel"></i>Sneak Peek</a>
 									<ul class="dropdown-menu <?php echo($menu_class_ary[CSiteConfig::UAMM_SNEAK_PEEK]);?>" data-role="dropdown">
-										<?php 
-										if($plan_type == CConfig::SPT_ENTERPRISE || $user_type == CConfig::UT_SUPER_ADMIN)
-										{
-										?>
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_SNEAK_PEEK_MIPCAT]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/sneak-peek/sneak_peek_mipcat.php"><i class="icon-arrow-right-4"></i><?php echo(CConfig::SNC_SITE_NAME);?> Knowledge Base</a></li>
-										<?php 
-										}
-										?>
 										<li <?php echo($pages_class_ary[CSiteConfig::UAP_SNEAK_PEEK_PERSONAL]);?>><a href="<?php echo(CSiteConfig::ROOT_URL);?>/core/sneak-peek/sneak_peek_personal.php"><i class="icon-arrow-right-4"></i> Personal Knowledge Base</a></li>
 									</ul></li>
 								<?php
