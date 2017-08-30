@@ -103,7 +103,7 @@
 			//echo "EmailTo: ".$candidate_email."<br/>";
 				
 			$sub_for_candidate = "[".CConfig::SNC_SITE_NAME."] ".$candidate_name." - "." your verification code" ;
-			$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/> Thanks for registering with ".CConfig::SNC_SITE_NAME.", your verification code is ".$verification_code.".<br/><br/><h1 style='border: 1px solix #ddd; text-align: center;'>".$verification_code."</h1><br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
+			$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/> Thanks for registering with ".CConfig::SNC_SITE_NAME.", your verification code is ".$verification_code.".<br/><br/><h1 style='border: 1px solix #ddd; text-align: center;'>".$verification_code."</h1><br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
 				
 			$this->Send($candidate_email, $sub_for_candidate, $msg_for_candidate) ;
 		}

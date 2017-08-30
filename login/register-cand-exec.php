@@ -14,6 +14,10 @@
     $owner_param 		= empty($owner_id) ? "" : "?owner=".$owner_id."&batch_id=".$_POST['batch_id'];
     $verif_code 		= clean($_POST['captcha_code']);
     
+    /*$fp = fopen("jsonfile.txt", "w");
+    fwrite($fp, print_r($_POST, true));
+    fclose($fp);*/
+    
     /*$date 	= new DateTime($_POST['dob']);
     $_POST['dateofbirth']	= $date->format('Y-m-d');
     $_POST['server_captcha'] = $captcha_value;
@@ -114,12 +118,10 @@
 			$objDB = new CMcatDB();
 			$objMail = new CEMail(CConfig::OEI_SUPPORT, $objDB->GetPasswordFromOfficialEMail(CConfig::OEI_SUPPORT));
 			
-			if(empty($owner_email))
-			{
-				$objMail->PrepAndSendNewCandPreCheckoutNotificationMail($fname." ".$lname, $email);
-				$objMail->PrepAndSendVerificationMail($email, $fname." ".$lname, $verification_code);
-			}
-			else 
+			$objMail->PrepAndSendNewCandPreCheckoutNotificationMail($fname." ".$lname, $email);
+			$objMail->PrepAndSendVerificationMail($email, $fname." ".$lname, $verification_code);
+			
+			if(!empty($owner_email))
 			{
 				$objMail->PrepAndSendNewCandRegistrationNotificationMail($owner_name, $owner_email, $fname." ".$lname, $email);
 			}

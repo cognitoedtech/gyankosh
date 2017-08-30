@@ -399,23 +399,96 @@ $objIncludeJsCSS->IncludeJqueryFormJS("../../");
 			{
 				var test_id = $("#test_id").val();
 				$("#batch").hide();
+				$("#dt_result").show();
+				$("#tbody_id").empty();
+
+				if(bTblInit == true)
+				{
+					bTblInit = false;
+					$("#example").dataTable().fnDestroy();
+					$('#tbody_id').empty();
+				}
+				
 				if(test_id)
 				{
-					$("#tschd_id").empty();
+					/*$("#tschd_id").empty();
 					$("#tschd_id").append("<option value=''>--Choose Schedule Date--</option>");
 					for (index in aryTestInfo[test_id])
 					{
 						$("#tschd_id").append(aryTestInfo[test_id][index]);
 					}
 
-					$('#tschd_id').show();
+					$('#tschd_id').show();*/
+					for (index in aryResultInfo)
+					{
+						if(aryResultInfo[index]['test_id'] == $("#test_id").val())
+						{
+							<?php 
+							if($plan_type == CConfig::SPT_ENTERPRISE || $plan_type == CConfig::SPT_PROFESSIONAL || $nUserType == CConfig::UT_SUPER_ADMIN)
+							{
+							?>
+							$("#tbody_id").append(aryResultInfo[index]['tr_open']+aryResultInfo[index]['test_name']+aryResultInfo[index]['completed_on']+aryResultInfo[index]['name']+aryResultInfo[index]['location']+aryResultInfo[index]['marks']+aryResultInfo[index]['result']+aryResultInfo[index]['time_taken']+aryResultInfo[index]['visibility']+aryResultInfo[index]['btn_activity_log']+aryResultInfo[index]['tr_close']);
+							<?php 
+							}
+							else 
+							{
+							?>
+							$("#tbody_id").append(aryResultInfo[index]['tr_open']+aryResultInfo[index]['test_name']+aryResultInfo[index]['completed_on']+aryResultInfo[index]['name']+aryResultInfo[index]['location']+aryResultInfo[index]['marks']+aryResultInfo[index]['result']+aryResultInfo[index]['time_taken']+aryResultInfo[index]['btn_activity_log']+aryResultInfo[index]['tr_close']);
+							<?php 
+							}
+							?>
+						}
+					}
+
+					if(bTblInit == false)
+					{
+						bTblInit = true;
+						'use strict';
+						 var responsiveHelper = undefined;
+						 var breakpointDefinition = {
+						     tablet: 1024,
+						     phone : 480
+						 };
+						$.fn.dataTable.TableTools.defaults.sSwfPath = "<?php $objIncludeJsCSS->IncludeDatatablesCopy_CSV_XLS_PDF("../../");?>";
+						tableElement = $('#example');
+						table = tableElement.dataTable({
+						"sDom": 'T<"clear">lfrtip<"clear spacer">T',
+						"bPaginate": true,
+						"bFilter": true,
+						"oTableTools": {
+					    	"aButtons": [
+								{
+									"sExtends": "csv",
+									"mColumns": sheetColumns
+								}
+					     	]
+						 },
+						 autoWidth      : false,
+						 //ajax           : './arrays.txt',
+						 preDrawCallback: function () {
+							 // Initialize the responsive datatables helper once.
+							 if (!responsiveHelper) {
+							 	responsiveHelper = new ResponsiveDatatablesHelper(tableElement, breakpointDefinition);
+							 }
+							 var oTableTools = TableTools.fnGetInstance( 'example' );
+							 $('#TableToolsPlacement').before( oTableTools.dom.container );
+						 },
+						 rowCallback    : function (nRow) {
+						 	responsiveHelper.createExpandIcon(nRow);
+						 },
+						 drawCallback   : function (oSettings) {
+							 //alert("hello");
+							 responsiveHelper.respond();
+						 }
+					   });
+					}
 				}
 				else
 				{
 					$("#tschd_id").hide();
 				}
-				$("#dt_result").hide();
-				$("#tbody_id").empty();
+				/*$("#dt_result").hide();
+				$("#tbody_id").empty();*/
 			}
 
 			var bTblInit = true;
