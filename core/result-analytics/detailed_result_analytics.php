@@ -191,7 +191,7 @@ $objIncludeJsCSS->IncludeResultAnalyticsJS("../../");
 		
 		var result_cand_ary = "";
 		var batch_ary       = "";
-		$('#dr_test_schd_date').change(function() {
+		$('#dr_test_schd_dat').change(function() {
 			$("#result_charts").hide();
 			$("#holistic_view").hide();
 			$("#download_pdf").hide();
@@ -285,7 +285,7 @@ $objIncludeJsCSS->IncludeResultAnalyticsJS("../../");
 		function LoadResult()
 		{
 			$("#result_views_div").show();
-			var test_pnr = $('#dr_candidate_id').val();
+			var test_pnr = $('#dr_test_schd_date').val();
 			var resultView = $("#result_views").val();
 			
 			if(resultView == <?php echo(CConfig::PRV_DETAILED);?>)
@@ -537,8 +537,8 @@ $objIncludeJsCSS->IncludeResultAnalyticsJS("../../");
 			}
 		}
 
-		$('#dr_candidate_id').change(function() {
-			var test_pnr = $('#dr_candidate_id').val();
+		$('#dr_test_schd_date').change(function() {
+			var test_pnr = $('#dr_test_schd_date').val();
 			if(test_pnr)
 			{
 				if(test_pnr)

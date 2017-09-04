@@ -210,7 +210,7 @@ $objIncludeJsCSS->IncludeMathJAXJS( "../../" );
 	
 		var result_cand_ary = "";
 		var batch_ary       = "";
-		$('#ri_test_schd_date').change(function() {
+		$('#ri_test_schd_dat').change(function() {
 			$("#result_inspection").hide();
 			<?php 
 			if($nUserType != CConfig::UT_INDIVIDAL)
@@ -311,8 +311,8 @@ $objIncludeJsCSS->IncludeMathJAXJS( "../../" );
 			$('#ri_candidate_id').html(result_cands);
 		}
 		
-		$('#ri_candidate_id').change(function() {
-			var test_pnr = $('#ri_candidate_id').val();
+		$('#ri_test_schd_date').change(function() {
+			var test_pnr = $('#ri_test_schd_date').val();
 
 			<?php 
 			if($nUserType != CConfig::UT_INDIVIDAL)

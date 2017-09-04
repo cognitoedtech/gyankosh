@@ -690,15 +690,15 @@
 			$ResultAry = array();
 			$query = "";
 			
-			$includePackageCond = sprintf("or (test_schedule.scheduler_id='%s' AND test_schedule.schd_id = result.tschd_id)", $owner_id);
+			$includePackageCond = "";//sprintf("or (test_schedule.scheduler_id='%s' AND test_schedule.schd_id = result.tschd_id)", $owner_id);
 			
 			if($user_type != CConfig::UT_INDIVIDAL)
 			{
-				$query = sprintf("select test_date, owner_id, tschd_id from result,test,test_schedule where (test.owner_id='%s' %s) and test.test_id='%s' and test.test_id=result.test_id and test.deleted is null and result.tschd_id != '%s'", $owner_id, $includePackageCond, $test_id, CConfig::FEUC_TEST_SCHEDULE_ID);
+				$query = sprintf("select test_pnr, user_id, test_date, owner_id, tschd_id from result,test where (test.owner_id='%s' %s) and test.test_id='%s' and test.test_id=result.test_id and test.deleted is null and result.tschd_id != '%s'", $owner_id, $includePackageCond, $test_id, CConfig::FEUC_TEST_SCHEDULE_ID);
 			}
 			else 
 			{
-				$query = sprintf("select test_date, owner_id, tschd_id from result,test where result.user_id='%s' and test.test_id='%s' and test.test_id=result.test_id and test.deleted is null", $owner_id, $test_id);
+				$query = sprintf("select test_pnr, user_id, test_date, owner_id, tschd_id from result,test where result.user_id='%s' and test.test_id='%s' and test.test_id=result.test_id and test.deleted is null", $owner_id, $test_id);
 			}
 			
 			//echo $query."<br/>";
@@ -722,13 +722,13 @@
 						if(($user_type == CConfig::UT_INDIVIDAL && $row['visibility'] == 2 && $schdld_test_ary['scheduler_id'] == $row['owner_id']) || ($user_type != CConfig::UT_INDIVIDAL && $schdld_test_ary['scheduler_id'] == $owner_id) || ($user_type == CConfig::UT_INDIVIDAL))
 						{
 							$tDate = date("M d, Y", strtotime($schdld_test_ary['scheduled_on']));
-							$ResultAry[$row['tschd_id']] = $tDate;
+							$ResultAry[$row['tschd_id']] = array($tDate, $row['user_id'], $row['test_pnr']);
 						}
 					}
 					
 					if($row['tschd_id'] == -100)
 					{
-						$ResultAry[$row['tschd_id']] = "Demo Test";
+						$ResultAry[$row['tschd_id']] = array("Demo Test",$row['user_id'], $row['test_pnr']);
 					}
 				}
 				/*$ts = strtotime($row['test_date']);
@@ -748,11 +748,11 @@
 			$ResultAry = array();
 			$query = "";
 			
-			$includePackageCond = sprintf("or (test_schedule.scheduler_id='%s' AND test_schedule.schd_id = result.tschd_id)", $owner_id);
+			$includePackageCond = "";//sprintf("or (test_schedule.scheduler_id='%s' AND test_schedule.schd_id = result.tschd_id)", $owner_id);
 			
 			if($user_type != CConfig::UT_INDIVIDAL)
 			{
-				$query = sprintf("select tschd_id, test_pnr, user_id, test_date, owner_id from result,test,test_schedule where (test.owner_id='%s' %s) and test.test_id='%s' and test.test_id=result.test_id and result.tschd_id != '%s'", $owner_id, $includePackageCond, $test_id, CConfig::FEUC_TEST_SCHEDULE_ID);
+				$query = sprintf("select tschd_id, test_pnr, user_id, test_date, owner_id from result,test where (test.owner_id='%s' %s) and test.test_id='%s' and test.test_id=result.test_id and result.tschd_id != '%s'", $owner_id, $includePackageCond, $test_id, CConfig::FEUC_TEST_SCHEDULE_ID);
 			}
 			else 
 			{
