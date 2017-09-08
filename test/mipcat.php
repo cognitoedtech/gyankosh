@@ -614,7 +614,7 @@
                            {
                                $ques_cnts = sprintf("<img src='lib/print_image.php?qid=%s&opt=0'>", $aryQues['ques_id']);
                            }
-                           printf("<blockquote id='base_ques'><p><b>Ques %d). %s</b></p><small>%s</small></blockquote>", ($nQuestion+1), $ques_cnts, ucwords($aryQues['language']));
+                           printf("<blockquote id='base_ques'><p>Ques %d). %s</p><small>%s</small></blockquote>", ($nQuestion+1), $ques_cnts, ucwords($aryQues['language']));
                            
                            $opt_ary = array();
                            for($index = 0; $index < $aryQues['opt_count']; $index++)

@@ -210,67 +210,6 @@ $objIncludeJsCSS->IncludeMathJAXJS( "../../" );
 	
 		var result_cand_ary = "";
 		var batch_ary       = "";
-		$('#ri_test_schd_dat').change(function() {
-			$("#result_inspection").hide();
-			<?php 
-			if($nUserType != CConfig::UT_INDIVIDAL)
-			{
-			?>
-			$("#download_pdf").hide();
-			<?php 
-			}
-			?>
-			var test_id = $('#ri_test_id').val();
-			var tschd_id = $('#ri_test_schd_date').val();
-	
-			var current_date = new Date();
-			var time_zone    = -current_date.getTimezoneOffset()/60;
-			
-			$(".modal1").show();
-			//alert('ajax/ajax_get_result_candidates.php?test_id='+test_id+'&test_date='+test_date);
-			/*$('#ri_candidate_id').load('ajax/ajax_get_result_candidates.php?test_id='+test_id+'&test_date='+test_date+'&time_zone='+time_zone, function(){
-				$('#ri_candidate_id').show();
-			});*/
-	
-			result_cand_ary  = new Array();
-			batch_ary        = new Array();
-			var result_cands = "<option value=''>--Choose Candidate--</option>";
-			var batches		 = "<option value=''>--Choose Specific Batch--</option>"
-			$.ajax({
-					 url: 'ajax/ajax_get_result_candidates.php?test_id='+test_id+'&tschd_id='+tschd_id+'&time_zone='+time_zone,
-				dataType: 'json',
-				 success: function(data) {
-					 $.each(data, function(key, value){
-						 result_cand_ary[key] = new Array();
-						 
-						 result_cand_ary[key]['result'] = value['result'];
-						 result_cand_ary[key]['batch']  = value['batch'];
-	
-						 if(batch_ary.indexOf(value['batch']) == -1 && value['batch'] != "")
-						 {
-						 	batch_ary.push(value['batch']);
-						 	batches   += "<option value='"+value['batch']+"'>"+value['batch']+"</option>";
-						 }
-						 result_cands += "<option value='"+key+"'>"+value['result']+"</option>";
-					 });
-	
-					 $("#ri_batch").html(batches);
-					 $('#ri_candidate_id').html(result_cands);
-					 
-					 $('#ri_candidate_id').show();
-					 <?php 
-					 	if($nUserType != CConfig::UT_INDIVIDAL)
-					 	{
-					 ?>
-					 $("#ri_batch").show();
-					 <?php 
-						}
-					 ?>
-					 $(".modal1").hide();
-				 } 
-			});
-		});
-
 		<?php 
 		if($nUserType != CConfig::UT_INDIVIDAL)
 		{
@@ -284,33 +223,6 @@ $objIncludeJsCSS->IncludeMathJAXJS( "../../" );
 		}
 		?>
 	
-		function OnBatchChange()
-		{
-			$("#result_inspection").hide();
-			<?php 
-			if($nUserType != CConfig::UT_INDIVIDAL)
-			{
-			?>
-			$("#download_pdf").hide();
-			<?php 
-			}
-			?>
-			var result_cands = "<option value=''>--Choose Candidate--</option>";
-	
-			for(index in result_cand_ary)
-			{
-				if($("#ri_batch").val() == result_cand_ary[index]['batch'] && $("#ri_batch").val() != "")
-				{
-					result_cands += "<option value='"+index+"'>"+result_cand_ary[index]['result']+"</option>";
-				}
-				else if($("#ri_batch").val() == "")
-				{
-					result_cands += "<option value='"+index+"'>"+result_cand_ary[index]['result']+"</option>";
-				}
-			}
-			$('#ri_candidate_id').html(result_cands);
-		}
-		
 		$('#ri_test_schd_date').change(function() {
 			var test_pnr = $('#ri_test_schd_date').val();
 

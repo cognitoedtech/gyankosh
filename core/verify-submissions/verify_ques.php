@@ -1,6 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <?php
+	include_once("../../lib/session_manager.php");
 	include_once("../../database/mcat_db.php");
+	include_once(dirname(__FILE__)."/../../lib/include_js_css.php");
 	
 	session_start();
 	
@@ -114,10 +116,13 @@
 
 	printf("<script>accept_success='%s'</script>",$accepted);
 	printf("<script>decline_success='%s'</script>",$declined);
+	
+	$objIncludeJsCSS = new IncludeJSCSS();
 ?>
 <html>
 	<head>
 		<title>Question Verifier</title>
+		<!--
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<style type="text/css" title="currentStyle">
 					@import "../../css/redmond/jquery-ui-1.9.0.custom.min.css";
@@ -137,9 +142,23 @@
 		<script type="text/javascript" src="../../3rd_party/wizard/js/jquery.validate.min.js"></script>
 		<script type="text/javascript" charset="utf-8" src="../../js/mipcat/utils.js"></script>
 		<script type="text/javascript" src="../../js/notification.js"></script>
+		-->
+		<?php 
+		$objIncludeJsCSS->CommonIncludeCSS ( "../../" );
+		$objIncludeJsCSS->IncludeIconFontCSS ( "../../" );
+		$objIncludeJsCSS->IncludeFuelUXCSS ( "../../" );
+		$objIncludeJsCSS->CommonIncludeJS ( "../../");
+		$objIncludeJsCSS->IncludeCanvasMinJS ( "../../");
+		$objIncludeJsCSS->CommonIncludeHighchartsJS("../../");
+		$objIncludeJsCSS->IncludeJQueryNouisliderMinJS("../../");
+		$objIncludeJsCSS->IncludeResultAnalyticsJS("../../");
+		?>
 	</head>
 
-	<body style="font: 75% 'Trebuchet MS', sans-serif; margin: 5px; overflow:hidden;">
+	<body>
+		<?php 
+		include_once(dirname(__FILE__)."/../../lib/header.php");
+		?>
 		<div id="page_loading_box" style="position:absolute;top:100px;left:50%;zindex:200;">
 			<img src="../../images/page_loading.gif" width="32" height="32"/>
 		</div>
@@ -148,138 +167,149 @@
 	        	<a class="close" href="javascript:">
 	            	<img src="../../images/icon-close.png" /></a>
 	    </div>
-		<div id="verify_ques">
-			<ul>
-				<li><a href="#tab1">Verify Questions</a></li>
-			</ul>
-			<div id="tab1">
-				<form id="myform" method="post" action="verify_ques.php?ques=0">
-					<div style="text-align:center;background-color:CornflowerBlue;color:white;height:30px;line-height:30px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-khtml-border-radius: 20px;border-radius: 20px;">
-						<input type="radio" name="choice" onChange="OnVerfOptChange(); <?php if(!empty($user)){ ?>$('#curtain').show();<?php } else if(!empty($subject_id)) { ?>$('#curtain').hide();<?php } ?>"  value="subject" <?php echo(($verfOptChoice == "subject" || (empty($user) && empty($subject_id)))?"checked='checked'":""); ?> /> Subject
-						<input type="radio" name="choice" onChange="OnVerfOptChange(); <?php if(!empty($subject_id)){ ?>$('#curtain').show();<?php } else if(!empty($user)) { ?>$('#curtain').hide();<?php } ?>"  value="user" <?php echo(($verfOptChoice == "user")?"checked='checked'":"");  ?> /> Contributor
-						<span id="subject_combo" <?php echo(($verfOptChoice == "user")?"style='display:none'":"");?>>
-							<select name="subject_id" id="sub_combo" >
-								<?php
-									$objDB->PopulateSubjectComboForVerifier($subject_id);
-								?>
-							</select>
-						</span>
-						<span id="user_textbox" <?php echo(($verfOptChoice != "user")?"style='display:none'":"");?>>
-							<input id="user_info" type="text" size="50" name="user" value="<?php echo $user; ?>" onKeyDown="onSelect(false);"/>
-						</span>
-						<input type="submit" value="Go!"/>
-						<b><?php echo((!empty($idArray))?'Question '.($index+1).' of '.$upperLimit:''); ?></b>
-					</div>
-					<div id="curtain" style="position:absolute;top:80px;left:0px;opacity:0.4;width:100%;height:100%;background-color:CornflowerBlue;z-index:1000;">
-					</div>
-					<table width="100%" align="center" style="font:inherit;">
+	    <!-- --------------------------------------------------------------- -->
+		<br />
+		<br />
+		<br />
+		<div class='row-fluid'>
+			<div class="col-lg-3 col-md-3 col-sm-3">
+				<?php 
+				include_once(dirname(__FILE__)."/../../lib/sidebar.php");
+				?>
+			</div>
+			<div id="verify_ques">
+				<ul>
+					<li><a href="#tab1">Verify Questions</a></li>
+				</ul>
+				<div id="tab1">
+					<form id="myform" method="post" action="verify_ques.php?ques=0">
+						<div style="text-align:center;background-color:CornflowerBlue;color:white;height:30px;line-height:30px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-khtml-border-radius: 20px;border-radius: 20px;">
+							<input type="radio" name="choice" onChange="OnVerfOptChange(); <?php if(!empty($user)){ ?>$('#curtain').show();<?php } else if(!empty($subject_id)) { ?>$('#curtain').hide();<?php } ?>"  value="subject" <?php echo(($verfOptChoice == "subject" || (empty($user) && empty($subject_id)))?"checked='checked'":""); ?> /> Subject
+							<input type="radio" name="choice" onChange="OnVerfOptChange(); <?php if(!empty($subject_id)){ ?>$('#curtain').show();<?php } else if(!empty($user)) { ?>$('#curtain').hide();<?php } ?>"  value="user" <?php echo(($verfOptChoice == "user")?"checked='checked'":"");  ?> /> Contributor
+							<span id="subject_combo" <?php echo(($verfOptChoice == "user")?"style='display:none'":"");?>>
+								<select name="subject_id" id="sub_combo" >
+									<?php
+										$objDB->PopulateSubjectComboForVerifier($subject_id);
+									?>
+								</select>
+							</span>
+							<span id="user_textbox" <?php echo(($verfOptChoice != "user")?"style='display:none'":"");?>>
+								<input id="user_info" type="text" size="50" name="user" value="<?php echo $user; ?>" onKeyDown="onSelect(false);"/>
+							</span>
+							<input type="submit" value="Go!"/>
+							<b><?php echo((!empty($idArray))?'Question '.($index+1).' of '.$upperLimit:''); ?></b>
+						</div>
+						<div id="curtain" style="position:absolute;top:80px;left:0px;opacity:0.4;width:100%;height:100%;background-color:CornflowerBlue;z-index:1000;">
+						</div>
+						<table width="100%" align="center" style="font:inherit;">
+							<tr>
+								<td>
+									<table width="100%" style="font:inherit;">
+										<tr align="center">
+											<td width="20%" align="right"><input type="button" id="previous" <?php echo($bPrev?"":"disabled='disabled'");?> onClick="var e = document.getElementById('myform'); e.action='verify_ques.php?ques=<?php echo $index-1; ?>'; e.submit();" value="<"></td>
+											<td width="60%">
+												<table border="1" width="80%" rules="all" style="font:inherit;">
+													<tr>
+														<td colspan="2">Question : <?php echo(!empty($quesArray)?trim($quesArray['question']):'After selecting subject or user, question will be appeared here with correct option in green and bold'); ?></td>
+													</tr>
+													<tr>
+														<td id="1" width="50%" <?php echo($quesArray['answer']==1?"style='color:green;font-weight:bold;'":""); ?>>(A). <?php echo (!empty($quesArray)?trim($quesArray['option_1']):'First Option'); ?></td>
+														<td id="2" width="50%" <?php echo($quesArray['answer']==2?"style='color:green;font-weight:bold;'":""); ?>>(B). <?php echo (!empty($quesArray)?trim($quesArray['option_2']):'Second Option'); ?></td>
+													</tr>
+													<tr>
+														<td id="3" width="50%" <?php echo($quesArray['answer']==3?"style='color:green;font-weight:bold;'":""); ?>>(C). <?php echo (!empty($quesArray)?trim($quesArray['option_3']):'Third Option'); ?></td>
+														<td id="4" width="50%" <?php echo($quesArray['answer']==4?"style='color:green;font-weight:bold;'":""); ?>>(D). <?php echo (!empty($quesArray)?trim($quesArray['option_4']):'Fourth Option'); ?></td>
+													</tr>
+												</table><br />
+												<table border="1" width="80%" rules="all" style="font:inherit;">
+													<tr>
+														<td width="50%">Subject : <?php echo $quesArray['subject']; ?></td>
+														<td width="50%">Topic : <?php echo $quesArray['topic']; ?></td>
+													</tr>
+												</table>
+											</td>
+											<td width="20%" align="left"><input type="button" id="next" <?php echo($bNext?"":"disabled='disabled'");?> onClick="var e = document.getElementById('myform'); e.action='verify_ques.php?ques=<?php echo $index+1; ?>'; e.submit();" value=">"></td>
+										</tr> 
+									</table>
+								</td>
+							</tr>
+						</table><br /><br />
+						<table width="80%" align="center" style="font:inherit;">
+							<tr align="center">
+								<td width="40%" align="right"><input type="radio" name="edit" value="1" />Editing Required&nbsp;&nbsp;<input type="radio" name="edit" value="0"  checked/>Done & Next</td>
+								<td width="10%"><input type="button" id="accept" value="Accept" onClick="var val = $('input[name=edit]:checked').val(); var e = document.getElementById('myform'); e.action=(val==1)?'verify_edit_ques.php?id=<?php echo ($idArray[$index].'&ques='.$index); ?>':'verify_ques.php?ques=<?php echo $index; ?>&amp;accept=1'; e.submit();" <?php echo(empty($idArray)?"disabled='disabled'":"");?>/></td>
+								<td width="25%" align="center">
+									<select id="reason" name="reason" <?php echo((empty($idArray))?"disabled='disabled'":"");?> onChange="(this.selectedIndex != 0)?$:">
+										<option value="0">--Select Reason for Decline--</option>
+										<?php
+											$objDB->PopulateDeclineReason(0);
+										?>
+									</select>
+								</td>
+								<td width="25%" align="left"><input type="button" id="decline" value="Decline" onClick="var e = document.getElementById('myform'); e.action='verify_ques.php?decline=1&amp;ques=<?php echo $index; ?>'; e.submit();" disabled/></td>
+							</tr>
+						</table><br /><br />
+						<input type="hidden" name="ques_id" value="<?php echo($idArray[$index]); ?>" />
+					</form>
+					<table width="95%" align="center" style="font:inherit;">
 						<tr>
 							<td>
-								<table width="100%" style="font:inherit;">
-									<tr align="center">
-										<td width="20%" align="right"><input type="button" id="previous" <?php echo($bPrev?"":"disabled='disabled'");?> onClick="var e = document.getElementById('myform'); e.action='verify_ques.php?ques=<?php echo $index-1; ?>'; e.submit();" value="<"></td>
-										<td width="60%">
-											<table border="1" width="80%" rules="all" style="font:inherit;">
-												<tr>
-													<td colspan="2">Question : <?php echo(!empty($quesArray)?trim($quesArray['question']):'After selecting subject or user, question will be appeared here with correct option in green and bold'); ?></td>
-												</tr>
-												<tr>
-													<td id="1" width="50%" <?php echo($quesArray['answer']==1?"style='color:green;font-weight:bold;'":""); ?>>(A). <?php echo (!empty($quesArray)?trim($quesArray['option_1']):'First Option'); ?></td>
-													<td id="2" width="50%" <?php echo($quesArray['answer']==2?"style='color:green;font-weight:bold;'":""); ?>>(B). <?php echo (!empty($quesArray)?trim($quesArray['option_2']):'Second Option'); ?></td>
-												</tr>
-												<tr>
-													<td id="3" width="50%" <?php echo($quesArray['answer']==3?"style='color:green;font-weight:bold;'":""); ?>>(C). <?php echo (!empty($quesArray)?trim($quesArray['option_3']):'Third Option'); ?></td>
-													<td id="4" width="50%" <?php echo($quesArray['answer']==4?"style='color:green;font-weight:bold;'":""); ?>>(D). <?php echo (!empty($quesArray)?trim($quesArray['option_4']):'Fourth Option'); ?></td>
-												</tr>
-											</table><br />
-											<table border="1" width="80%" rules="all" style="font:inherit;">
-												<tr>
-													<td width="50%">Subject : <?php echo $quesArray['subject']; ?></td>
-													<td width="50%">Topic : <?php echo $quesArray['topic']; ?></td>
-												</tr>
-											</table>
-										</td>
-										<td width="20%" align="left"><input type="button" id="next" <?php echo($bNext?"":"disabled='disabled'");?> onClick="var e = document.getElementById('myform'); e.action='verify_ques.php?ques=<?php echo $index+1; ?>'; e.submit();" value=">"></td>
-									</tr> 
+								<table cellpadding="0" cellspacing="0" border="0" width="100%" class="display" id="example">
+									<thead>
+										<tr>
+											<th><font color="#000000">%Match</font></th>
+											<th><font color="#000000">Ques_Id</font></th>
+											<th><font color="#000000">Question</font></th>
+											<th><font color="#000000">Option 1</font></th>
+											<th><font color="#000000">Option 2</font></th>
+											<th><font color="#000000">Option 3</font></th>
+											<th><font color="#000000">Option 4</font></th>
+											<th><font color="#000000">Answer</font></th>
+											<th><font color="#000000">Subject</font></th>
+											<th><font color="#000000">Topic</font></th>
+										</tr>
+									</thead>
+										<?php 
+											if($idArray != NULL)
+											{
+												$table = $objDB->GetSimilarQuestions($idArray[$index],false,10,$user_id);
+												foreach($table as $key => $value)
+												{
+													$question = $objDB->GetQuestionDetails($key);
+													printf("<tr>");
+													printf("<td align='center'>%s</td>",$value);
+													printf("<td align='center'>%s</td>",$key);
+													printf("<td align='center'>%s</td>",$question['question']);
+													printf("<td align='center'>%s</td>",$question['option_1']);
+													printf("<td align='center'>%s</td>",$question['option_2']);
+													printf("<td align='center'>%s</td>",$question['option_3']);
+													printf("<td align='center'>%s</td>",$question['option_4']);
+													printf("<td align='center'>%s</td>",$question['answer']);
+													printf("<td align='center'>%s</td>",$question['subject']);
+													printf("<td align='center'>%s</td>",$question['topic']);
+													printf("</tr>");
+												}
+											}
+										?>
+									<tfoot>
+										<tr>
+											<th><font color="#000000">%Match</font></th>
+											<th><font color="#000000">Ques_Id</font></th>
+											<th><font color="#000000">Question</font></th>
+											<th><font color="#000000">Option 1</font></th>
+											<th><font color="#000000">Option 2</font></th>
+											<th><font color="#000000">Option 3</font></th>
+											<th><font color="#000000">Option 4</font></th>
+											<th><font color="#000000">Answer</font></th>
+											<th><font color="#000000">Subject</font></th>
+											<th><font color="#000000">Topic</font></th>
+										</tr>
+									</tfoot>
 								</table>
 							</td>
 						</tr>
-					</table><br /><br />
-					<table width="80%" align="center" style="font:inherit;">
-						<tr align="center">
-							<td width="40%" align="right"><input type="radio" name="edit" value="1" />Editing Required&nbsp;&nbsp;<input type="radio" name="edit" value="0"  checked/>Done & Next</td>
-							<td width="10%"><input type="button" id="accept" value="Accept" onClick="var val = $('input[name=edit]:checked').val(); var e = document.getElementById('myform'); e.action=(val==1)?'verify_edit_ques.php?id=<?php echo ($idArray[$index].'&ques='.$index); ?>':'verify_ques.php?ques=<?php echo $index; ?>&amp;accept=1'; e.submit();" <?php echo(empty($idArray)?"disabled='disabled'":"");?>/></td>
-							<td width="25%" align="center">
-								<select id="reason" name="reason" <?php echo((empty($idArray))?"disabled='disabled'":"");?> onChange="(this.selectedIndex != 0)?$:">
-									<option value="0">--Select Reason for Decline--</option>
-									<?php
-										$objDB->PopulateDeclineReason(0);
-									?>
-								</select>
-							</td>
-							<td width="25%" align="left"><input type="button" id="decline" value="Decline" onClick="var e = document.getElementById('myform'); e.action='verify_ques.php?decline=1&amp;ques=<?php echo $index; ?>'; e.submit();" disabled/></td>
-						</tr>
-					</table><br /><br />
-					<input type="hidden" name="ques_id" value="<?php echo($idArray[$index]); ?>" />
-				</form>
-				<table width="95%" align="center" style="font:inherit;">
-					<tr>
-						<td>
-							<table cellpadding="0" cellspacing="0" border="0" width="100%" class="display" id="example">
-								<thead>
-									<tr>
-										<th><font color="#000000">%Match</font></th>
-										<th><font color="#000000">Ques_Id</font></th>
-										<th><font color="#000000">Question</font></th>
-										<th><font color="#000000">Option 1</font></th>
-										<th><font color="#000000">Option 2</font></th>
-										<th><font color="#000000">Option 3</font></th>
-										<th><font color="#000000">Option 4</font></th>
-										<th><font color="#000000">Answer</font></th>
-										<th><font color="#000000">Subject</font></th>
-										<th><font color="#000000">Topic</font></th>
-									</tr>
-								</thead>
-									<?php 
-										if($idArray != NULL)
-										{
-											$table = $objDB->GetSimilarQuestions($idArray[$index],false,10,$user_id);
-											foreach($table as $key => $value)
-											{
-												$question = $objDB->GetQuestionDetails($key);
-												printf("<tr>");
-												printf("<td align='center'>%s</td>",$value);
-												printf("<td align='center'>%s</td>",$key);
-												printf("<td align='center'>%s</td>",$question['question']);
-												printf("<td align='center'>%s</td>",$question['option_1']);
-												printf("<td align='center'>%s</td>",$question['option_2']);
-												printf("<td align='center'>%s</td>",$question['option_3']);
-												printf("<td align='center'>%s</td>",$question['option_4']);
-												printf("<td align='center'>%s</td>",$question['answer']);
-												printf("<td align='center'>%s</td>",$question['subject']);
-												printf("<td align='center'>%s</td>",$question['topic']);
-												printf("</tr>");
-											}
-										}
-									?>
-								<tfoot>
-									<tr>
-										<th><font color="#000000">%Match</font></th>
-										<th><font color="#000000">Ques_Id</font></th>
-										<th><font color="#000000">Question</font></th>
-										<th><font color="#000000">Option 1</font></th>
-										<th><font color="#000000">Option 2</font></th>
-										<th><font color="#000000">Option 3</font></th>
-										<th><font color="#000000">Option 4</font></th>
-										<th><font color="#000000">Answer</font></th>
-										<th><font color="#000000">Subject</font></th>
-										<th><font color="#000000">Topic</font></th>
-									</tr>
-								</tfoot>
-							</table>
-						</td>
-					</tr>
-				</table>
+					</table>
+				</div>
 			</div>
 		</div>
 		<script type="text/javascript">

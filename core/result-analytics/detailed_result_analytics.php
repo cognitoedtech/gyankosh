@@ -191,61 +191,7 @@ $objIncludeJsCSS->IncludeResultAnalyticsJS("../../");
 		
 		var result_cand_ary = "";
 		var batch_ary       = "";
-		$('#dr_test_schd_dat').change(function() {
-			$("#result_charts").hide();
-			$("#holistic_view").hide();
-			$("#download_pdf").hide();
-			$("#iq_view").hide();
-			$("#eq_view").hide();
-			$("#result_views_div").hide();
-			var test_id = $('#dr_test_id').val();
-			var tschd_id = $('#dr_test_schd_date').val();
-	
-			var current_date = new Date();
-			var time_zone    = -current_date.getTimezoneOffset()/60;
 			
-			$(".modal1").show();
-	
-			result_cand_ary  = new Array();
-			batch_ary        = new Array();
-			var result_cands = "<option value=''>--Choose Candidate--</option>";
-			var batches		 = "<option value=''>--Choose Specific Batch--</option>"
-			$.ajax({
-					 url: 'ajax/ajax_get_result_candidates.php?test_id='+test_id+'&tschd_id='+tschd_id+'&time_zone='+time_zone,
-				dataType: 'json',
-				 success: function(data) {
-					 $.each(data, function(key, value){
-						 result_cand_ary[key] = new Array();
-						 
-						 result_cand_ary[key]['result'] = value['result'];
-						 result_cand_ary[key]['batch']  = value['batch'];
-	
-						 if(batch_ary.indexOf(value['batch']) == -1 && value['batch'] != "")
-						 {
-						 	batch_ary.push(value['batch']);
-						 	batches   += "<option value='"+value['batch']+"'>"+value['batch']+"</option>";
-						 }
-						 result_cands += "<option value='"+key+"'>"+value['result']+"</option>";
-					 });
-	
-					 $("#dr_batch").html(batches);
-					 $('#dr_candidate_id').html(result_cands);
-					 
-					 $('#dr_candidate_id').show();
-	
-					<?php 
-						if($nUserType != CConfig::UT_INDIVIDAL)
-					 	{
-					?>
-					 $("#dr_batch").show();
-					<?php 
-						}
-					?>
-					$(".modal1").hide();
-				 } 
-			});
-		});
-	
 		function DownloadPDF(obj)
 		{
 			var test_pnr = $('#dr_candidate_id').val();
