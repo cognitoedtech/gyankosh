@@ -4,7 +4,7 @@
 	include_once("../../database/mcat_db.php");
 	include_once(dirname(__FILE__)."/../../lib/include_js_css.php");
 	
-	session_start();
+	$loggedin_user_id = CSessionManager::Get ( CSessionManager::STR_USER_ID );
 	
 	$index = 0;
 	$objDB = new CMcatDB();
@@ -147,11 +147,18 @@
 		$objIncludeJsCSS->CommonIncludeCSS ( "../../" );
 		$objIncludeJsCSS->IncludeIconFontCSS ( "../../" );
 		$objIncludeJsCSS->IncludeFuelUXCSS ( "../../" );
+		
 		$objIncludeJsCSS->CommonIncludeJS ( "../../");
-		$objIncludeJsCSS->IncludeCanvasMinJS ( "../../");
-		$objIncludeJsCSS->CommonIncludeHighchartsJS("../../");
-		$objIncludeJsCSS->IncludeJQueryNouisliderMinJS("../../");
-		$objIncludeJsCSS->IncludeResultAnalyticsJS("../../");
+		$objIncludeJsCSS->IncludeMetroNotificationJS ( "../../");
+		$objIncludeJsCSS->IncludeJqueryDatatablesMinJS("../../");
+		$objIncludeJsCSS->IncludeDatatablesTabletoolsMinJS("../../");
+		$objIncludeJsCSS->IncludeClipboardJS("../../");
+		$objIncludeJsCSS->IncludeDatatablesTabletoolsMinJS("../../");
+		$objIncludeJsCSS->IncludeMathJAXJS("../../");
+		$objIncludeJsCSS->IncludeJqueryValidateMinJS("../../");
+		//$objIncludeJsCSS->IncludeJqueryUI_1_12_1_JS("../../");
+		$objIncludeJsCSS->IncludeUtilsJS("../../");
+		
 		?>
 	</head>
 
@@ -177,29 +184,22 @@
 				include_once(dirname(__FILE__)."/../../lib/sidebar.php");
 				?>
 			</div>
-			<div id="verify_ques">
-				<ul>
-					<li><a href="#tab1">Verify Questions</a></li>
-				</ul>
-				<div id="tab1">
+			<div class="col-lg-9 col-md-9 col-sm-9" id="verify_ques">
+				<div>
 					<form id="myform" method="post" action="verify_ques.php?ques=0">
-						<div style="text-align:center;background-color:CornflowerBlue;color:white;height:30px;line-height:30px;-moz-border-radius: 20px;-webkit-border-radius: 20px;-khtml-border-radius: 20px;border-radius: 20px;">
+						<div class="row">
 							<input type="radio" name="choice" onChange="OnVerfOptChange(); <?php if(!empty($user)){ ?>$('#curtain').show();<?php } else if(!empty($subject_id)) { ?>$('#curtain').hide();<?php } ?>"  value="subject" <?php echo(($verfOptChoice == "subject" || (empty($user) && empty($subject_id)))?"checked='checked'":""); ?> /> Subject
 							<input type="radio" name="choice" onChange="OnVerfOptChange(); <?php if(!empty($subject_id)){ ?>$('#curtain').show();<?php } else if(!empty($user)) { ?>$('#curtain').hide();<?php } ?>"  value="user" <?php echo(($verfOptChoice == "user")?"checked='checked'":"");  ?> /> Contributor
-							<span id="subject_combo" <?php echo(($verfOptChoice == "user")?"style='display:none'":"");?>>
-								<select name="subject_id" id="sub_combo" >
-									<?php
-										$objDB->PopulateSubjectComboForVerifier($subject_id);
-									?>
-								</select>
-							</span>
+							<select name="subject_id" id="sub_combo" >
+								<?php
+									$objDB->PopulateSubjectComboForVerifier($subject_id);
+								?>
+							</select>
 							<span id="user_textbox" <?php echo(($verfOptChoice != "user")?"style='display:none'":"");?>>
 								<input id="user_info" type="text" size="50" name="user" value="<?php echo $user; ?>" onKeyDown="onSelect(false);"/>
 							</span>
 							<input type="submit" value="Go!"/>
 							<b><?php echo((!empty($idArray))?'Question '.($index+1).' of '.$upperLimit:''); ?></b>
-						</div>
-						<div id="curtain" style="position:absolute;top:80px;left:0px;opacity:0.4;width:100%;height:100%;background-color:CornflowerBlue;z-index:1000;">
 						</div>
 						<table width="100%" align="center" style="font:inherit;">
 							<tr>
@@ -312,106 +312,105 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript">
-		
-			$(window).load(function(){
-				$("#page_loading_box").hide();
-				$('#verify_ques').show();
-				$('#verify_ques').tabs();
-					
-				var page_hgt = objUtils.AdjustHeight("tab1");
-				$('#platform', window.parent.document).height(page_hgt+200);
-			});
-	
-			var bUser = false;
-		
-			function onSelect(bVal)
-			{
-				bUser = bVal;
-			}
-		
-			$( "#user_info" ).autocomplete({
-        	   source: function(request,response) {
-		   		//alert("Test");
-				$.getJSON("ajax/ajax_get_users.php",{term: request.term},function(data){
-						//alert('hi');
-						response(data);
-					});
-				},
-        		minLength: 2,
-        		autoFocus: true,
-        		response: function(event, ui){
-       		 		//alert("Test");
-           		},
-				select: function(event, ui){
-					onSelect(true);
-				}
-			});
-		
-			$.validator.addMethod("username_email",function(value){
-   				return bUser; 
-			});
-		
-			$(document).ready( function () {
-				$('#myform').validate({
-					rules: {
-						subject_id: {required: true},
-						user: {
-							required: true,
-							username_email: true						
-						}
-					},
-					messages: {
-						subject_id: "Please select a subject",
-						user: {
-							required: "Please enter the user information",
-							username_email: "Please select the user information from available suggestions"		
-						}
-					}
-				});
-			
-				OnVerfOptChange();
-				$("#curtain").hide();
-			
-				//TableTools.DEFAULTS.aButtons = [  ];
-				$('#example').dataTable( 
-					{"bFilter": false}
-				);
-			
-				if(accept_success == 1 || decline_success == 1)
-				{
-					$('.notification.sticky').notify({ type: 'sticky' });
-				}
-			});
-
-			$('#reason').change(function() {
-				var reason_id = $('#reason').val();
-				if(reason_id == 0)
-				{
-					$('#accept').removeAttr('disabled');
-					$('#decline').attr('disabled','disabled');
-				}
-				else
-				{
-					$('#accept').attr('disabled','disabled');
-					$('#decline').removeAttr('disabled');
-				}
-			});
-
-			function OnVerfOptChange()
-			{
-				var val = $("input[name=choice]:checked").val();
-				if(val == "subject")
-				{
-					$("#user_textbox").hide();
-					$("#subject_combo").show();
-				}
-				else if(val == "user")
-				{
-					$("#subject_combo").hide();
-					$("#user_textbox").show();
-				}
-			}
-		</script>
 	</body>
+	<script type="text/javascript">
+		
+		$( document ).ready(function(){
+			$("#page_loading_box").hide();
+			$('#verify_ques').show();
+			$('#verify_ques').tabs();
+				
+			$('#platform', window.parent.document).height(page_hgt+200);
+		});
+	
+		var bUser = false;
+	
+		function onSelect(bVal)
+		{
+			bUser = bVal;
+		}
+		
+		$( "#user_info" ).autocomplete({
+			source: function(request,response) {
+			//alert("Test");
+			$.getJSON("ajax/ajax_get_users.php",{term: request.term},function(data){
+					//alert('hi');
+					response(data);
+				});
+			},
+        	minLength: 2,
+        	autoFocus: true,
+        	response: function(event, ui){
+       				//alert("Test");
+           	},
+			select: function(event, ui){
+				onSelect(true);
+			}
+		});
+			
+		$.validator.addMethod("username_email",function(value){
+	   		return bUser; 
+		});
+		
+		$(document).ready( function () {
+			$('#myform').validate({
+				rules: {
+					subject_id: {required: true},
+					user: {
+						required: true,
+						username_email: true						
+					}
+				},
+				messages: {
+					subject_id: "Please select a subject",
+					user: {
+						required: "Please enter the user information",
+						username_email: "Please select the user information from available suggestions"		
+					}
+				}
+			});
+			
+			OnVerfOptChange();
+			$("#curtain").hide();
+			
+			//TableTools.DEFAULTS.aButtons = [  ];
+			$('#example').dataTable( 
+				{"bFilter": false}
+			);
+		
+			if(accept_success == 1 || decline_success == 1)
+			{
+				$('.notification.sticky').notify({ type: 'sticky' });
+			}
+		});
+
+		$('#reason').change(function() {
+			var reason_id = $('#reason').val();
+			if(reason_id == 0)
+			{
+				$('#accept').removeAttr('disabled');
+				$('#decline').attr('disabled','disabled');
+			}
+			else
+			{
+				$('#accept').attr('disabled','disabled');
+				$('#decline').removeAttr('disabled');
+			}
+		});
+
+		function OnVerfOptChange()
+		{
+			var val = $("input[name=choice]:checked").val();
+			if(val == "subject")
+			{
+				$("#user_textbox").hide();
+				$("#subject_combo").show();
+			}
+			else if(val == "user")
+			{
+				$("#subject_combo").hide();
+				$("#user_textbox").show();
+			}
+		}
+	</script>
 </html>

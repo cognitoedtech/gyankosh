@@ -101,8 +101,8 @@
 					//alert(parent.display.document.getElementById("timer"));
 					if(parent.display.document.getElementById("timer") == null)
 					{
-						//alert ("mipcat.php?test_id="+test_id+"&sec="+sec+"&ques="+ques);
-						parent.display.location = "mipcat.php?test_id="+test_id+"&tschd_id="+tschd_id+"&sec="+sec+"&ques="+ques;
+						//alert ("mipcat-tcs.php?test_id="+test_id+"&sec="+sec+"&ques="+ques);
+						parent.display.location = "mipcat-tcs.php?test_id="+test_id+"&tschd_id="+tschd_id+"&sec="+sec+"&ques="+ques;
 					}
 					else
 					{
@@ -118,7 +118,7 @@
 							});
 						}
 						
-						parent.display.location = "mipcat.php?test_id="+test_id+"&tschd_id="+tschd_id+"&sec="+sec+"&ques="+ques+"&curtime="+encodeURIComponent(nCurTime);
+						parent.display.location = "mipcat-tcs.php?test_id="+test_id+"&tschd_id="+tschd_id+"&sec="+sec+"&ques="+ques+"&curtime="+encodeURIComponent(nCurTime);
 					}
 				}
 			}

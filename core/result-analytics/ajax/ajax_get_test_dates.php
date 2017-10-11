@@ -20,7 +20,7 @@
 		
 		$ResultAry = $objTR->GetCompletedTestDates($user_id, $user_type, $qry[1], $time_zone, true);
 		
-		printf("<option value=''>-- Choose Schedule Date --</option>");
+		printf("<option value=''>-- Choose Purchase Date --</option>");
 		foreach ($ResultAry as $tschd_id => $scheduled_on_user_ary)
 		{
 			printf("<option value='%s'>%s (%s, pID : %s)</option>", $scheduled_on_user_ary[2], $scheduled_on_user_ary[0], $objDB->GetUserName($scheduled_on_user_ary[1]), ($tschd_id != -100)? $tschd_id:"Demo");

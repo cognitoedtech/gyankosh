@@ -407,7 +407,7 @@
 		public function PopulateSubjectComboForVerifier($subject_id)
         {
             printf("<option value=''>-- Select --</option>");
-            $query = "select distinct subject_id from question join users on users.user_id=question.user_id and users.user_type=".CConfig::UT_CONTRIBUTOR." where question.public=0";
+            $query = "select distinct subject_id from question join users on users.user_id=question.user_id where question.public=0";
             $result = mysql_query($query, $this->db_link) or die('Error select subject combo ' . mysql_error());
            
             if(mysql_num_rows($result) > 0)
@@ -4983,7 +4983,7 @@
 	        		$schedule_end = str_replace(' ', '-', $schedule_end);
 	        		$schedule_end = str_replace(',', '-', $schedule_end);
 	        		$schedule_end = date('Y-m-d H:i:s', strtotime($schedule_end));
-	        		$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date, pub_end_date) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s', pub_end_date='%s'",$product_id, $product_type, $category_id, mysql_real_escape_string($test_name), 
+	        		$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date, pub_end_date, is_published) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 1) on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s', pub_end_date='%s', is_published=1",$product_id, $product_type, $category_id, mysql_real_escape_string($test_name), 
         				mysql_real_escape_string($aryPublishedInfo["org_name"]), 
         				mysql_real_escape_string($keywords), 
         				mysql_real_escape_string($description), 
@@ -5000,7 +5000,7 @@
         		else 
         		{
         			
-        			$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s') on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s'",$product_id, $product_type, $category_id, mysql_real_escape_string($test_name),
+        			$query_inner = sprintf("insert into published_products (product_id, product_type, category_id, product_name, org_name, keywords, description, product_image, published_info, pub_start_date, is_published) values(%d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', 1) on duplicate key update category_id=%d, product_name='%s', org_name='%s', keywords='%s', description='%s', product_image='%s', published_info='%s', pub_start_date='%s', is_published=1",$product_id, $product_type, $category_id, mysql_real_escape_string($test_name),
         					mysql_real_escape_string($aryPublishedInfo["org_name"]),
         					mysql_real_escape_string($keywords),
         					mysql_real_escape_string($description),
@@ -5059,7 +5059,10 @@
         	$retVal = null;
         	
         	$query 		= 	sprintf("update test set is_published=0 where test_id='%s'",$product_id );
-        	$result		=	mysql_query($query, $this->db_link) or die('UnPublish Product error : ' . mysql_error());
+        	$result		=	mysql_query($query, $this->db_link) or die('UnPublish Product TestTB error : ' . mysql_error());
+        	
+        	$query 		= 	sprintf("update published_products set is_published=0 where product_id='%s' and product_type=0",$product_id );
+        	$result		=	mysql_query($query, $this->db_link) or die('UnPublish Product PubProductTB error : ' . mysql_error());
         	
         	return $result;
         }

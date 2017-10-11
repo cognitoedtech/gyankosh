@@ -90,7 +90,7 @@
 			//echo "EmailTo: ".$candidate_email."<br/>";
 			
 			$sub_for_candidate = "[".CConfig::SNC_SITE_NAME."] ".$candidate_name." - ".$organization_name." registered you for ability test" ;
-			$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>Test administrator <b>".$user_name."</b> ( ".$user_email." ) has registered you to take ability test designed for you. To confirm the registration, please click on following link <a href='".$reg_url."'>".$reg_url."</a> or copy and paste above link to your browser.<br/><br/>Your Username: ".$candidate_email."<br/><br/>Your Password: ".$password."<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
+			$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>Test administrator <b>".$user_name."</b> ( ".$user_email." ) has registered you to take ability test designed for you. To confirm the registration, please click on following link <a href='".$reg_url."'>".$reg_url."</a> or copy and paste above link to your browser.<br/><br/>Your Username: ".$candidate_email."<br/><br/>Your Password: ".$password."<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".co'>www.".strtolower(CConfig::SNC_SITE_NAME).".co</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
 			
 			$this->Send($candidate_email, $sub_for_candidate, $msg_for_candidate) ;
 		}
@@ -118,13 +118,13 @@
 			$sub_for_candidate = "[".CConfig::SNC_SITE_NAME."] ".$candidate_name." - ".$organization_name." scheduled a test for you." ;
 			if(!empty($expire_on))
 			{	
-				$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>Test administrator <b>".$user_name."</b> ( ".$user_email." ) has scheduled an assessment test <b>".$test_name."</b> for you <b> dated on ".$date.", [".$hours.":".$minutes."], and will expire on ".$expire_on.", [".$expire_hours.":".$expire_minutes."], (".$time_zone_name.")</b>. Please login to your account on said date to attempt the test.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
+				$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>Test administrator <b>".$user_name."</b> ( ".$user_email." ) has scheduled an assessment test <b>".$test_name."</b> for you <b> dated on ".$date.", [".$hours.":".$minutes."], and will expire on ".$expire_on.", [".$expire_hours.":".$expire_minutes."], (".$time_zone_name.")</b>. Please login to your account on said date to attempt the test.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".co'>www.".strtolower(CConfig::SNC_SITE_NAME).".co</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
 				$this->Send($candidate_email, $sub_for_candidate, $msg_for_candidate) ;
 				
 			}
 			else 
 			{	
-				$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>Test administrator <b>".$user_name."</b> ( ".$user_email." ) has scheduled an assessment test <b>".$test_name."</b> for you <b>dated on ".$date.", [".$hours.":".$minutes."], (".$time_zone_name.")</b>. Please login to your account on said date to attempt the test.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
+				$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>Test administrator <b>".$user_name."</b> ( ".$user_email." ) has scheduled an assessment test <b>".$test_name."</b> for you <b>dated on ".$date.", [".$hours.":".$minutes."], (".$time_zone_name.")</b>. Please login to your account on said date to attempt the test.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".co'>www.".strtolower(CConfig::SNC_SITE_NAME).".co</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
 				$this->Send($candidate_email, $sub_for_candidate, $msg_for_candidate);
 				
 			}
@@ -139,7 +139,7 @@
 			//echo "EmailTo: ".$candidate_email."<br/>";
 			
 			$sub_for_candidate = "[".CConfig::SNC_SITE_NAME."] ".$candidate_name." - password change request!" ;
-			$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>We have received a password retrieval request (via I.P. address - <b>".$ip_addr."</b>) from our &lsquo;Retrieve Forgotten Password&rsquo; section. Please click on following link <a href='".CSiteConfig::ROOT_URL."/login/forgot_done.php?loc=".$md5_pwd."&offset=".$candidate_id."&rand=".md5($candidate_email)."'>".CSiteConfig::ROOT_URL."/login/forgot_done.php?loc=".$md5_pwd."&offset=".$candidate_id."&rand=".md5($candidate_email)."</a> to change the existing password. If you won&rsquo;t act on this email your password will remain un-touched.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
+			$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>We have received a password retrieval request (via I.P. address - <b>".$ip_addr."</b>) from our &lsquo;Retrieve Forgotten Password&rsquo; section. Please click on following link <a href='".CSiteConfig::ROOT_URL."/login/forgot_done.php?loc=".$md5_pwd."&offset=".$candidate_id."&rand=".md5($candidate_email)."'>".CSiteConfig::ROOT_URL."/login/forgot_done.php?loc=".$md5_pwd."&offset=".$candidate_id."&rand=".md5($candidate_email)."</a> to change the existing password. If you won&rsquo;t act on this email your password will remain un-touched.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".co'>www.".strtolower(CConfig::SNC_SITE_NAME).".co</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
 			
 			$this->Send($candidate_email, $sub_for_candidate, $msg_for_candidate) ;
 		}
@@ -152,7 +152,7 @@
 			//echo "EmailTo: ".$candidate_email."<br/>";
 			
 			$sub_for_candidate = "[".CConfig::SNC_SITE_NAME."] ".$candidate_name." - password change done!" ;
-			$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>We have changed your password (via I.P. address - <b>".$ip_addr."</b>). Welcome back, you are important to us - please feel free to use our services.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
+			$msg_for_candidate = "Dear <b>".$candidate_name."</b>,<br/><br/>We have changed your password (via I.P. address - <b>".$ip_addr."</b>). Welcome back, you are important to us - please feel free to use our services.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".co'>www.".strtolower(CConfig::SNC_SITE_NAME).".co</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
 			
 			$this->Send($candidate_email, $sub_for_candidate, $msg_for_candidate) ;
 		}
@@ -165,7 +165,7 @@
 			//echo "EmailTo: ".$ba_email."<br/>";
 			
 			$sub_for_receptor = "[".CConfig::SNC_SITE_NAME." - Business Associate Request] ".$subject ;
-			$msg_for_receptor = "Dear Sir or Madam,<br/><br/>We have received &lsquo;Becoming Business Associate&rsquo; request (via I.P. address - <b>".$ip_addr."</b>) from <b>".$org_name."</b> (Email: ".$ba_email.", Contact #: ".$contact.").<br/><br/><hr/><b><u>Message :</u></b><br/><br/>".$msg.".<br/><hr/><br/>Our Business Development Executive will soon contact you, Thanks for your interest!.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Business Associate Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/><b>Note:</b> This is an auto generated Email. You can reply to this email to know status of your request." ;
+			$msg_for_receptor = "Dear Sir or Madam,<br/><br/>We have received &lsquo;Becoming Business Associate&rsquo; request (via I.P. address - <b>".$ip_addr."</b>) from <b>".$org_name."</b> (Email: ".$ba_email.", Contact #: ".$contact.").<br/><br/><hr/><b><u>Message :</u></b><br/><br/>".$msg.".<br/><hr/><br/>Our Business Development Executive will soon contact you, Thanks for your interest!.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Business Associate Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".co'>www.".strtolower(CConfig::SNC_SITE_NAME).".co</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/><b>Note:</b> This is an auto generated Email. You can reply to this email to know status of your request." ;
 			
 			// Email ACK to BA requestor.
 			$this->Send($ba_email, $sub_for_receptor, $msg_for_receptor) ;
@@ -242,7 +242,7 @@
 		public function PrepAndSendPromotionalMail($to_email, $recipient_name, $email_body, $subject)
 		{
 			$body = "Dear ".$recipient_name.",<br/><br/>".$email_body." <br/><br/>Regards,<br/>Dileep Volati<br/>".CConfig::SNC_SITE_NAME." Awareness Team<br/>Contact No.: +91 964 042 0825";
-			$body.="<br /><br /><br />Note: This is an awareness and demonstration request email. If you do not want to receive promotional emails from us, then please write us on unsubscribe@".strtolower(CConfig::SNC_SITE_NAME).".com (from email id which should be unsubscribed) and we will unsubscribe you from our list. Please note that after unsubscribing from our list you will not be able to receive upcoming features and advancements from us regarding http://www.".strtolower(CConfig::SNC_SITE_NAME).".com.";
+			$body.="<br /><br /><br />Note: This is an awareness and demonstration request email. If you do not want to receive promotional emails from us, then please write us on unsubscribe@".strtolower(CConfig::SNC_SITE_NAME).".co (from email id which should be unsubscribed) and we will unsubscribe you from our list. Please note that after unsubscribing from our list you will not be able to receive upcoming features and advancements from us regarding http://www.".strtolower(CConfig::SNC_SITE_NAME).".co.";
 			
 			$this->Send($to_email, $subject, $body);
 		}
@@ -290,7 +290,7 @@
 			
 			$sub_for_finance = CConfig::SNC_SITE_NAME." Recharge Commission Processed for Business Associate";
 			
-			$body			 = sprintf("Dear %s(%s),<br /><br />We have settled Rs. %1.2f(Your Share: Rs. %1.2f, Service Tax: Rs. %1.2f, TDS: Rs. %1.2f) and sent you cheque/NEFT payment on %s of %s with payment ordinal %s. You may receive your commission for within 10 working days. If you may not receive the mentioned amount, please contact your relationship Manager at ".CConfig::SNC_SITE_NAME.".com.It is always pleasure doing business with you, looking forward to generate more business with your efforts.<br />Let's Grow !<br /><br />Kind Regards,<br />Finance Department @ ".CConfig::SNC_SITE_NAME.".com<br /><br /><br />Note: You may find details of this transaction at your login under transaction statement navigation (left) menu or please contact us for more information.", $ba_name, $ba_org, $gross_commission, $net_commission, $service_tax_amount, $tds_amount, $payment_date, $payment_agent, $payment_ordinal);
+			$body			 = sprintf("Dear %s(%s),<br /><br />We have settled Rs. %1.2f(Your Share: Rs. %1.2f, Service Tax: Rs. %1.2f, TDS: Rs. %1.2f) and sent you cheque/NEFT payment on %s of %s with payment ordinal %s. You may receive your commission for within 10 working days. If you may not receive the mentioned amount, please contact your relationship Manager at ".CConfig::SNC_SITE_NAME.".co.It is always pleasure doing business with you, looking forward to generate more business with your efforts.<br />Let's Grow !<br /><br />Kind Regards,<br />Finance Department @ ".CConfig::SNC_SITE_NAME.".co<br /><br /><br />Note: You may find details of this transaction at your login under transaction statement navigation (left) menu or please contact us for more information.", $ba_name, $ba_org, $gross_commission, $net_commission, $service_tax_amount, $tds_amount, $payment_date, $payment_agent, $payment_ordinal);
 		
 			$this->Send($ba_email, $sub_for_ba, $body);
 				
@@ -370,7 +370,7 @@
         		$msg_for_candidate .= sprintf("Amount Charged (Inclusive of All Taxes): %s <br/><br/>", $amnt_sold);
         	}
         		
-        	$msg_for_candidate .="You can avail the facility of said test package by logging into your account from provisioned date.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
+        	$msg_for_candidate .="You can avail the facility of said test package by logging into your account from provisioned date.<br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".co'>www.".strtolower(CConfig::SNC_SITE_NAME).".co</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
         		
         	 $this->Send($candidate_email, $sub_for_candidate, $msg_for_candidate) ;
         }
@@ -436,7 +436,7 @@
         public function PrepAndSendOTFARegLinkMail($email, $test_name, $tschd_id, $user_name, $user_email, $organization_name)
         {
         	$sub_for_candidate = "[".CConfig::SNC_SITE_NAME."] ".$organization_name." registered you for ability test" ;
-        	$msg_for_candidate = "Dear Candidate,<br/><br/>Test administrator <b>".$user_name."</b> ( ".$user_email." ) has registered you to take ability test <b>".$test_name."</b> designed for you. To confirm the registration, please click on following link <a href='".CSiteConfig::ROOT_URL."/reg-email/".$tschd_id."'>".CSiteConfig::ROOT_URL."/reg-email/".$tschd_id."</a> or copy and paste above link to your browser.<br/><br/><br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".com'>www.".strtolower(CConfig::SNC_SITE_NAME).".com</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
+        	$msg_for_candidate = "Dear Candidate,<br/><br/>Test administrator <b>".$user_name."</b> ( ".$user_email." ) has registered you to take ability test <b>".$test_name."</b> designed for you. To confirm the registration, please click on following link <a href='".CSiteConfig::ROOT_URL."/reg-email/".$tschd_id."'>".CSiteConfig::ROOT_URL."/reg-email/".$tschd_id."</a> or copy and paste above link to your browser.<br/><br/><br/><br/>Regards,<br/>".CConfig::SNC_SITE_NAME." Technical Support<br/><a href='http://www.".strtolower(CConfig::SNC_SITE_NAME).".co'>www.".strtolower(CConfig::SNC_SITE_NAME).".co</a><br/><b>".CConfig::SNC_PUNCH_LINE."</b><br/><br/><br/>This is an auto generated Email. Please don't reply to this mail." ;
         		
         	$this->Send($email, $sub_for_candidate, $msg_for_candidate) ;
         }

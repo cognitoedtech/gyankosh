@@ -1007,7 +1007,7 @@
 	                $RetAry[$row['test_pnr']]['completed_on'] = sprintf("<td>%s</td>",$testDtime->format("M d, Y [H:i:s]"));
 	                $RetAry[$row['test_pnr']]['scheduled_on'] = sprintf("<td>%s</td>",($tsCD != "Not Applicable")?date("M d, Y", $tsCD):$tsCD);                
 	                //date_default_timezone_set($reset);
-	                $RetAry[$row['test_pnr']]['name'] = sprintf("<td>%s %s (%s)</td>", $NameAry['firstname'], $NameAry['lastname'], $NameAry['email']);
+	                $RetAry[$row['test_pnr']]['name'] = sprintf("<td>%s %s (%s, %s)</td>", $NameAry['firstname'], $NameAry['lastname'], $NameAry['email'], $NameAry['contact_no']);
 	                $RetAry[$row['test_pnr']]['location'] = sprintf("<td>%s, %s, %s</td>", $NameAry['city'], $NameAry['state'], $this->GetCountryName($NameAry['country']));            
 	                if($row['criteria'] == CConfig::PC_CUTOFF)
 	                {
