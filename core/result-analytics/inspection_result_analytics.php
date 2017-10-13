@@ -263,7 +263,7 @@ $objIncludeJsCSS->IncludeMathJAXJS( "../../" );
 							tColor = "";
 							sStatus = "";
 							bgColor = "";
-							if(qInfoAry['selected'] == -1 || qInfoAry['selected'] == -2)
+							if(qInfoAry['selected'] == -1 || qInfoAry['selected'] == -2 || qInfoAry['selected'] == -3)
 							{
 								tColor = 'blue';
 								sStatus = "Not Attempted";
@@ -363,7 +363,7 @@ $objIncludeJsCSS->IncludeMathJAXJS( "../../" );
 								lbl_cls = "success";
 							}
 							
-							if(qInfoAry['selected'] == -1 || qInfoAry['selected'] == -2)
+							if(qInfoAry['selected'] == -1 || qInfoAry['selected'] == -2 || qInfoAry['selected'] == -3)
 							{
 								sPara += "<span style='background-color: #2FA4E7;color: #ffffff;border-radius: 0.25em;font-size: 75%;font-weight: bold;padding: 0.2em 0.6em 0.3em;'>You have not answered this question.</span>";
 							}
