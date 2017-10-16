@@ -5418,5 +5418,20 @@
 			
 			return $retVal;
 		}
+		
+		public function GetOrganizationNameByTestID($test_id)
+		{
+			$sOrgName = "";
+			$query = sprintf("select * FROM organization where organization_id = (select organization_id from users left join test on users.user_id = test.owner_id WHERE test.test_id = %d)",$test_id);
+				
+			$result = mysql_query($query, $this->db_link) or die('Get Organization Name By TestID Error : ' . mysql_error());
+			
+			if(mysql_num_rows($result) > 0)
+			{
+				$row = mysql_fetch_array($result);
+				$sOrgName = $row['organization_name'];
+			}	
+			return $sOrgName;
+		}
 	}
 ?>
